@@ -9,16 +9,11 @@ import lombok.Data;
 public class Comentario {
     @Id
     @Column(name = "pk_comentario", nullable = false)
-    private int pk_comentario;
+    private Long pk_comentario;
 
-    @Column(name = "comentarioFatec", nullable = true)
+    @Column(name = "comentario_fatec", length = 500, nullable = true)
     private String comentarioFatec;
 
-    @Column(name = "comentarioLivre", nullable = true)
+    @Column(name = "comentario_livre", length = 500, nullable = true)
     private String comentarioLivre;
-
-
-    @OneToOne(targetEntity = Aluno.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "fk_aluno_comentario")
-    private Aluno aluno;
 }
