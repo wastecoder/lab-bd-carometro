@@ -1,5 +1,6 @@
 package api.carometro.models;
 
+import api.carometro.enums.TurnoTurma;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -18,7 +19,8 @@ public class Turma {
     private int anoSemestre;
 
     @Column(name = "turno", length = 10, nullable = false)
-    private String turno; //TODO: usar Enum para matutino, vespertino ou noturno
+    @Enumerated(EnumType.STRING) //Salva como texto no BD
+    private TurnoTurma turno;
 
 
     @ManyToOne
