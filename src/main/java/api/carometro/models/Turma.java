@@ -10,6 +10,7 @@ import lombok.Data;
 public class Turma {
     @Id
     @Column(name = "pk_turma", nullable = false)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long pk_turma;
 
     //20241 = 1º semestre de 2024; 20242 = 2º semestre de 2024

@@ -11,16 +11,23 @@ import lombok.Data;
 public class Curso {
     @Id
     @Column(name = "pk_curso", nullable = false)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long pk_curso;
 
     @Column(name = "nome", length = 100, nullable = false)
     private String nome;
 
-    @Column(name = "tipo", length = 30, nullable = false)
+    @Column(name = "tipo", length = 20, nullable = false)
     @Enumerated(EnumType.STRING)
     private TipoCurso tipo;
 
     @Column(name = "modalidade", length = 10, nullable = false)
     @Enumerated(EnumType.STRING)
     private ModalidadeCurso modalidade;
+
+    public Curso(String nome, TipoCurso tipo, ModalidadeCurso modalidade) {
+        this.nome = nome;
+        this.tipo = tipo;
+        this.modalidade = modalidade;
+    }
 }

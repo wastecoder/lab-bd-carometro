@@ -9,6 +9,7 @@ import lombok.Data;
 public class Comentario {
     @Id
     @Column(name = "pk_comentario", nullable = false)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long pk_comentario;
 
     @Column(name = "comentario_fatec", length = 500, nullable = true)

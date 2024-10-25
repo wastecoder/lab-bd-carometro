@@ -12,6 +12,7 @@ import java.time.LocalDate;
 public class HistoricoProfissional {
     @Id
     @Column(name = "pk_historico", nullable = false)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long pk_historico;
 
     @Column(name = "onde", length = 100, nullable = false)
