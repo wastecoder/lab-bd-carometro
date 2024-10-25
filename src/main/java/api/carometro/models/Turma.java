@@ -5,7 +5,9 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
-@Table(name = "turma")
+@Table(name = "turma",
+        uniqueConstraints = @UniqueConstraint(name = "TurmaUnica",
+                columnNames = {"anoSemestre", "turno", "fk_curso_turma"}))
 @Data
 public class Turma {
     @Id
@@ -27,4 +29,10 @@ public class Turma {
     @ManyToOne
     @JoinColumn(name = "fk_curso_turma", nullable = false)
     private Curso curso;
+
+    public Turma(int anoSemestre, TurnoTurma turno, Curso curso) {
+        this.anoSemestre = anoSemestre;
+        this.turno = turno;
+        this.curso = curso;
+    }
 }
