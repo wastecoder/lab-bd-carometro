@@ -1,7 +1,7 @@
 package api.carometro.enums;
 
 public enum TipoCurso {
-    TECNICO,
+    TECNOLOGO,
     GRADUACAO,
     POS_GRADUACAO
 }
