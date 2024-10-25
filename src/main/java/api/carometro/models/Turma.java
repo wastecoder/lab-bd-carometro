@@ -18,7 +18,8 @@ public class Turma {
     //20241 = 1º semestre de 2024; 20242 = 2º semestre de 2024
     //ano = anoSemestre / 10 (divisão inteira)
     //semestre = anoSemestre % 10 (resto da divisão)
-    @Column(name = "ano_semestre", length = 4, nullable = false)
+    //TODO: criar e testar uma nova anotação para validar a regra acima com ConstraintValidator
+    @Column(name = "ano_semestre", length = 5, nullable = false)
     private int anoSemestre;
 
     @Column(name = "turno", length = 10, nullable = false)
