@@ -10,6 +10,8 @@ import java.time.LocalDate;
 @Entity(name = "aluno")
 @Table(name = "aluno")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Aluno {
     @Id
     @Column(name = "aluno_ra", length = 13, nullable = false)
