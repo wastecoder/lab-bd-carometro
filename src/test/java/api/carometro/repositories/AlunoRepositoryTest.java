@@ -76,8 +76,9 @@ class AlunoRepositoryTest {
         Page<Aluno> pagina = alunoRepository
                 .findByNomeContainingOrderByNomeAsc(NOME_PROCURADO, definirPageRequest());
 
-        assertEquals(anaMaria, pagina.getContent().get(0));
-        assertEquals(mariaLuiza, pagina.getContent().get(1));
+        assertEquals(2, pagina.getTotalElements(), "A busca deve retornar 2 alunos com 'Maria' no nome");
+        assertEquals(anaMaria, pagina.getContent().get(0), "O primeiro aluno deve ser Ana Maria");
+        assertEquals(mariaLuiza, pagina.getContent().get(1), "O segundo aluno deve ser Maria Luiza");
     }
 
     @Test
@@ -86,8 +87,9 @@ class AlunoRepositoryTest {
         Page<Aluno> pagina = alunoRepository
                 .findAllByTurmaCurso(cursoAds, definirPageRequest());
 
-        assertEquals(anaMaria, pagina.getContent().get(0));
-        assertEquals(pedroMendes, pagina.getContent().get(1));
+        assertEquals(2, pagina.getTotalElements(), "A busca por cursoAds deve retornar 2 alunos");
+        assertEquals(anaMaria, pagina.getContent().get(0), "O primeiro aluno deve ser Ana Maria");
+        assertEquals(pedroMendes, pagina.getContent().get(1), "O segundo aluno deve ser Pedro Mendes");
     }
 
     @Test
@@ -96,7 +98,8 @@ class AlunoRepositoryTest {
         Page<Aluno> pagina = alunoRepository
                 .findAllByTurma(turmaMatutinaLgt, definirPageRequest());
 
-        assertEquals(mariaLuiza, pagina.getContent().get(0));
+        assertEquals(1, pagina.getTotalElements(), "A busca pela turmaMatutinaLgt deve retornar 1 aluno");
+        assertEquals(mariaLuiza, pagina.getContent().get(0), "O único aluno deve ser Maria Luiza");
     }
 
     private PageRequest definirPageRequest() {
