@@ -1,0 +1,42 @@
+<main th:fragment="curso(formTitle, action)">
+    <div class="central-form">
+        <h2 class="form-title" th:text="${formTitle}">Título</h2>
+
+        <form method="POST" class="form-body" th:object="${cursoDto}" th:action="${action}">
+            <div class="alert alert-danger" th:if="${erroUniqueConstraint}" th:text="${erroUniqueConstraint}"></div>
+            <div class="row">
+
+                <!-- Input text para Nome -->
+                <div class="form-floating col-md-12">
+                    <input type="text" class="form-control" placeholder=" " th:field="*{nome}"
+                        th:errorclass="is-invalid" required min="3" maxlength="100">
+                    <label>Nome</label>
+                    <div class="invalid-feedback" th:errors="*{nome}"></div>
+                </div>
+
+                <!-- Dropdown para Tipo -->
+                <div class="form-floating col-md-12">
+                    <select class="form-select" th:field="*{tipo}" required>
+                        <option value="" disabled selected>Selecione um Tipo</option>
+                        <option th:each="tipo : ${tipos}" th:value="${tipo}" th:text="${tipo}"></option>
+                    </select>
+                    <label>Tipo</label>
+                    <div class="invalid-feedback" th:errors="*{tipo}"></div>
+                </div>
+
+                <!-- Dropdown para Modalidade -->
+                <div class="form-floating col-md-12">
+                    <select class="form-select" th:field="*{modalidade}" required>
+                        <option value="" disabled selected>Selecione uma Modalidade</option>
+                        <option th:each="modalidade : ${modalidades}" th:value="${modalidade}" th:text="${modalidade}"></option>
+                    </select>
+                    <label>Modalidade</label>
+                    <div class="invalid-feedback" th:errors="*{modalidade}"></div>
+                </div>
+
+                <button class="btn btn-primary btn-form" type="submit">
+                    <i class="fas fa-solid fa-upload"></i>Enviar</button>
+            </div>
+        </form>
+    </div>
+</main>

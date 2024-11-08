@@ -1,0 +1,119 @@
+    /* Estilização geral*/
+body {
+    background-color: #121212;
+
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.btn {
+    padding: 10px 25px;
+    font-size: 18px;
+}
+
+i {
+    margin-right: 10px;
+    font-size: 20px;
+}
+
+a {
+    text-decoration: none;
+}
+
+.container {
+    max-width: 60%;
+}
+
+
+    /* Barra de Navegação */
+.navbar {
+    padding: 25px;
+}
+
+.navbar-brand {
+    font-size: 35px;
+    font-weight: 500;
+}
+
+.navbar-brand i {
+    font-size: 30px;
+}
+
+
+    /* Rodapé */
+footer {
+    margin-top: auto;
+}
+
+footer .container-fluid {
+    padding: 10px 0;
+    text-align: center;
+    background-color: #CCC;
+}
+
+.container-fluid p {
+    margin-bottom: 0;
+    font-size: 14px;
+}
+
+.container-fluid a {
+    font-weight: bold;
+    color: #222;
+}
+
+
+    /* Formulário */
+.central-form {
+    max-width: 470px;
+    margin: 30px auto;
+    padding: 60px;
+    background-color: #202020;
+    color: white;
+    border-radius: 5px;
+}
+
+.form-title {
+    text-align: center;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+    color: white;
+}
+
+.form-floating label {
+    padding-left: 25px;
+}
+
+.form-floating {
+    margin: 20px auto;
+}
+
+.error-message {
+    max-width: 350px;
+    margin: 20px auto;
+    text-align: center;
+    padding: 16px 0;
+}
+
+.btn-form {
+    max-width: 350px;
+    margin: 0 auto;
+    margin-top: 15px;
+}
+
+input[type="text"],
+input[type="date"],
+select.form-select {
+    background-color: #202020;
+    color: white;
+    color-scheme: dark;
+    font-size: 0.95em;
+}
+
+.form-floating input:focus,
+input:-webkit-autofill {
+    background-color: #202020;
+    color: white;
+    transition: background-color 0s 300s;
+    -webkit-text-fill-color: white;
+}

@@ -4,12 +4,13 @@ import api.carometro.enums.ModalidadeCurso;
 import api.carometro.enums.TipoCurso;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "curso",
         uniqueConstraints = @UniqueConstraint(name = "CursoUnico",
                 columnNames = {"nome", "tipo", "modalidade"}))
-@Data
+@Data @NoArgsConstructor
 public class Curso {
     @Id
     @Column(name = "pk_curso", nullable = false)

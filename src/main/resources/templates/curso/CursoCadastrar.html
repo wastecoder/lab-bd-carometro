@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="PT-BR" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/head :: geral('Lista de Cursos')"></head>
+
+<body>
+    <header th:replace="fragments/navbar :: cursoCadastrar"></header>
+
+    <main th:replace="fragments/formularios :: curso('Cadastrar', 'cadastrar')"></main>
+
+    <footer th:replace="fragments/footer"></footer>
+</body>
+</html>
