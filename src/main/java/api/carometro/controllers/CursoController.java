@@ -5,6 +5,7 @@ import api.carometro.enums.ModalidadeCurso;
 import api.carometro.enums.TipoCurso;
 import api.carometro.models.Curso;
 import api.carometro.services.CursoService;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -36,6 +37,7 @@ public class CursoController {
     }
 
     @PostMapping("/cadastrar")
+    @Transactional
     public ModelAndView salvarCadastroCurso(@Valid CursoDto requisicao, BindingResult resultadoValidacao, RedirectAttributes attributes) {
         if (resultadoValidacao.hasErrors()) {
             return criarModelAndViewParaFormulario("curso/CursoCadastrar");
@@ -64,6 +66,7 @@ public class CursoController {
     }
 
     @PutMapping("/editar/{codigo}")
+    @Transactional
     public ModelAndView salvarEdicaoCurso(@PathVariable("codigo") Long codigo, @Valid CursoDto requisicao, BindingResult result) {
         if (result.hasErrors()) {
             ModelAndView mv = criarModelAndViewParaFormulario("curso/CursoEditar");
