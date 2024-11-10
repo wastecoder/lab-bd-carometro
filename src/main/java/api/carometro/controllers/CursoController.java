@@ -19,7 +19,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/cursos")
 public class CursoController {
     @Autowired
-    private CursoService cursoService;
+    private final CursoService cursoService;
+
+    public CursoController(CursoService cursoService) {
+        this.cursoService = cursoService;
+    }
 
 
     @GetMapping
