@@ -32,13 +32,13 @@ public class CursoController {
 
     @GetMapping("/cadastrar")
     public ModelAndView cadastrarCurso(CursoDto requisicao) {
-        return criarModelAndViewParaCadastro();
+        return criarModelAndViewParaFormulario("curso/CursoCadastrar");
     }
 
     @PostMapping("/cadastrar")
     public ModelAndView salvarCadastroCurso(@Valid CursoDto requisicao, BindingResult resultadoValidacao, RedirectAttributes attributes) {
         if (resultadoValidacao.hasErrors()) {
-            return criarModelAndViewParaCadastro();
+            return criarModelAndViewParaFormulario("curso/CursoCadastrar");
         }
 
         try {
@@ -46,16 +46,51 @@ public class CursoController {
             cursoService.salvarCurso(curso);
             return new ModelAndView("redirect:/cursos");
         } catch (DataIntegrityViolationException exception) {
-            ModelAndView mv = criarModelAndViewParaCadastro();
-            mv.addObject("erroUniqueConstraint", "Curso com mesmo nome, tipo e modalidade já cadastrado.");
-            return mv;
+            return lidarComDataIntegrityViolation("curso/CursoCadastrar");
         }
     }
 
-    private ModelAndView criarModelAndViewParaCadastro() {
-        ModelAndView mv = new ModelAndView("curso/CursoCadastrar");
+    @GetMapping("/editar/{codigo}")
+    public ModelAndView editarCurso(@PathVariable("codigo") Long codigo) {
+        Curso cursoBuscado = cursoService.cursoId(codigo);
+
+        if (cursoBuscado != null) {
+            ModelAndView mv = criarModelAndViewParaFormulario("curso/CursoEditar");
+            mv.addObject("cursoDto", cursoBuscado);
+            return mv;
+        } else {
+            return new ModelAndView("redirect:/cursos");
+        }
+    }
+
+    @PostMapping("/editar/{codigo}")
+    public ModelAndView salvarEdicaoCurso(@PathVariable("codigo") Long codigo, @Valid CursoDto requisicao, BindingResult result) {
+        if (result.hasErrors()) {
+            ModelAndView mv = criarModelAndViewParaFormulario("curso/CursoEditar");
+            mv.addObject("cursoDto", requisicao);
+            return mv;
+        }
+
+        Curso cursoAntigo = cursoService.cursoId(codigo);
+        try {
+            cursoService.atualizarCurso(cursoAntigo, requisicao.converterParaCurso());
+            return new ModelAndView("redirect:/cursos");
+        } catch (DataIntegrityViolationException exception) {
+            return lidarComDataIntegrityViolation("curso/CursoEditar");
+        }
+    }
+
+
+    private ModelAndView criarModelAndViewParaFormulario(String arquivo) {
+        ModelAndView mv = new ModelAndView(arquivo);
         mv.addObject("tipos", TipoCurso.values());
         mv.addObject("modalidades", ModalidadeCurso.values());
+        return mv;
+    }
+
+    private ModelAndView lidarComDataIntegrityViolation(String arquivo) {
+        ModelAndView mv = criarModelAndViewParaFormulario(arquivo);
+        mv.addObject("erroUniqueConstraint", "Curso com mesmo nome, tipo e modalidade já cadastrado.");
         return mv;
     }
 }

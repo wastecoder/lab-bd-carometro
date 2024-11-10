@@ -11,11 +11,11 @@
   </nav>
 </header>
 
-<header th:fragment="cursoCadastrar">
+<header th:fragment="cursoFormulario(title)">
   <nav class="navbar navbar-dark bg-primary justify-content-between">
       <a class="navbar-brand">
-          <i class="fa-solid fa-bars"></i>
-          Cadastro de Cursos
+          <i class="fa-solid fa-pen-to-square"></i>
+          [[${title}]]
       </a>
       <a href="/cursos" class="btn btn-warning text-light navbar-btn">
           <i class="fa-solid fa-house"></i>

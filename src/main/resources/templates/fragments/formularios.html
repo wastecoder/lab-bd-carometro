@@ -17,8 +17,9 @@
                 <!-- Dropdown para Tipo -->
                 <div class="form-floating col-md-12">
                     <select class="form-select" th:field="*{tipo}" required>
-                        <option value="" disabled selected>Selecione um Tipo</option>
-                        <option th:each="tipo : ${tipos}" th:value="${tipo}" th:text="${tipo}"></option>
+                        <option value="" disabled>Selecione um Tipo</option>
+                        <option th:each="tipo : ${tipos}" th:value="${tipo}" th:text="${tipo}"
+                            th:selected="${tipo} == ${cursoDto.tipo}"></option> <!-- Verifica se é o tipo selecionado -->
                     </select>
                     <label>Tipo</label>
                     <div class="invalid-feedback" th:errors="*{tipo}"></div>
@@ -27,8 +28,9 @@
                 <!-- Dropdown para Modalidade -->
                 <div class="form-floating col-md-12">
                     <select class="form-select" th:field="*{modalidade}" required>
-                        <option value="" disabled selected>Selecione uma Modalidade</option>
-                        <option th:each="modalidade : ${modalidades}" th:value="${modalidade}" th:text="${modalidade}"></option>
+                        <option value="" disabled>Selecione uma Modalidade</option>
+                        <option th:each="modalidade : ${modalidades}" th:value="${modalidade}" th:text="${modalidade}"
+                            th:selected="${modalidade} == ${cursoDto.modalidade}"></option> <!-- Verifica se é a modalidade selecionada -->
                     </select>
                     <label>Modalidade</label>
                     <div class="invalid-feedback" th:errors="*{modalidade}"></div>

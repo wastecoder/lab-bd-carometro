@@ -25,6 +25,10 @@ public class CursoService {
         return optional.orElse(null);
     }
 
+    public Iterable<Curso> todosCursos() {
+        return cursoRepository.findAll();
+    }
+
     public boolean deletarCurso(Long id) {
         Curso retorno = this.cursoId(id);
 
@@ -35,8 +39,12 @@ public class CursoService {
         return false;
     }
 
-    public Iterable<Curso> todosCursos() {
-        return cursoRepository.findAll();
+    public void atualizarCurso(Curso antigo, Curso novo) {
+        antigo.setNome(novo.getNome());
+        antigo.setTipo(novo.getTipo());
+        antigo.setModalidade(novo.getModalidade());
+
+        cursoRepository.save(antigo);
     }
 
     public Pageable definirPageRequest(int numeroPagina, String ordem) {
