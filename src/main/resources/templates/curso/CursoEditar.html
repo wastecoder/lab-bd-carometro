@@ -6,7 +6,7 @@
 <body>
     <header th:replace="fragments/navbar :: cursoFormulario('Edição de Curso')"></header>
 
-    <main th:replace="fragments/formularios :: curso('Editar', ${codigo})"></main>
+    <main th:replace="fragments/formularios :: curso('Editar', ${codigo}, true)"></main>
 
     <footer th:replace="fragments/footer"></footer>
 </body>

@@ -63,7 +63,7 @@ public class CursoController {
         }
     }
 
-    @PostMapping("/editar/{codigo}")
+    @PutMapping("/editar/{codigo}")
     public ModelAndView salvarEdicaoCurso(@PathVariable("codigo") Long codigo, @Valid CursoDto requisicao, BindingResult result) {
         if (result.hasErrors()) {
             ModelAndView mv = criarModelAndViewParaFormulario("curso/CursoEditar");

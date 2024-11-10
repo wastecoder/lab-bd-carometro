@@ -1,8 +1,11 @@
-<main th:fragment="curso(formTitle, action)">
+<main th:fragment="curso(formTitle, action, isEdit)">
     <div class="central-form">
         <h2 class="form-title" th:text="${formTitle}">Título</h2>
 
         <form method="POST" class="form-body" th:object="${cursoDto}" th:action="${action}">
+            <!-- Campo oculto para simular o método PUT apenas para edição -->
+            <input type="hidden" name="_method" value="PUT" th:if="${isEdit}"/>
+
             <div class="alert alert-danger" th:if="${erroUniqueConstraint}" th:text="${erroUniqueConstraint}"></div>
             <div class="row">
 
