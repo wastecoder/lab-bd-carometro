@@ -14,7 +14,14 @@
                 <p id="warning"><em>Essa ação não pode ser desfeita.</em></p>
             </div>
             <div class="modal-footer">
-                <a class="btn btn-danger btn-confirm" id="modalConfirm" href="/cursos">Sim</a>
+
+                <!-- Transforma o botão SIM em um formulário -->
+                <form id="formDeletar" method="post">
+                    <!-- Campo oculto para simular método DELETE -->
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="submit" class="btn btn-danger btn-confirm" value="Sim">
+                </form>
+
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Não</button>
             </div>
         </div>

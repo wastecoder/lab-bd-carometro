@@ -87,7 +87,8 @@ public class CursoController {
         }
     }
 
-    @GetMapping("deletar/{codigo}")
+    @DeleteMapping("deletar/{codigo}")
+    @Transactional
     public ModelAndView deletarCurso(@PathVariable("codigo") Long codigo) {
         cursoService.deletarCurso(codigo);
         return new ModelAndView("redirect:/cursos");
