@@ -87,6 +87,12 @@ public class CursoController {
         }
     }
 
+    @GetMapping("deletar/{codigo}")
+    public ModelAndView deletarCurso(@PathVariable("codigo") Long codigo) {
+        cursoService.deletarCurso(codigo);
+        return new ModelAndView("redirect:/cursos");
+    }
+
 
     private ModelAndView criarModelAndViewParaFormulario(String arquivo) {
         ModelAndView mv = new ModelAndView(arquivo);
