@@ -1,0 +1,22 @@
+<div th:fragment="curso" class="modal fade" id="modalId" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalLabel">Confirmação</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="icon-box">
+                    <i class="fa-solid fa-x"></i>
+                </div>
+                <p>Deseja excluir o curso:</p>
+                <p><b id="modalName">Nome</b>?</p>
+                <p id="warning"><em>Essa ação não pode ser desfeita.</em></p>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-danger btn-confirm" id="modalConfirm" href="/cursos">Sim</a>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Não</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -117,3 +117,74 @@ input:-webkit-autofill {
     transition: background-color 0s 300s;
     -webkit-text-fill-color: white;
 }
+
+
+    /* Bootstrap Modal */
+.modal .modal-dialog {
+    font-family: 'Varela Round', sans-serif;
+    max-width: 340px;
+}
+
+.modal .modal-content {
+    border-radius: 0;
+}
+
+.modal .modal-header {
+    background-color: #D50000;
+    border-radius: 0;
+}
+
+.modal-title,
+.btn-close {
+    color: #fff;
+    opacity: 1;
+}
+
+.modal .modal-body {
+    text-align: center;
+}
+
+.modal-body .icon-box {
+    width: 80px;
+    height: 80px;
+    margin: 5px auto 30px auto;
+    padding: 22px;
+    border-radius: 50%;
+    z-index: 9;
+    text-align: center;
+    border: 3px solid #F15E5E;
+}
+
+.icon-box i {
+    color: #F15E5E;
+    font-size: 30px;
+    margin: 0;
+}
+
+.modal-body p {
+    font-size: 17px;
+    margin-bottom: 3px;
+}
+
+.modal-body #warning {
+    font-size: 15px;
+    margin-top: 10px;
+}
+
+.modal-footer {
+    justify-content: center;
+}
+
+.modal-footer .btn {
+    background-color: #D50000;
+    color: #FFF;
+    text-transform: uppercase;
+    width: 110px;
+    height: 50px;
+    border: 2px solid #D50000;
+}
+
+.modal-footer .btn-confirm {
+    background-color: #FFF;
+    color: #D50000;
+}

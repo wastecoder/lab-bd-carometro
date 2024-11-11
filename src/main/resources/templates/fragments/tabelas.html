@@ -23,7 +23,7 @@
                     <a th:href="@{/cursos/editar/{id}(id=${curso.pk_curso})}">
                         <i class="fa-solid fa-pen text-primary"></i>
                     </a>
-                    <a th:attr="onclick=|deletarCurso('${curso.pk_curso}', '${curso.nome}')|" type="button">
+                    <a th:attr="onclick=|deletarCurso('${curso.pk_curso}', '${curso.nome}')|" type="button" data-bs-toggle="modal" data-bs-target="#modalId">
                         <i class="fa-solid fa-trash text-danger"></i>
                     </a>
                 </td>
