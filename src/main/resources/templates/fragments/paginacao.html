@@ -1,0 +1,30 @@
+<nav th:fragment="pagination" aria-label="pagination">  
+    <ul class="pagination pagination-lg justify-content-center">
+        <li class="page-item" th:classappend="${paginaAtual > 1} ? '' : 'disabled'">
+            <a class="page-link" th:href="@{'/cursos?pagina=1'}">
+                <i class="fa-solid fa-angles-left"></i>
+            </a>
+        </li>
+        <li class="page-item" th:classappend="${paginaAtual > 1} ? '' : 'disabled'">
+            <a class="page-link" th:href="@{/cursos(pagina=${paginaAtual - 1})}">
+                <i class="fa-solid fa-angle-left"></i>
+            </a>
+        </li>
+        <th:block th:each="i: ${#numbers.sequence(inicio, fim)}">
+            <li class="page-item" th:classappend="${i != paginaAtual} ? '' : 'active'">
+                <a class="page-link" th:if="${i != paginaAtual}" th:href="@{/cursos(pagina=${i})}">[[${{i}}]]</a>
+                <a class="page-link" th:unless="${i != paginaAtual}">[[${{i}}]]</a>
+            </li>
+        </th:block>
+        <li class="page-item" th:classappend="${paginaAtual != totalPaginas} ? '' : 'disabled'">
+            <a class="page-link" th:href="@{/cursos(pagina=${paginaAtual + 1})}">
+                <i class="fa-solid fa-angle-right"></i>
+            </a>
+        </li>
+        <li class="page-item" th:classappend="${paginaAtual != totalPaginas} ? '' : 'disabled'">
+            <a class="page-link" th:href="@{/cursos(pagina=${totalPaginas})}">
+                <i class="fa-solid fa-angles-right"></i>
+            </a>
+        </li>
+    </ul>
+</nav>

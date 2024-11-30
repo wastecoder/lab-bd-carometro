@@ -9,6 +9,7 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -27,11 +28,36 @@ public class CursoController {
 
 
     @GetMapping
-    public ModelAndView mudarPagina(@RequestParam(name = "pagina", defaultValue = "0") int paginaSelecionada) {
-        Iterable<Curso> cursos = cursoService.todosCursos();
+    public ModelAndView mudarPagina(@RequestParam(name = "pagina", defaultValue = "1") int paginaSelecionada) {
+        Page<Curso> paginas = cursoService.definirPagePorPk(paginaSelecionada);
+
+        int totalPaginas = paginas.getTotalPages();
+        int inicioIntervalo, finalIntervalo;
+
+        if (totalPaginas <= 5) {
+            inicioIntervalo = 1;
+            finalIntervalo = totalPaginas;
+        } else if (paginaSelecionada <= 3) {
+            inicioIntervalo = 1;
+            finalIntervalo = 5;
+        } else if (paginaSelecionada < totalPaginas - 2) {
+            inicioIntervalo = paginaSelecionada - 2;
+            finalIntervalo = paginaSelecionada + 2;
+        } else {
+            inicioIntervalo = totalPaginas - 4;
+            finalIntervalo = totalPaginas;
+        }
+
+        String legenda = "Exibindo " + paginas.getNumberOfElements()
+                + " de " + paginas.getTotalElements() + " registros";
 
         ModelAndView mv = new ModelAndView("curso/CursoHome");
-        mv.addObject("cursos", cursos);
+        mv.addObject("paginaAtual", paginaSelecionada);
+        mv.addObject("totalPaginas", totalPaginas);
+        mv.addObject("inicio", inicioIntervalo);
+        mv.addObject("fim", finalIntervalo);
+        mv.addObject("legenda", legenda);
+        mv.addObject("cursos", paginas);
         return mv;
     }
 

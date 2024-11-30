@@ -3,6 +3,7 @@ package api.carometro.services;
 import api.carometro.models.Curso;
 import api.carometro.repositories.CursoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -47,11 +48,11 @@ public class CursoService {
         cursoRepository.save(antigo);
     }
 
-    public Pageable definirPageRequest(int numeroPagina, String ordem) {
+    public Page<Curso> definirPagePorPk(int numeroPagina) {
         final int REGISTROS_POR_PAGINA = 10;
-        Sort ordenacao = Sort.by("pk_curso");
-        ordenacao = ordem.equals("cresc") ? ordenacao.ascending() : ordenacao.descending();
+        Sort ordenacao = Sort.by("nome").ascending();
+        Pageable pageable = PageRequest.of(--numeroPagina, REGISTROS_POR_PAGINA, ordenacao);
 
-        return PageRequest.of(--numeroPagina, REGISTROS_POR_PAGINA, ordenacao);
+        return cursoRepository.findAll(pageable);
     }
 }
