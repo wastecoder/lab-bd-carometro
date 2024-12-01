@@ -1,6 +1,7 @@
 package api.carometro.repositories;
 
 import api.carometro.enums.ModalidadeCurso;
+import api.carometro.enums.SemestreTurma;
 import api.carometro.enums.TipoCurso;
 import api.carometro.enums.TurnoTurma;
 import api.carometro.models.Curso;
@@ -46,17 +47,17 @@ class TurmaRepositoryTest {
 
     private void inicializarTurmas() {
         turmaRepository.saveAll(Set.of(
-                new Turma(20241, TurnoTurma.MATUTINO, cursoLgt),
-                new Turma(20241, TurnoTurma.NOTURNO, cursoLgt),
-                new Turma(20241, TurnoTurma.VESPERTINO, cursoAds),
-                new Turma(20242, TurnoTurma.VESPERTINO, cursoAds)
+                new Turma(2024, SemestreTurma.PRIMEIRO, TurnoTurma.MATUTINO, cursoLgt),
+                new Turma(2024, SemestreTurma.PRIMEIRO, TurnoTurma.NOTURNO, cursoLgt),
+                new Turma(2024, SemestreTurma.PRIMEIRO, TurnoTurma.VESPERTINO, cursoAds),
+                new Turma(2024, SemestreTurma.SEGUNDO, TurnoTurma.VESPERTINO, cursoAds)
         ));
     }
 
     @Test
     @DisplayName("findAllByCurso: verifica se retorna apenas o curso Logística")
     void findAllByCurso() {
-        PageRequest pageRequest = PageRequest.of(0, 5, Sort.by("anoSemestre").ascending());
+        PageRequest pageRequest = PageRequest.of(0, 5, Sort.by("ano").ascending());
         Page<Turma> pagina = turmaRepository.findAllByCurso(cursoLgt, pageRequest);
 
         assertEquals(2, pagina.getTotalElements(), "O número total de turmas de Logística deve ser 2");
@@ -72,13 +73,13 @@ class TurmaRepositoryTest {
     }
 
     @Test
-    @DisplayName("@UniqueConstraint: lança DataIntegrityViolationException ao salvar turma duplicada - anoSemestre, turno e curso iguais")
+    @DisplayName("@UniqueConstraint: lança DataIntegrityViolationException ao salvar turma duplicada - ano, semestre, turno e curso iguais")
     void turmaDuplicadaComUniqueConstraint() {
         //Para teste, vou usar a Turma: (20241, TurnoTurma.VESPERTINO, cursoAds);
         //Ela já foi criada e salva pelo @Before - não preciso salvar de novo
 
         //Criando uma segunda turma com os mesmos valores para testar a violação de unicidade
-        Turma turmaDuplicada = new Turma(20241, TurnoTurma.VESPERTINO, cursoAds);
+        Turma turmaDuplicada = new Turma(2024, SemestreTurma.PRIMEIRO, TurnoTurma.VESPERTINO, cursoAds);
 
         // Verifica se a exceção DataIntegrityViolationException é lançada ao salvar a segunda turma depois da primeira
         assertThrows(DataIntegrityViolationException.class, () -> {

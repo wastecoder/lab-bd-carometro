@@ -1,9 +1,6 @@
 package api.carometro.repositories;
 
-import api.carometro.enums.ModalidadeCurso;
-import api.carometro.enums.StatusComentario;
-import api.carometro.enums.TipoCurso;
-import api.carometro.enums.TurnoTurma;
+import api.carometro.enums.*;
 import api.carometro.models.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -46,7 +43,7 @@ class ComentarioRepositoryTest {
 
         Curso cursoAds = cursoRepository.save(new Curso("Análise e Desenvolvimento de Sistemas",
                 TipoCurso.TECNOLOGO, ModalidadeCurso.PRESENCIAL));
-        Turma turmaNoturnaAds = turmaRepository.save(new Turma(20241, TurnoTurma.NOTURNO, cursoAds));
+        Turma turmaNoturnaAds = turmaRepository.save(new Turma(2024, SemestreTurma.PRIMEIRO, TurnoTurma.NOTURNO, cursoAds));
 
         aluno1 = alunoRepository.save(new Aluno("1110482222011", "senha1", "nome1",
                 LocalDate.of(2003, 11, 10), "foto1", "linkedin1",

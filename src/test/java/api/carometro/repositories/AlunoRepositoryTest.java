@@ -1,6 +1,7 @@
 package api.carometro.repositories;
 
 import api.carometro.enums.ModalidadeCurso;
+import api.carometro.enums.SemestreTurma;
 import api.carometro.enums.TipoCurso;
 import api.carometro.enums.TurnoTurma;
 import api.carometro.models.Aluno;
@@ -45,10 +46,10 @@ class AlunoRepositoryTest {
     void setUp() {
         cursoAds = cursoRepository.save(new Curso("Análise e Desenvolvimento de Sistemas",
                 TipoCurso.TECNOLOGO, ModalidadeCurso.PRESENCIAL));
-        Turma turmaNoturnaAds = turmaRepository.save(new Turma(20241, TurnoTurma.NOTURNO, cursoAds));
+        Turma turmaNoturnaAds = turmaRepository.save(new Turma(2024, SemestreTurma.PRIMEIRO, TurnoTurma.NOTURNO, cursoAds));
 
         Curso cursoLgt = cursoRepository.save(new Curso("Logística", TipoCurso.POS_GRADUACAO, ModalidadeCurso.HIBRIDO));
-        turmaMatutinaLgt = turmaRepository.save(new Turma(20241, TurnoTurma.MATUTINO, cursoLgt));
+        turmaMatutinaLgt = turmaRepository.save(new Turma(2024, SemestreTurma.PRIMEIRO, TurnoTurma.MATUTINO, cursoLgt));
 
         pedroMendes = alunoRepository.save(new Aluno("1110482222011", "senha1", "Pedro Mendes da Silva",
                 LocalDate.of(2003, 11, 10), "foto1", null, null, null, null, turmaNoturnaAds));
