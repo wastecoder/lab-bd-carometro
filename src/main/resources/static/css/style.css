@@ -27,17 +27,9 @@ a {
 
 
     /* Barra de Navegação */
-.navbar {
-    padding: 25px;
-}
-
-.navbar-brand {
-    font-size: 35px;
-    font-weight: 500;
-}
-
-.navbar-brand i {
-    font-size: 30px;
+.navbar .dropdown-menu .dropdown-item:hover {
+    background-color: #343A40;
+    color: #FFF;
 }
 
 
