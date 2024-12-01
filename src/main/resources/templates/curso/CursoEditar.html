@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="PT-BR" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="fragments/head :: geral('Editar Curso')"></head>
+<head th:replace="~{fragments/head :: geral('Editar Curso')}"></head>
 
 <body>
-    <header th:replace="fragments/AdmNavbar"></header>
+    <header th:replace="~{fragments/AdmNavbar}"></header>
 
-    <main th:replace="fragments/formularios :: curso('Editar', ${codigo}, true)"></main>
+    <main th:replace="~{curso/CursoFormulario('Editar', ${codigo}, true)}"></main>
 
-    <footer th:replace="fragments/footer"></footer>
+    <footer th:replace="~{fragments/footer}"></footer>
 </body>
 </html>
