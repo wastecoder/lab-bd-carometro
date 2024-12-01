@@ -51,9 +51,7 @@ public class TurmaController {
             turmaService.salvarTurma(requisicao.dtoParaTurma());
             return new ModelAndView("redirect:/turmas");
         } catch (DataIntegrityViolationException exception) {
-            ModelAndView mv = criarViewParaFormulario("/turma/TurmaCadastrar");
-            mv.addObject("erroUniqueConstraint", "Turma com mesmo ano, semestre, turno e curso já cadastrada.");
-            return mv;
+            return lidarComDataIntegrityViolation("/turma/TurmaCadastrar");
         }
     }
 
@@ -61,13 +59,8 @@ public class TurmaController {
     public ModelAndView exibirFormularioEdicao(@PathVariable Long id) {
         Turma turmaBuscada = turmaService.buscarTurmaId(id);
 
-        System.out.println(">>>>>>>>>");
-        System.out.println(turmaBuscada);
-        System.out.println(">>>>>>>>>");
-
         if (turmaBuscada != null) {
             ModelAndView mv = criarViewParaFormulario("/turma/TurmaEditar");
-//            mv.addObject("turmaDto", new TurmaDto(2020, SemestreTurma.PRIMEIRO, TurnoTurma.NOTURNO, turmaBuscada.getCurso()));
             mv.addObject("turmaDto", turmaBuscada);
             return mv;
         }
@@ -87,9 +80,7 @@ public class TurmaController {
             turmaService.atualizarTurma(turmaAntiga, requisicao.dtoParaTurma());
             return new ModelAndView("redirect:/turmas");
         } catch (DataIntegrityViolationException exception) {
-            ModelAndView mv = criarViewParaFormulario("/turma/TurmaEditar");
-            mv.addObject("erroUniqueConstraint", "Turma com mesmo ano, semestre, turno e curso já cadastrada.");
-            return mv;
+            return lidarComDataIntegrityViolation("/turma/TurmaEditar");
         }
     }
 
@@ -107,6 +98,12 @@ public class TurmaController {
         mv.addObject("semestres", SemestreTurma.values());
         mv.addObject("turnos", TurnoTurma.values());
         mv.addObject("cursos", cursoService.todosCursos());
+        return mv;
+    }
+
+    private ModelAndView lidarComDataIntegrityViolation(String view) {
+        ModelAndView mv = criarViewParaFormulario(view);
+        mv.addObject("erroUniqueConstraint", "Turma com mesmo ano, semestre, turno e curso já cadastrada.");
         return mv;
     }
 }
