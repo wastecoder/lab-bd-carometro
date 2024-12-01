@@ -1,0 +1,65 @@
+<main th:fragment="turma(formTitle, action, isEdit)">
+    <div class="central-form">
+        <h2 class="form-title" th:text="${formTitle}">Título</h2>
+
+        <form method="POST" class="form-body" th:object="${turmaDto}" th:action="${action}">
+            <!-- Campo oculto para simular o método PUT apenas para edição -->
+            <input type="hidden" name="_method" value="PUT" th:if="${isEdit}"/>
+
+            <div class="alert alert-danger" th:if="${erroUniqueConstraint}" th:text="${erroUniqueConstraint}"></div>
+            <div class="row">
+
+                <!-- Dropdown para Ano -->
+                <div class="form-floating col-md-12">
+                    <select class="form-select" th:field="*{ano}" required>
+                        <option value="" disabled>Selecione um Ano</option>
+                        <option th:each="ano : ${anos}" th:value="${ano}" th:text="${ano}"
+                            th:selected="${ano == turmaDto.ano}"></option>
+                    </select>
+                    <label>Ano</label>
+                    <div class="invalid-feedback" th:errors="*{ano}"></div>
+                </div>
+
+                <!-- Dropdown para Semestre -->
+                <div class="form-floating col-md-12">
+                    <select class="form-select" th:field="*{semestre}" required>
+                        <option value="" disabled>Selecione um Semestre</option>
+                        <option th:each="semestre : ${semestres}" th:value="${semestre}" th:text="${semestre}"
+                            th:selected="${semestre} == ${turmaDto.semestre}"></option>
+                    </select>
+                    <label>Semestre</label>
+                    <div class="invalid-feedback" th:errors="*{semestre}"></div>
+                </div>
+
+                <!-- Dropdown para Turno -->
+                <div class="form-floating col-md-12">
+                    <select class="form-select" th:field="*{turno}" required>
+                        <option value="" disabled>Selecione um Turno</option>
+                        <option th:each="turno : ${turnos}" th:value="${turno}" th:text="${turno}"
+                            th:selected="${turno} == ${turmaDto.turno}"></option>
+                    </select>
+                    <label>Turno</label>
+                    <div class="invalid-feedback" th:errors="*{turno}"></div>
+                </div>
+                
+                <!-- Dropdown para Curso -->
+                <div class="form-floating col-md-12">
+                    <select class="form-select" th:field="*{curso}" required>
+                        <option value="" disabled>Selecione um Curso</option>
+                        <option
+                            th:each="curso : ${cursos}"
+                            th:value="${curso.pk_curso}"
+                            th:text="${curso.nome}"
+                            th:selected="${curso.pk_curso} == ${turmaDto.curso?.pk_curso}">
+                        </option>
+                    </select>
+                    <label>Curso</label>
+                    <div class="invalid-feedback" th:errors="*{curso}"></div>
+                </div>
+
+                <button class="btn btn-primary btn-form" type="submit">
+                    <i class="fas fa-solid fa-upload"></i>Enviar</button>
+            </div>
+        </form>
+    </div>
+</main>

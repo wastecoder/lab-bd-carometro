@@ -94,6 +94,7 @@ footer .container-fluid {
 }
 
 input[type="text"],
+input[type="number"],
 input[type="date"],
 select.form-select {
     background-color: #202020;

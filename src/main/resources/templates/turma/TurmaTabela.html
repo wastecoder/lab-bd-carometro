@@ -1,0 +1,33 @@
+<main th:fragment="tabela">
+    <table class="table table-dark table-bordered table-hover table-responsive-lg">
+        <caption th:text="${legenda}"></caption>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Ano</th>
+                <th>Semestre</th>
+                <th>Turno</th>
+                <th>Curso</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="turma : ${turmas}">
+                <td class="col-xl-1 col-lg-1" th:text="${turma.pk_turma}"></td>
+                <td class="col-xl-1 col-lg-1" th:text="${turma.ano}"></td>
+                <td class="col-xl-1 col-lg-1" th:text="${turma.semestre}"></td>
+                <td class="col-xl-1 col-lg-1" th:text="${turma.turno}"></td>
+                <td class="col-xl-6 col-lg-6" th:text="${turma.curso.nome}"></td>
+                <td class="col-xl-2 col-lg-2">
+                    <a th:href="@{/turmas/editar/{id}(id=${turma.pk_turma})}">
+                        <i class="fa-solid fa-pen text-primary"></i>
+                    </a>
+                    <a th:attr="onclick=|excluirRegistro('${turma.pk_turma}', '/turmas/excluir/${turma.pk_turma}')|"
+                            type="button" data-bs-toggle="modal" data-bs-target="#modalId">
+                        <i class="fa-solid fa-trash text-danger"></i>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</main>

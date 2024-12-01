@@ -1,4 +1,4 @@
-<div th:fragment="curso" class="modal fade" id="modalId" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+<div th:fragment="excluir(objeto)" class="modal fade" id="modalId" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -9,7 +9,7 @@
                 <div class="icon-box">
                     <i class="fa-solid fa-x"></i>
                 </div>
-                <p>Deseja excluir o curso:</p>
+                <p>Deseja excluir o [[${objeto}]]:</p>
                 <p><b id="modalName">Nome</b>?</p>
                 <p id="warning"><em>Essa ação não pode ser desfeita.</em></p>
             </div>

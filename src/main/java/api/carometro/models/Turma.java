@@ -19,7 +19,7 @@ public class Turma {
     private Long pk_turma;
 
     @Column(name = "ano", length = 4, nullable = false)
-    private int ano;
+    private Integer ano;
 
     @Column(name = "semestre", length = 8, nullable = false)
     @Enumerated(EnumType.STRING)
