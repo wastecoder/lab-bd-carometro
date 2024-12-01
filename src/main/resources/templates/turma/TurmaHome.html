@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="PT-BR" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="fragments/head :: geral('Lista de Turmas')"></head>
+<head th:replace="~{fragments/head :: geral('Lista de Turmas')}"></head>
 
 <body>
-    <header th:replace="fragments/AdmNavbar"></header>
+    <header th:replace="~{fragments/AdmNavbar}"></header>
 
-    <main th:replace="turma/TurmaTabela"></main>
+    <main th:replace="~{turma/TurmaTabela}"></main>
 
-    <footer th:replace="fragments/footer"></footer>
+    <footer th:replace="~{fragments/footer}"></footer>
 
-    <div th:replace="fragments/ModalExcluir('turma')"></div>
+    <div th:replace="~{fragments/ModalExcluir('turma')}"></div>
 
     <script type="text/javascript" th:src="@{/js/actions.js}"></script>
 </body>

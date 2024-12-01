@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="PT-BR" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="fragments/head :: geral('Cadastrar Turma')"></head>
+<head th:replace="~{fragments/head :: geral('Cadastrar Turma')}"></head>
 
 <body>
-    <header th:replace="fragments/AdmNavbar"></header>
+    <header th:replace="~{fragments/AdmNavbar}"></header>
 
-    <main th:replace="turma/TurmaFormulario('Cadastrar', 'cadastrar', false)"></main>
+    <main th:replace="~{turma/TurmaFormulario('Cadastrar', 'cadastrar', false)}"></main>
 
-    <footer th:replace="fragments/footer"></footer>
+    <footer th:replace="~{fragments/footer}"></footer>
 </body>
 </html>
