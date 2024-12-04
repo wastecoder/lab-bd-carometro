@@ -5,6 +5,7 @@ import api.carometro.enums.TurnoTurma;
 import api.carometro.models.Curso;
 import api.carometro.models.Turma;
 import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.Data;
@@ -12,7 +13,8 @@ import lombok.Data;
 @Data
 public class TurmaDto {
     @Positive(message = "Ano deve ser positivo")
-    @Max(value = 2099) //Daria para validar melhor com @PrePersist/Update
+    @Min(value = 2009, message = "Ano deve ser de 2009 ou mais recente")
+    @Max(value = 2030, message = "Ano deve ser de 2030 ou mais antigo") //Daria para validar melhor com @PrePersist/Update, pegando ano atual
     private Integer ano;
 
     @NotNull(message = "Turno selecionado inválido")
