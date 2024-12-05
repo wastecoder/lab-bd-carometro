@@ -138,3 +138,40 @@ turnoSelect.addEventListener("change", () => {
         turnoSelecionado
     );
 });
+
+// Simula a seleção dos dropdowns na edição
+document.addEventListener("DOMContentLoaded", () => {
+    const alunoAtual = JSON.parse(alunoJsonGlobal); // Aluno no modo edição
+
+    // Preencher cursos no dropdown
+    const cursosUnicos = [
+        ...new Map(turmas.map((t) => [t.curso.pk_curso, t.curso])).values(),
+    ];
+    preencherDropdown(
+        cursoSelect,
+        cursosUnicos.map((c) => ({ value: c.pk_curso, text: c.nome })),
+        "Selecione um Curso"
+    );
+
+    if (alunoAtual && alunoAtual.turma) {
+        // Simular seleção com base no aluno atual
+        cursoSelect.value = alunoAtual.turma.curso.pk_curso;
+        cursoSelect.dispatchEvent(new Event("change")); // Atualiza o dropdown de anos
+
+        // Espera o preenchimento do dropdown de anos
+        setTimeout(() => {
+            anoSelect.value = alunoAtual.turma.ano;
+            anoSelect.dispatchEvent(new Event("change")); // Atualiza o dropdown de semestres
+
+            setTimeout(() => {
+                semestreSelect.value = alunoAtual.turma.semestre;
+                semestreSelect.dispatchEvent(new Event("change")); // Atualiza o dropdown de turnos
+
+                setTimeout(() => {
+                    turnoSelect.value = alunoAtual.turma.turno;
+                    turnoSelect.dispatchEvent(new Event("change")); // Garante que pk_turma seja atualizada
+                }, 200); // Espera o preenchimento dos turnos
+            }, 200); // Espera o preenchimento dos semestres
+        }, 200); // Espera o preenchimento dos anos
+    }
+});

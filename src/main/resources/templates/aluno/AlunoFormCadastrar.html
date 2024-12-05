@@ -49,9 +49,13 @@
 
                 <!-- Dropdown para NOME do Curso -->
                 <div class="form-floating col-md-12">
-                    <select class="form-select" id="curso" th:field="*{turma.curso}" required>
+                    <select class="form-select" id="curso" th:field="*{turma.curso.pk_curso}" required>
                         <option value="" disabled>Selecione um Curso</option>
-                        <option th:each="curso : ${cursos}" th:value="${curso}" th:text="${curso}"></option>
+                        <option th:each="curso : ${cursos}" 
+                                th:value="${curso.pk_curso}" 
+                                th:text="${curso.nome}" 
+                                th:selected="${alunoDto != null and alunoDto.turma.curso.pk_curso == curso.pk_curso}">
+                        </option>
                     </select>
                     <label>Curso: nome</label>
                 </div>
@@ -60,6 +64,11 @@
                 <div class="form-floating col-md-12">
                     <select class="form-select" id="ano" required disabled>
                         <option value="" disabled>Selecione o Ano</option>
+                        <option th:each="ano : ${anos}" 
+                                th:value="${ano}" 
+                                th:text="${ano}" 
+                                th:selected="${alunoDto != null and alunoDto.turma.ano == ano}">
+                        </option>
                     </select>
                     <label>Turma: ano</label>
                 </div>
@@ -68,6 +77,11 @@
                 <div class="form-floating col-md-12">
                     <select class="form-select" id="semestre" required disabled>
                         <option value="" disabled>Selecione o Semestre</option>
+                        <option th:each="semestre : ${semestres}" 
+                                th:value="${semestre}" 
+                                th:text="${semestre}" 
+                                th:selected="${alunoDto != null and alunoDto.turma.semestre == semestre}">
+                        </option>
                     </select>
                     <label>Turma: semestre</label>
                 </div>
@@ -76,6 +90,11 @@
                 <div class="form-floating col-md-12">
                     <select class="form-select" id="turno" required disabled>
                         <option value="" disabled>Selecione o Turno</option>
+                        <option th:each="turno : ${turnos}" 
+                                th:value="${turno}" 
+                                th:text="${turno}" 
+                                th:selected="${alunoDto != null and alunoDto.turma.turno == turno}">
+                        </option>
                     </select>
                     <label>Turma: turno</label>
                 </div>
@@ -91,4 +110,7 @@
 <script th:inline="javascript">
     // Colocando o JSON em variável global 'turmasJsonGlobal' que será recebida no formularioAluno.js
     var turmasJsonGlobal = /*[[${turmasJson}]]*/ '[]'; 
+
+    // Aluno atual (apenas no modo edição)
+    var alunoJsonGlobal = /*[[${alunoJson}]]*/ '{}';
 </script>

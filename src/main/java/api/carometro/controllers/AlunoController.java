@@ -61,7 +61,10 @@ public class AlunoController {
         Aluno alunoBuscado = alunoService.buscarAlunoRa(ra);
 
         if (alunoBuscado != null) {
-            return criarViewParaFormulario("administrador/AdmEditarAluno", alunoBuscado);
+            ModelAndView mv = criarViewParaFormulario("administrador/AdmEditarAluno", alunoBuscado);
+            mv.addObject("alunoJson", alunoService.converterParaJson(alunoBuscado));
+
+            return mv;
         }
         return new ModelAndView("redirect:/alunos");
     }

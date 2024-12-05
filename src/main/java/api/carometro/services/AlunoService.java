@@ -2,6 +2,9 @@ package api.carometro.services;
 
 import api.carometro.models.Aluno;
 import api.carometro.repositories.AlunoRepository;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -59,5 +62,17 @@ public class AlunoService {
 
     public boolean raExistente(String ra) {
         return this.buscarAlunoRa(ra) != null;
+    }
+
+    public String converterParaJson(Aluno aluno) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL); // Ignorar campos nulos
+        objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS); // Evitar erros em objetos vazios
+        objectMapper.findAndRegisterModules(); // Suporte para tipos como LocalDate
+        try {
+            return objectMapper.writeValueAsString(aluno);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao converter aluno para JSON", e);
+        }
     }
 }
