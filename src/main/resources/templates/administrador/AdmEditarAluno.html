@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="PT-BR" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: geral('Editar Aluno')}"></head>
+
+<body>
+    <header th:replace="~{fragments/AdmNavbar}"></header>
+
+    <main th:replace="~{aluno/AlunoFormCadastrar('Editar', ${ra}, true)}"></main>
+
+    <footer th:replace="~{fragments/footer}"></footer>
+
+    <script type="text/javascript" th:src="@{/js/formularioAluno.js}"></script>
+</body>
+</html>

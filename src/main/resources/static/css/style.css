@@ -95,12 +95,18 @@ footer .container-fluid {
 
 input[type="text"],
 input[type="number"],
+input[type="password"],
 input[type="date"],
 select.form-select {
     background-color: #202020;
     color: white;
     color-scheme: dark;
     font-size: 0.95em;
+}
+
+
+select.form-select:disabled {
+    background-color: #161616;
 }
 
 .form-floating input:focus,
