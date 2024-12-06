@@ -17,13 +17,11 @@
                 <td class="col-xl-1 col-lg-1" th:text="${curso.tipo}"></td>
                 <td class="col-xl-1 col-lg-2" th:text="${curso.modalidade}"></td>
                 <td class="col-xl-2 col-lg-2">
-                    <a>
-                        <i class="fa-solid fa-eye text-success"></i>
-                    </a>
                     <a th:href="@{/cursos/editar/{id}(id=${curso.pk_curso})}">
                         <i class="fa-solid fa-pen text-primary"></i>
                     </a>
-                    <a th:attr="onclick=|excluirRegistro('${curso.pk_curso}', '${curso.nome}')|" type="button" data-bs-toggle="modal" data-bs-target="#modalId">
+                    <a th:attr="onclick=|excluirRegistro('${curso.nome}', '/cursos/deletar/${curso.pk_curso}')|"
+                            type="button" data-bs-toggle="modal" data-bs-target="#modalId">
                         <i class="fa-solid fa-trash text-danger"></i>
                     </a>
                 </td>
