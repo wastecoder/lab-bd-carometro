@@ -1,0 +1,138 @@
+<main th:fragment="aluno(formTitle, action, isEdit)">
+    <div class="central-form">
+        <h2 class="form-title" th:text="${formTitle}">Título</h2>
+
+        <form method="POST" class="form-body" th:object="${alunoDto}" th:action="${action}">
+            <!-- Campo oculto para simular o método PUT apenas para edição -->
+            <input type="hidden" name="_method" value="PUT" th:if="${isEdit}"/>
+
+            <!-- Campo oculto para enviar pk_turma da Turma selecionada -->
+            <input type="hidden" id="pk_turma" name="turma.pk_turma" />
+
+            <div class="alert alert-danger" th:if="${raExistente}" th:text="${raExistente}"></div>
+
+            <div class="row">
+
+                <!-- Input password para Senha -->
+                <div class="form-floating col-md-12">
+                    <input type="password" class="form-control" placeholder=" " th:field="*{senha}" 
+                        th:errorclass="is-invalid" required minlength="5" maxlength="100">
+                    <label>Senha</label>
+                    <div class="invalid-feedback" th:errors="*{senha}"></div>
+                </div>
+
+                <!-- Input text para Nome -->
+                <div class="form-floating col-md-12">
+                    <input type="text" class="form-control" placeholder=" " th:field="*{nome}" 
+                        th:errorclass="is-invalid" required minlength="3" maxlength="100">
+                    <label>Nome</label>
+                    <div class="invalid-feedback" th:errors="*{nome}"></div>
+                </div>
+
+                <!-- Input date para Data de Nascimento -->
+                <div class="form-floating col-md-12">
+                    <input type="date" class="form-control" placeholder=" " th:field="*{dataNascimento}" 
+                        th:errorclass="is-invalid" required>
+                    <label>Data de Nascimento</label>
+                    <div class="invalid-feedback" th:errors="*{dataNascimento}"></div>
+                </div>
+
+                <!-- Dropdown para NOME do Curso -->
+                <div class="form-floating col-md-12">
+                    <select class="form-select" id="curso" th:field="*{turma.curso.pk_curso}" required>
+                        <option value="" disabled>Selecione um Curso</option>
+                        <option th:each="curso : ${cursos}" 
+                                th:value="${curso.pk_curso}" 
+                                th:text="${curso.nome}" 
+                                th:selected="${alunoDto != null and alunoDto.turma.curso.pk_curso == curso.pk_curso}">
+                        </option>
+                    </select>
+                    <label>Curso: nome</label>
+                </div>
+
+                <!-- Dropdown para ANO da Turma -->
+                <div class="form-floating col-md-12">
+                    <select class="form-select" id="ano" required disabled>
+                        <option value="" disabled>Selecione o Ano</option>
+                        <option th:each="ano : ${anos}" 
+                                th:value="${ano}" 
+                                th:text="${ano}" 
+                                th:selected="${alunoDto != null and alunoDto.turma.ano == ano}">
+                        </option>
+                    </select>
+                    <label>Turma: ano</label>
+                </div>
+
+                <!-- Dropdown para SEMESTRE da Turma -->
+                <div class="form-floating col-md-12">
+                    <select class="form-select" id="semestre" required disabled>
+                        <option value="" disabled>Selecione o Semestre</option>
+                        <option th:each="semestre : ${semestres}" 
+                                th:value="${semestre}" 
+                                th:text="${semestre}" 
+                                th:selected="${alunoDto != null and alunoDto.turma.semestre == semestre}">
+                        </option>
+                    </select>
+                    <label>Turma: semestre</label>
+                </div>
+
+                <!-- Dropdown para TURNO da Turma -->
+                <div class="form-floating col-md-12">
+                    <select class="form-select" id="turno" required disabled>
+                        <option value="" disabled>Selecione o Turno</option>
+                        <option th:each="turno : ${turnos}" 
+                                th:value="${turno}" 
+                                th:text="${turno}" 
+                                th:selected="${alunoDto != null and alunoDto.turma.turno == turno}">
+                        </option>
+                    </select>
+                    <label>Turma: turno</label>
+                </div>
+
+                <!-- Input file para Foto -->
+                <!-- <div class="mb-4 mt-3">
+                    <label for="formFile" class="form-label">Foto de perfil</label>
+                    <input class="form-control" type="file" id="formFile"
+                        th:field="*{foto}" th:errorclass="is-invalid">
+                    <div class="invalid-feedback" th:errors="*{foto}"></div>
+                </div> -->
+
+                <!-- Input url para URL do LinkedIn -->
+                <div class="form-floating col-md-12">
+                    <input type="url" class="form-control" placeholder=" " th:field="*{urlLinkedin}" 
+                        th:errorclass="is-invalid" maxlength="100">
+                    <label>URL do LinkedIn</label>
+                    <div class="invalid-feedback" th:errors="*{urlLinkedin}"></div>
+                </div>
+
+                <!-- Input url para URL do GitHub -->
+                <div class="form-floating col-md-12">
+                    <input type="url" class="form-control" placeholder=" " th:field="*{urlGithub}" 
+                        th:errorclass="is-invalid" maxlength="100">
+                    <label>URL do GitHub</label>
+                    <div class="invalid-feedback" th:errors="*{urlGithub}"></div>
+                </div>
+
+                <!-- Input url para URL do Lattes -->
+                <div class="form-floating col-md-12">
+                    <input type="url" class="form-control" placeholder=" " th:field="*{urlLattes}" 
+                        th:errorclass="is-invalid" maxlength="100">
+                    <label>URL do Lattes</label>
+                    <div class="invalid-feedback" th:errors="*{urlLattes}"></div>
+                </div>
+
+                <!-- Botão de envio -->
+                <button class="btn btn-primary btn-form" type="submit">
+                    <i class="fas fa-solid fa-upload"></i>Enviar</button>
+            </div>
+        </form>
+    </div>    
+</main>
+
+<script th:inline="javascript">
+    // Colocando o JSON em variável global 'turmasJsonGlobal' que será recebida no formularioAluno.js
+    var turmasJsonGlobal = /*[[${turmasJson}]]*/ '[]'; 
+
+    // Aluno atual (apenas no modo edição)
+    var alunoJsonGlobal = /*[[${alunoJson}]]*/ '{}';
+</script>

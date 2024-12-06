@@ -1,6 +1,7 @@
 package api.carometro.controllers;
 
 import api.carometro.dtos.AlunoCadastroDto;
+import api.carometro.dtos.AlunoDto;
 import api.carometro.models.Aluno;
 import api.carometro.services.AlunoService;
 import api.carometro.services.TurmaService;
@@ -71,12 +72,15 @@ public class AlunoController {
 
     @PutMapping("editar/{ra}")
     @Transactional
-    public ModelAndView salvarEdicaoAluno(@PathVariable String ra, @Valid AlunoCadastroDto requisicao, BindingResult resultadoValidacao) {
+    public ModelAndView salvarEdicaoAluno(@PathVariable String ra, @Valid AlunoDto requisicao, BindingResult resultadoValidacao) {
         if (resultadoValidacao.hasErrors()) {
-            return criarViewParaFormulario("administrador/AdmCadastrarAluno", requisicao);
+            ModelAndView mv = criarViewParaFormulario("administrador/AdmEditarAluno", requisicao);
+            mv.addObject("alunoJson", alunoService.converterParaJson(requisicao.dtoParaAluno()));
+
+            return mv;
         }
 
-        Aluno alunoAntigo = requisicao.dtoParaAluno();
+        Aluno alunoAntigo = alunoService.buscarAlunoRa(ra);
         alunoService.atualizarAluno(alunoAntigo, requisicao.dtoParaAluno());
         return new ModelAndView("redirect:/alunos");
     }
