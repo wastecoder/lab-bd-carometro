@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="PT-BR" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: geral('Perfil do Aluno')}"></head>
+
+<body>
+    <header th:replace="~{fragments/AlunoLogadoNavbar}"></header>
+
+    <main th:replace="~{aluno/AlunoPerfil}"></main>
+
+    <footer th:replace="~{fragments/footer}"></footer>
+
+    <div th:replace="~{fragments/ModalExcluir('aluno')}"></div>
+    <script type="text/javascript" th:src="@{/js/actions.js}"></script>
+</body>
+</html>

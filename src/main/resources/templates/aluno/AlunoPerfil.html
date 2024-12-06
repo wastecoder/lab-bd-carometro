@@ -1,0 +1,98 @@
+<main th:fragment="perfil" class="container my-5">
+    <div class="card mx-auto bg-dark text-light" style="max-width: 600px;">
+        <!-- Espaço para a imagem -->
+        <div class="text-center bg-dark">
+            <img src="https://via.placeholder.com/150" alt="Imagem do Aluno" class="img-fluid rounded" style="max-width: 150px;">
+        </div>
+
+
+        <!-- Informações do aluno -->
+        <div class="card-body">
+            <h5 class="card-title text-center">
+                Perfil do Aluno
+            </h5>
+
+            <hr>
+
+
+            <!-- Dados do aluno -->
+            <div class="mb-3">
+                <strong>Nome:</strong>
+                <span id="nome" th:text="${aluno.nome}">
+                    Nome Completo
+                </span>
+            </div>
+            <div class="mb-3">
+                <strong>Data de Nascimento:</strong>
+                <span id="dataNascimento" th:text="${#temporals.format(aluno.dataNascimento, 'dd/MM/yyyy')}">
+                    99/99/9999
+                </span>                
+            </div>
+
+            <div class="mb-3">
+                <strong>LinkedIn:</strong> 
+                <a id="linkedin" 
+                   th:href="${!#strings.isEmpty(aluno.urlLinkedin) ? aluno.urlLinkedin : '#'}" 
+                   th:text="${!#strings.isEmpty(aluno.urlLinkedin) ? 'LinkedIn' : 'N/A'}"
+                   th:classappend="${#strings.isEmpty(aluno.urlLinkedin) ? 'disabled' : ''}" 
+                   target="_blank">
+                    LinkedIn
+                </a>
+            </div>
+
+            <div class="mb-3">
+                <strong>GitHub:</strong> 
+                <a id="github" 
+                   th:href="${!#strings.isEmpty(aluno.urlGithub) ? aluno.urlGithub : '#'}" 
+                   th:text="${!#strings.isEmpty(aluno.urlGithub) ? 'GitHub' : 'N/A'}"
+                   th:classappend="${#strings.isEmpty(aluno.urlGithub) ? 'disabled' : ''}" 
+                   target="_blank">
+                    GitHub
+                </a>
+            </div>
+
+            <div class="mb-3">
+                <strong>Lattes:</strong> 
+                <a id="lattes" 
+                   th:href="${!#strings.isEmpty(aluno.urlLattes) ? aluno.urlLattes : '#'}" 
+                   th:text="${!#strings.isEmpty(aluno.urlLattes) ? 'Lattes' : 'N/A'}"
+                   th:classappend="${#strings.isEmpty(aluno.urlLattes) ? 'disabled' : ''}" 
+                   target="_blank">
+                    Lattes
+                </a>
+            </div>
+
+
+            <!-- Informações acadêmicas -->
+            <div class="mb-3">
+                <strong>Curso:</strong>
+                <span id="curso" th:text="${aluno.turma.curso.nome}">
+                    Engenharia de Software
+                </span>
+            </div>
+
+            <div class="mb-3">
+                <strong>Turma:</strong>
+                <span id="turma" 
+                    th:text="${aluno.turma.ano} + ' / '
+                    + (${aluno.turma.semestre.name() == 'PRIMEIRO' ? '1º Semestre' : '2º Semestre'})
+                    + ' - ' + ${aluno.turma.turno}">
+                    2024 / 1º Semestre - Noturno
+                </span>
+            </div>           
+        </div>
+
+
+        <!-- Botões --> 
+        <div class="card-footer d-flex justify-content-around p-3">
+            <a class="btn btn-primary btn-lg px-5"
+                    th:href="@{/alunos/editar/{id}(id=${aluno.ra})}">
+                Editar
+            </a>
+            <a class="btn btn-danger btn-lg px-5" type="button" data-bs-toggle="modal" data-bs-target="#modalId"
+                    th:attr="onclick=|excluirRegistro('${aluno.nome}', '/alunos/excluir/${aluno.ra}')|">
+                Excluir
+            </a>
+        </div>
+    </div>
+</main>

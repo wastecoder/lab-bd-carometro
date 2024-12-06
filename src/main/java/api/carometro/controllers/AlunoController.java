@@ -85,16 +85,24 @@ public class AlunoController {
         return new ModelAndView("redirect:/alunos");
     }
 
-    @GetMapping("/perfil/{id}")
-    public ModelAndView exibirPerfilAluno() {
-        return new ModelAndView("redirect:/alunos");
-    }
-
     @DeleteMapping("/excluir/{ra}")
     @Transactional
     public String excluirAluno(@PathVariable String ra) {
         alunoService.deletarAlunoRa(ra);
         return "redirect:/alunos";
+    }
+
+    @GetMapping("/perfil/{ra}")
+    public ModelAndView exibirPerfilAluno(@PathVariable String ra) {
+        Aluno alunoBuscado = alunoService.buscarAlunoRa(ra);
+
+        if (alunoBuscado != null) {
+            ModelAndView mv = new ModelAndView("aluno/AlunoExibirPerfil");
+            mv.addObject("aluno", alunoBuscado);
+
+            return mv;
+        }
+        return new ModelAndView("redirect:/alunos");
     }
 
 

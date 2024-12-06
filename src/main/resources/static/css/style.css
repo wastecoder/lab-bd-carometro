@@ -189,3 +189,11 @@ input:-webkit-autofill {
     background-color: #FFF;
     color: #D50000;
 }
+
+
+    /* Perfil do aluno */
+a.disabled {
+    pointer-events: none;
+    color: #888;
+    text-decoration: none;
+}
