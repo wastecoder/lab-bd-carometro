@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -70,9 +71,13 @@ public class AlunoController {
         return new ModelAndView("redirect:/alunos");
     }
 
-    @PutMapping("editar/{ra}")
+    @PutMapping("/editar/{ra}")
     @Transactional
-    public ModelAndView salvarEdicaoAluno(@PathVariable String ra, @Valid AlunoDto requisicao, BindingResult resultadoValidacao) {
+    public ModelAndView salvarEdicaoAluno(
+            @PathVariable String ra,
+            @RequestPart(value = "foto", required = false) MultipartFile file,
+            @Valid AlunoDto requisicao,
+            BindingResult resultadoValidacao) {
         if (resultadoValidacao.hasErrors()) {
             ModelAndView mv = criarViewParaFormulario("administrador/AdmEditarAluno", requisicao);
             mv.addObject("alunoJson", alunoService.converterParaJson(requisicao.dtoParaAluno()));
@@ -81,8 +86,9 @@ public class AlunoController {
         }
 
         Aluno alunoAntigo = alunoService.buscarAlunoRa(ra);
+        alunoService.atualizarFotoPerfil(alunoAntigo, file);
         alunoService.atualizarAluno(alunoAntigo, requisicao.dtoParaAluno());
-        return new ModelAndView("redirect:/alunos");
+        return new ModelAndView("redirect:/alunos/perfil/" + ra);
     }
 
     @DeleteMapping("/excluir/{ra}")

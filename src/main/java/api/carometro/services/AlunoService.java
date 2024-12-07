@@ -6,13 +6,23 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class AlunoService {
+    @Value("${pasta.fotos.perfil}")
+    private String PASTA_FOTO_PERFIL;
+
     @Autowired
     private final AlunoRepository repository;
 
@@ -38,6 +48,7 @@ public class AlunoService {
         Aluno retorno = this.buscarAlunoRa(ra);
 
         if (retorno != null) {
+            this.removerFotoAoRemoverAluno(retorno);
             repository.deleteById(ra);
             return true;
         }
@@ -50,7 +61,6 @@ public class AlunoService {
         antigo.setDataNascimento(novo.getDataNascimento());
         antigo.setTurma(novo.getTurma());
 
-        antigo.setFoto(novo.getFoto());
         antigo.setUrlLinkedin(novo.getUrlLinkedin());
         antigo.setUrlGithub(novo.getUrlGithub());
         antigo.setUrlLattes(novo.getUrlLattes());
@@ -74,5 +84,38 @@ public class AlunoService {
         } catch (Exception e) {
             throw new RuntimeException("Erro ao converter aluno para JSON", e);
         }
+    }
+
+    public void atualizarFotoPerfil(Aluno alunoAtualizado, MultipartFile arquivoRecebido) {
+        if (arquivoRecebido == null || arquivoRecebido.isEmpty()) {
+            return;
+        }
+
+        try {
+            Path PASTA_DESTINO = Paths.get(PASTA_FOTO_PERFIL);
+            if (!Files.exists(PASTA_DESTINO))
+                Files.createDirectories(PASTA_DESTINO);
+
+            String NOME_FOTO = alunoAtualizado.getRa();
+            String caminhoFoto = NOME_FOTO + ".jpg";
+
+            Path destino = PASTA_DESTINO.resolve(caminhoFoto);
+            Files.write(destino, arquivoRecebido.getBytes());
+
+            alunoAtualizado.setFoto(caminhoFoto); //Atualiza esse atributo apenas para sabermos que ele possui uma foto associada
+        } catch (IOException e) {
+            throw new RuntimeException("Erro ao salvar a imagem do aluno.", e);
+        }
+    }
+
+    public void removerFotoAoRemoverAluno(Aluno alunoRemovido) {
+        if (alunoRemovido.getFoto() == null || alunoRemovido.getFoto().isEmpty()) {
+            return;
+        }
+
+        String caminhoFoto = PASTA_FOTO_PERFIL + alunoRemovido.getRa() + ".jpg";
+
+        File arquivoFoto = new File(caminhoFoto);
+        if (arquivoFoto.exists()) arquivoFoto.delete();
     }
 }

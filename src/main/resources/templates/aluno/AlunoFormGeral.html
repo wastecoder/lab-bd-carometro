@@ -2,7 +2,7 @@
     <div class="central-form">
         <h2 class="form-title" th:text="${formTitle}">Título</h2>
 
-        <form method="POST" class="form-body" th:object="${alunoDto}" th:action="${action}">
+        <form method="POST" class="form-body" th:object="${alunoDto}" th:action="${action}" enctype="multipart/form-data">
             <!-- Campo oculto para simular o método PUT apenas para edição -->
             <input type="hidden" name="_method" value="PUT" th:if="${isEdit}"/>
 
@@ -14,12 +14,13 @@
             <div class="row">
 
                 <!-- Input password para Senha -->
-                <div class="form-floating col-md-12">
+                <!-- <div class="form-floating col-md-12">
                     <input type="password" class="form-control" placeholder=" " th:field="*{senha}" 
                         th:errorclass="is-invalid" required minlength="5" maxlength="100">
                     <label>Senha</label>
                     <div class="invalid-feedback" th:errors="*{senha}"></div>
-                </div>
+                </div> -->
+                <input type="hidden" th:field="*{senha}" th:value="${alunoDto.senha}" />
 
                 <!-- Input text para Nome -->
                 <div class="form-floating col-md-12">
@@ -90,12 +91,12 @@
                 </div>
 
                 <!-- Input file para Foto -->
-                <!-- <div class="mb-4 mt-3">
+                <div class="mb-4 mt-3">
                     <label for="formFile" class="form-label">Foto de perfil</label>
-                    <input class="form-control" type="file" id="formFile"
-                        th:field="*{foto}" th:errorclass="is-invalid">
-                    <div class="invalid-feedback" th:errors="*{foto}"></div>
-                </div> -->
+                    <input class="form-control" type="file" name="foto" id="formFile" 
+                        th:errorclass="is-invalid" accept=".jpg,.jpeg,.png">
+                    <div class="invalid-feedback"></div>
+                </div>
 
                 <!-- Input url para URL do LinkedIn -->
                 <div class="form-floating col-md-12">

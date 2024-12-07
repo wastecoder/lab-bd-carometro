@@ -30,9 +30,6 @@ public class AlunoDto {
     private Turma turma;
 
 
-    @Size(max = 100, message = "Foto não pode ter mais de 100 caracteres")
-    private String foto;
-
     @Size(max = 100, message = "URL do LinkedIn não pode ter mais de 100 caracteres")
     @Pattern(
             regexp = "(^$|^https:\\/\\/.*linkedin\\.com\\/.*$)",
@@ -64,7 +61,6 @@ public class AlunoDto {
         aluno.setDataNascimento(this.getDataNascimento());
         aluno.setTurma(this.getTurma());
 
-        aluno.setFoto(this.getFoto());
         aluno.setUrlLinkedin(this.getUrlLinkedin());
         aluno.setUrlGithub(this.getUrlGithub());
         aluno.setUrlLattes(this.getUrlLattes());

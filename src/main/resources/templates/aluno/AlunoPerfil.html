@@ -1,8 +1,19 @@
 <main th:fragment="perfil" class="container my-5">
     <div class="card mx-auto bg-dark text-light" style="max-width: 600px;">
-        <!-- Espaço para a imagem -->
         <div class="text-center bg-dark">
-            <img src="https://via.placeholder.com/150" alt="Imagem do Aluno" class="img-fluid rounded" style="max-width: 150px;">
+            <!-- Imagem padrão quando não há foto -->
+            <img th:unless="${aluno.foto != null && !aluno.foto.isEmpty()}" 
+                 src="https://via.placeholder.com/150" 
+                 alt="Imagem padrão do Aluno" 
+                 class="img-fluid rounded my-2" 
+                 style="max-width: 150px;">
+            
+            <!-- Imagem do aluno quando há foto -->
+            <img th:if="${aluno.foto != null && !aluno.foto.isEmpty()}" 
+                 th:src="@{/images/profilepicture/{foto}(foto=${aluno.foto})}" 
+                 alt="Foto do Aluno" 
+                 class="img-fluid rounded my-2" 
+                 style="width: 150px; height: 150px;">
         </div>
 
 
