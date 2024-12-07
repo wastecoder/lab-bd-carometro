@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Ignora todos as imagens dentro da pasta profilepicture
+src/main/resources/static/images/profilepicture/*
