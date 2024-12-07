@@ -1,6 +1,6 @@
 <header th:fragment="logado"> 
     <!-- Inspiração: https://www.codeply.com/go/kTGlK9Axdk -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <nav class="navbar navbar-expand-xl navbar-dark bg-primary">
         <!-- Brand -->
         <a class="navbar-brand fs-4 mx-2" href="#">Administrador</a>
 
@@ -29,7 +29,7 @@
                     </a>
                     <div class="dropdown-menu bg-dark" aria-labelledby="dropdown1">
                         <a class="dropdown-item text-light" href="/cursos">Início</a>
-                        <a class="dropdown-item text-light" href="cursos/cadastrar">Cadastrar</a>
+                        <a class="dropdown-item text-light" href="/cursos/cadastrar">Cadastrar</a>
                     </div>
                 </li>
 
@@ -76,6 +76,18 @@
                     </a>
                     <div class="dropdown-menu bg-dark" aria-labelledby="dropdown5">
                         <a class="dropdown-item text-light" href="#">TODO</a>
+                    </div>
+                </li>
+
+                <!-- Dropdown de ADMINISTRADOR -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown6" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="fa-solid fa-user-gear"></span>
+                        ADM
+                    </a>
+                    <div class="dropdown-menu bg-dark" aria-labelledby="dropdown6">
+                        <a class="dropdown-item text-light" href="/administradores">Início</a>
+                        <a class="dropdown-item text-light" href="/administradores/cadastrar">Cadastrar</a>
                     </div>
                 </li>
             </ul>
