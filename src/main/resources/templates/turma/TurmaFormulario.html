@@ -11,7 +11,7 @@
 
                 <!-- Dropdown para Ano -->
                 <div class="form-floating col-md-12">
-                    <select class="form-select" th:field="*{ano}" required>
+                    <select class="form-select" th:field="*{ano}" th:errorclass="is-invalid" required>
                         <option value="" disabled>Selecione um Ano</option>
                         <option th:each="ano : ${anos}" th:value="${ano}" th:text="${ano}"
                             th:selected="${ano == turmaDto.ano}"></option>
@@ -22,7 +22,7 @@
 
                 <!-- Dropdown para Semestre -->
                 <div class="form-floating col-md-12">
-                    <select class="form-select" th:field="*{semestre}" required>
+                    <select class="form-select" th:field="*{semestre}" th:errorclass="is-invalid" required>
                         <option value="" disabled>Selecione um Semestre</option>
                         <option th:each="semestre : ${semestres}" th:value="${semestre}" th:text="${semestre}"
                             th:selected="${semestre} == ${turmaDto.semestre}"></option>
@@ -33,7 +33,7 @@
 
                 <!-- Dropdown para Turno -->
                 <div class="form-floating col-md-12">
-                    <select class="form-select" th:field="*{turno}" required>
+                    <select class="form-select" th:field="*{turno}" th:errorclass="is-invalid" required>
                         <option value="" disabled>Selecione um Turno</option>
                         <option th:each="turno : ${turnos}" th:value="${turno}" th:text="${turno}"
                             th:selected="${turno} == ${turmaDto.turno}"></option>
@@ -44,7 +44,7 @@
                 
                 <!-- Dropdown para Curso -->
                 <div class="form-floating col-md-12">
-                    <select class="form-select" th:field="*{curso}" required>
+                    <select class="form-select" th:field="*{curso}" th:errorclass="is-invalid" required>
                         <option value="" disabled>Selecione um Curso</option>
                         <option
                             th:each="curso : ${cursos}"

@@ -73,6 +73,7 @@ public class TurmaController {
         if (result.hasErrors()) {
             ModelAndView mv = criarViewParaFormulario("/turma/TurmaEditar");
             mv.addObject("turmaDto", requisicao);
+            return mv;
         }
 
         Turma turmaAntiga = turmaService.buscarTurmaId(id);
