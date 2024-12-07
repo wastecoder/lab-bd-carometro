@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="PT-BR" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: geral('Lista de Administradores')}"></head>
+
+<body>
+    <header th:replace="~{fragments/AdmNavbar}"></header>
+
+    <main th:replace="~{administrador/AdministradorTabela}"></main>
+
+    <footer th:replace="~{fragments/footer}"></footer>
+
+    <div th:replace="~{fragments/ModalExcluir('administrador')}"></div>
+    <script type="text/javascript" th:src="@{/js/actions.js}"></script>
+</body>
+</html>

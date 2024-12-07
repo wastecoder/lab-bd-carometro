@@ -1,0 +1,54 @@
+<main th:fragment="administrador(formTitle, action, isEdit)">
+    <div class="central-form">
+        <h2 class="form-title" th:text="${formTitle}">Título</h2>
+
+        <form method="POST" class="form-body" th:object="${admDto}" th:action="${action}">
+            <!-- Campo oculto para simular o método PUT apenas para edição -->
+            <input type="hidden" name="_method" value="PUT" th:if="${isEdit}"/>
+
+            <div class="row">
+
+                <!-- Input email para E-mail -->
+                <div class="form-floating col-md-12">
+                    <input type="email" class="form-control" placeholder=" " th:field="*{email}"
+                            th:errorclass="is-invalid" required minlength="5" maxlength="50">
+                    <label>E-mail</label>
+                    <div class="invalid-feedback" th:errors="*{email}"></div>
+                </div>
+
+                <!-- Input password para Senha -->
+                <div class="form-floating col-md-12">
+                    <input type="password" class="form-control" placeholder=" " th:field="*{senha}" 
+                        th:errorclass="is-invalid" required minlength="5" maxlength="100">
+                    <label>Senha</label>
+                    <div class="invalid-feedback" th:errors="*{senha}"></div>
+                </div>
+                <!-- <input type="hidden" th:field="*{senha}" th:value="${admDto.senha}" /> -->
+
+                <!-- Input text para Nome -->
+                <div class="form-floating col-md-12">
+                    <input type="text" class="form-control" placeholder=" " th:field="*{nome}" 
+                        th:errorclass="is-invalid" required minlength="3" maxlength="50">
+                    <label>Nome</label>
+                    <div class="invalid-feedback" th:errors="*{nome}"></div>
+                </div>
+
+                <!-- Dropdown para Cargo -->
+                <div class="form-floating col-md-12">
+                    <select class="form-select" th:field="*{cargo}" th:errorclass="is-invalid" required>
+                        <option value="" disabled>Selecione um Cargo</option>
+                        <option th:each="cargo : ${cargos}" th:value="${cargo}" th:text="${cargo}"
+                            th:selected="${cargo} == ${admDto.cargo}"></option> <!-- Verifica se é o cargo selecionado -->
+                    </select>
+                    <label>Cargo</label>
+                    <div class="invalid-feedback" th:errors="*{cargo}"></div>
+                </div>
+
+                <button class="btn btn-primary btn-form" type="submit">
+                    <i class="fas fa-solid fa-upload"></i>
+                    Enviar
+                </button>
+            </div>
+        </form>
+    </div>
+</main>
