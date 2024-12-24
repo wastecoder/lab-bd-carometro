@@ -1,0 +1,31 @@
+<main th:fragment="curso(formTitle, isEdit)">
+    <div class="central-form">
+        <h2 class="form-title" th:text="${formTitle}">Título</h2>
+
+        <form method="POST" class="form-body" th:object="${comentarioDto}" th:action="${action}">
+            <!-- Campo oculto para simular o método PUT apenas para edição -->
+            <input type="hidden" name="_method" value="PUT" th:if="${isEdit}"/>
+
+            <div class="row">
+                <!-- Input text para Comentário FATEC -->
+                <div class="form-floating col-md-12">
+                    <input type="text" class="form-control" placeholder=" " th:field="*{comentarioFatec}"
+                        th:errorclass="is-invalid" maxlength="500">
+                    <label>Comentário Fatec</label>
+                    <div class="invalid-feedback" th:errors="*{comentarioFatec}"></div>
+                </div>
+
+                <!-- Input text para Comentário LIVRE -->
+                <div class="form-floating col-md-12">
+                    <input type="text" class="form-control" placeholder=" " th:field="*{comentarioLivre}"
+                        th:errorclass="is-invalid" maxlength="500">
+                    <label>Comentário Livre</label>
+                    <div class="invalid-feedback" th:errors="*{comentarioLivre}"></div>
+                </div>
+
+                <button class="btn btn-primary btn-form" type="submit">
+                    <i class="fas fa-solid fa-upload"></i>Enviar</button>
+            </div>
+        </form>
+    </div>
+</main>

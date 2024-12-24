@@ -118,4 +118,8 @@ public class AlunoService {
         File arquivoFoto = new File(caminhoFoto);
         if (arquivoFoto.exists()) arquivoFoto.delete();
     }
+
+    public List<Aluno> alunosSemComentario() {
+        return repository.findByComentarioIsNotNull();
+    }
 }

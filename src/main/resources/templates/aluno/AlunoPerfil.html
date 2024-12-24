@@ -90,17 +90,54 @@
                     + ' - ' + ${aluno.turma.turno}">
                     2024 / 1º Semestre - Noturno
                 </span>
-            </div>           
+            </div>
+        </div>
+
+
+        <!-- Comentários do aluno -->
+        <div class="card-body" th:if="${aluno.comentario != null}">
+            <hr>
+
+            <h5 class="card-title text-center">Comentários</h5>
+            <div class="mb-3">
+                <strong>Comentário: Fatec</strong>
+                <p id="comentarioFatec" th:text="${aluno.comentario.comentarioFatec}">
+                    Sem comentário sobre a Fatec.
+                </p>
+            </div>
+
+            <div class="mb-3">
+                <strong>Comentário: Livre</strong>
+                <p id="comentarioLivre" th:text="${aluno.comentario.comentarioLivre}">
+                    Sem comentário livre.
+                </p>
+            </div>
         </div>
 
 
         <!-- Botões --> 
         <div class="card-footer d-flex justify-content-around p-3">
-            <a class="btn btn-primary btn-lg px-5"
+            <a class="btn btn-primary btn-lg px-5 fs-6"
                     th:href="@{/alunos/editar/{id}(id=${aluno.ra})}">
                 Editar
             </a>
-            <a class="btn btn-danger btn-lg px-5" type="button" data-bs-toggle="modal" data-bs-target="#modalId"
+
+            <!-- Botão "Criar Comentário" -->
+            <a class="btn btn-warning text-light btn-lg px-5 fs-6"
+                    th:href="@{/comentarios/criar/{id}(id=${aluno.ra})}"
+                    th:if="${aluno.comentario == null}">
+                Criar Comentário
+            </a>
+            
+            <!-- Botão "Editar Comentário" -->
+            <a class="btn btn-warning text-light btn-lg px-5 fs-6"
+                    th:href="@{/comentarios/editar/{id}(id=${aluno.ra})}"
+                    th:if="${aluno.comentario != null}">
+                Editar Comentário
+            </a>
+
+            <a class="btn btn-danger btn-lg px-5 fs-6"
+                    type="button" data-bs-toggle="modal" data-bs-target="#modalId"
                     th:attr="onclick=|excluirRegistro('${aluno.nome}', '/alunos/excluir/${aluno.ra}')|">
                 Excluir
             </a>

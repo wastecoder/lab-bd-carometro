@@ -1,0 +1,30 @@
+<main th:fragment="tabela">
+    <table class="table table-dark table-bordered table-hover table-responsive-lg">
+        <caption th:text="${legenda}"></caption>
+        <thead>
+            <tr>
+                <th>RA</th>
+                <th>Nome</th>
+                <th>Comentário: Fatec</th>
+                <th>Comentário: Livre</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="aluno : ${alunos}">
+                <td class="col-xxl-1 col-xl-1 col-lg-1" th:text="${aluno.ra}"></td>
+                <td class="col-xxl-3 col-xl-4 col-lg-4" th:text="${aluno.nome}"></td>
+                <td class="col-xxl-3 col-xl-4 col-lg-4" th:text="${aluno.comentario.comentarioFatec}"></td>
+                <td class="col-xxl-1 col-xl-1 col-lg-1" th:text="${aluno.comentario.comentarioLivre}"></td>
+                <td class="col-xxl-1 col-xl-2 col-lg-2">
+                    <a th:href="@{/alunos/perfil/{id}(id=${aluno.ra})}">
+                        <i class="fa-solid fa-eye text-success"></i>
+                    </a>
+                    <a th:href="@{/comentarios/editar/{id}(id=${aluno.ra})}">
+                        <i class="fa-solid fa-pen text-primary"></i>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</main>

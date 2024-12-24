@@ -41,7 +41,9 @@ public class Aluno {
     private String urlLattes;
 
 
-    @OneToOne(fetch = FetchType.LAZY)
+    // orphanRemoval = ao remover o aluno, remove o comentário junto
+    // CascadeType.ALL = ao manipular o aluno, manipula (CRUD) o comentário junto
+    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_comentario_aluno", nullable = true) //True porque pode não ter comentário: Aluno 1 --- 0..1
     private Comentario comentario;
 
