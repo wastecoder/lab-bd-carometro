@@ -3,12 +3,14 @@ package api.carometro.models;
 import api.carometro.enums.StatusComentario;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "comentario",
         uniqueConstraints = @UniqueConstraint(name = "ComentariosUnicos",
                 columnNames = {"comentario_fatec", "comentario_livre"}))
 @Data
+@NoArgsConstructor
 public class Comentario {
     @Id
     @Column(name = "pk_comentario", nullable = false)

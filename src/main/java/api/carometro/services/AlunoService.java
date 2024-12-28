@@ -1,5 +1,6 @@
 package api.carometro.services;
 
+import api.carometro.enums.StatusComentario;
 import api.carometro.models.Aluno;
 import api.carometro.repositories.AlunoRepository;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -121,5 +122,9 @@ public class AlunoService {
 
     public List<Aluno> alunosSemComentario() {
         return repository.findByComentarioIsNotNull();
+    }
+
+    public List<Aluno> alunosComComentariosPendentes() {
+        return repository.findByComentarioStatus(StatusComentario.PENDENTE);
     }
 }

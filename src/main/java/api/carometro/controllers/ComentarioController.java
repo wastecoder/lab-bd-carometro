@@ -3,6 +3,7 @@ package api.carometro.controllers;
 import api.carometro.dtos.ComentarioDto;
 import api.carometro.models.Aluno;
 import api.carometro.services.AlunoService;
+import api.carometro.services.ComentarioService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +17,11 @@ import org.springframework.web.servlet.ModelAndView;
 public class ComentarioController {
     @Autowired
     private final AlunoService alunoService;
+    private final ComentarioService comentarioService;
 
-    public ComentarioController(AlunoService alunoService) {
+    public ComentarioController(AlunoService alunoService, ComentarioService comentarioService) {
         this.alunoService = alunoService;
+        this.comentarioService = comentarioService;
     }
 
 
@@ -39,6 +42,7 @@ public class ComentarioController {
     }
 
     @PostMapping("/criar/{ra}")
+    @Transactional
     public ModelAndView salvarCadastroComentario(@Valid ComentarioDto requisicao, @PathVariable String ra, BindingResult resultadoValidacao) {
         Aluno alunoBuscado = alunoService.buscarAlunoRa(ra);
         if (alunoBuscado == null)
@@ -80,6 +84,27 @@ public class ComentarioController {
         alunoService.salvarAluno(alunoBuscado);
 
         return new ModelAndView("redirect:/comentarios");
+    }
+
+    @GetMapping("/pendentes")
+    public ModelAndView exibirComentariosPendentes() {
+        ModelAndView mv = new ModelAndView("/comentario/ComentariosPendentes");
+        mv.addObject("alunos", alunoService.alunosComComentariosPendentes());
+        return mv;
+    }
+
+    @PatchMapping("/pendentes/aprovar/{id}")
+    @Transactional
+    public String aprovarComentario(@PathVariable Long id) {
+        comentarioService.aprovarComentarioId(id);
+        return "redirect:/comentarios/pendentes";
+    }
+
+    @PatchMapping("/pendentes/rejeitar/{id}")
+    @Transactional
+    public String rejeitarComentario(@PathVariable Long id) {
+        comentarioService.rejeitarComentario(id);
+        return "redirect:/comentarios/pendentes";
     }
 
 

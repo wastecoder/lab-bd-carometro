@@ -16,4 +16,5 @@ public interface AlunoRepository extends JpaRepository<Aluno, String> {
     Page<Aluno> findAllByTurma(Turma turma, Pageable pageable);
 
     List<Aluno> findByComentarioIsNotNull();
+    List<Aluno> findByComentarioStatus(StatusComentario status);
 }

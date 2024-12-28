@@ -1,6 +1,5 @@
 package api.carometro.dtos;
 
-import api.carometro.enums.StatusComentario;
 import api.carometro.models.Comentario;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
