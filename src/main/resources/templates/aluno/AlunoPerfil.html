@@ -37,9 +37,30 @@
                 <strong>Data de Nascimento:</strong>
                 <span id="dataNascimento" th:text="${#temporals.format(aluno.dataNascimento, 'dd/MM/yyyy')}">
                     99/99/9999
-                </span>                
+                </span>
             </div>
 
+
+            <!-- Informações acadêmicas -->
+            <div class="mb-3">
+                <strong>Curso:</strong>
+                <span id="curso" th:text="${aluno.turma.curso.nome}">
+                    Engenharia de Software
+                </span>
+            </div>
+
+            <div class="mb-3">
+                <strong>Turma:</strong>
+                <span id="turma" 
+                    th:text="${aluno.turma.ano} + ' / '
+                    + (${aluno.turma.semestre.name() == 'PRIMEIRO' ? '1º Semestre' : '2º Semestre'})
+                    + ' - ' + ${aluno.turma.turno}">
+                    2024 / 1º Semestre - Noturno
+                </span>
+            </div>
+
+
+            <!-- Links profissionais -->
             <div class="mb-3">
                 <strong>LinkedIn:</strong> 
                 <a id="linkedin" 
@@ -72,25 +93,6 @@
                     Lattes
                 </a>
             </div>
-
-
-            <!-- Informações acadêmicas -->
-            <div class="mb-3">
-                <strong>Curso:</strong>
-                <span id="curso" th:text="${aluno.turma.curso.nome}">
-                    Engenharia de Software
-                </span>
-            </div>
-
-            <div class="mb-3">
-                <strong>Turma:</strong>
-                <span id="turma" 
-                    th:text="${aluno.turma.ano} + ' / '
-                    + (${aluno.turma.semestre.name() == 'PRIMEIRO' ? '1º Semestre' : '2º Semestre'})
-                    + ' - ' + ${aluno.turma.turno}">
-                    2024 / 1º Semestre - Noturno
-                </span>
-            </div>
         </div>
 
 
@@ -99,6 +101,13 @@
             <hr>
 
             <h5 class="card-title text-center">Comentários</h5>
+            <div class="mb-3">
+                <strong>Comentário: Status</strong>
+                <p th:text="${aluno.comentario.status}">
+                    Sem status do comentário.
+                </p>
+            </div>
+
             <div class="mb-3">
                 <strong>Comentário: Fatec</strong>
                 <p id="comentarioFatec" th:text="${aluno.comentario.comentarioFatec}">
