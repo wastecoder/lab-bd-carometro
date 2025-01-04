@@ -93,31 +93,27 @@ footer .container-fluid {
     margin-top: 15px;
 }
 
-input[type="text"],
-input[type="number"],
-input[type="password"],
-input[type="date"],
-input[type="url"],
-input[type="file"],
-input[type="email"],
-select.form-select {
+input.form-control,
+select.form-select,
+textarea.form-control {
     background-color: #202020;
     color: white;
-    color-scheme: dark;
     font-size: 0.95em;
 }
-
 
 select.form-select:disabled {
     background-color: #161616;
 }
 
 .form-floating input:focus,
-input:-webkit-autofill {
+textarea.form-control:focus,
+select.form-select:focus {
     background-color: #202020;
     color: white;
-    transition: background-color 0s 300s;
-    -webkit-text-fill-color: white;
+}
+
+.form-floating > textarea.form-control {
+    height: auto; /* Permite que 'rows' de textarea funcione com Bootstrap */
 }
 
 

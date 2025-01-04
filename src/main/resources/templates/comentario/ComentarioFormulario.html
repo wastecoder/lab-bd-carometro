@@ -7,18 +7,18 @@
             <input type="hidden" name="_method" value="PUT" th:if="${isEdit}"/>
 
             <div class="row">
-                <!-- Input text para Comentário FATEC -->
+                <!-- Textarea para Comentário FATEC -->
                 <div class="form-floating col-md-12">
-                    <input type="text" class="form-control" placeholder=" " th:field="*{comentarioFatec}"
-                        th:errorclass="is-invalid" maxlength="500">
+                    <textarea class="form-control" rows="8" th:field="*{comentarioFatec}" placeholder
+                        th:errorclass="is-invalid" maxlength="500"></textarea>
                     <label>Comentário Fatec</label>
                     <div class="invalid-feedback" th:errors="*{comentarioFatec}"></div>
                 </div>
 
-                <!-- Input text para Comentário LIVRE -->
+                <!-- Textarea para Comentário LIVRE -->
                 <div class="form-floating col-md-12">
-                    <input type="text" class="form-control" placeholder=" " th:field="*{comentarioLivre}"
-                        th:errorclass="is-invalid" maxlength="500">
+                    <textarea class="form-control" rows="8" th:field="*{comentarioLivre}" placeholder
+                        th:errorclass="is-invalid" maxlength="500"></textarea>
                     <label>Comentário Livre</label>
                     <div class="invalid-feedback" th:errors="*{comentarioLivre}"></div>
                 </div>
