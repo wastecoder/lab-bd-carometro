@@ -99,6 +99,7 @@ textarea.form-control {
     background-color: #202020;
     color: white;
     font-size: 0.95em;
+    color-scheme: dark;
 }
 
 select.form-select:disabled {
