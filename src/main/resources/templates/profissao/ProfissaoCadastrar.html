@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="PT-BR" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: geral('Cadastrar Profissão')}"></head>
+
+<body>
+    <header th:replace="~{fragments/AdmNavbar}"></header>
+
+    <main th:replace="~{profissao/ProfissaoFormulario('Cadastrar', '/profissoes/cadastrar/' + ${ra}, false)}"></main>
+
+    <footer th:replace="~{fragments/footer}"></footer>
+</body>
+</html>

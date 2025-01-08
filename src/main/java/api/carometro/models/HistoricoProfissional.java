@@ -2,6 +2,7 @@ package api.carometro.models;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -12,6 +13,7 @@ import java.time.Period;
         uniqueConstraints = @UniqueConstraint(name = "HistoricoProfissionalUnico",
                 columnNames = {"onde", "cargo", "inicio", "fim", "fk_aluno_historico"}))
 @Data
+@NoArgsConstructor
 public class HistoricoProfissional {
     @Id
     @Column(name = "pk_historico", nullable = false)

@@ -1,0 +1,51 @@
+<main th:fragment="profissao(formTitle, action, isEdit)">
+    <div class="central-form">
+        <h2 class="form-title" th:text="${formTitle}">Título</h2>
+
+        <form method="POST" class="form-body" th:object="${profissaoDto}" th:action="${action}">
+            <!-- Campo oculto para simular o método PUT apenas para edição -->
+            <input type="hidden" name="_method" value="PUT" th:if="${isEdit}"/>
+
+            <div class="alert alert-danger" th:if="${erroUniqueConstraint}" th:text="${erroUniqueConstraint}"></div>
+
+            <div class="row">
+
+                <!-- Input text para ONDE/Empresa -->
+                <div class="form-floating col-md-12">
+                    <input type="text" class="form-control" placeholder th:field="*{onde}"
+                        th:errorclass="is-invalid" required minlength="3" maxlength="100">
+                    <label>Empresa</label>
+                    <div class="invalid-feedback" th:errors="*{onde}"></div>
+                </div>
+
+                <!-- Input text para CARGO -->
+                <div class="form-floating col-md-12">
+                    <input type="text" class="form-control" placeholder th:field="*{cargo}"
+                        th:errorclass="is-invalid" required minlength="3" maxlength="100">
+                    <label>Cargo</label>
+                    <div class="invalid-feedback" th:errors="*{cargo}"></div>
+                </div>
+
+                <!-- Input date para Data de INÍCIO -->
+                <div class="form-floating col-md-12">
+                    <input type="date" class="form-control" placeholder th:field="*{inicio}" 
+                        th:errorclass="is-invalid" required>
+                    <label>Data de Início</label>
+                    <div class="invalid-feedback" th:errors="*{inicio}"></div>
+                </div>
+
+                <!-- Input date para Data de FIM -->
+                <div class="form-floating col-md-12">
+                    <input type="date" class="form-control" placeholder th:field="*{fim}" 
+                        th:errorclass="is-invalid" required>
+                    <label>Data de Término</label>
+                    <div class="invalid-feedback" th:errors="*{fim}"></div>
+                </div>
+
+                <button class="btn btn-primary btn-form" type="submit">
+                    <i class="fas fa-solid fa-upload"></i>Enviar
+                </button>
+            </div>
+        </form>
+    </div>
+</main>
