@@ -51,4 +51,8 @@ public class HistoricoProfissionalService {
 
         repository.save(antigo);
     }
+
+    public List<HistoricoProfissional> buscarProfissoesPorAluno(Aluno aluno) {
+        return repository.findAllByAlunoOrderByInicioAsc(aluno);
+    }
 }

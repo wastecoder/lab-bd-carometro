@@ -3,7 +3,9 @@ package api.carometro.controllers;
 import api.carometro.dtos.AlunoCadastroDto;
 import api.carometro.dtos.AlunoDto;
 import api.carometro.models.Aluno;
+import api.carometro.models.HistoricoProfissional;
 import api.carometro.services.AlunoService;
+import api.carometro.services.HistoricoProfissionalService;
 import api.carometro.services.TurmaService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
@@ -15,16 +17,20 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/alunos")
 public class AlunoController {
     @Autowired
     private final AlunoService alunoService;
     private final TurmaService turmaService;
+    private final HistoricoProfissionalService profissaoService;
 
-    public AlunoController(AlunoService alunoService, TurmaService turmaService) {
+    public AlunoController(AlunoService alunoService, TurmaService turmaService, HistoricoProfissionalService profissaoService) {
         this.alunoService = alunoService;
         this.turmaService = turmaService;
+        this.profissaoService = profissaoService;
     }
 
 
@@ -99,16 +105,41 @@ public class AlunoController {
     }
 
     @GetMapping("/perfil/{ra}")
-    public ModelAndView exibirPerfilAluno(@PathVariable String ra) {
+    public ModelAndView exibirPerfilAluno(
+            @PathVariable String ra,
+            @RequestParam(required = false) Long idProfissao) {
         Aluno alunoBuscado = alunoService.buscarAlunoRa(ra);
-
-        if (alunoBuscado != null) {
-            ModelAndView mv = new ModelAndView("aluno/AlunoExibirPerfil");
-            mv.addObject("aluno", alunoBuscado);
-
-            return mv;
+        if (alunoBuscado == null) {
+            return new ModelAndView("redirect:/alunos");
         }
-        return new ModelAndView("redirect:/alunos");
+
+        ModelAndView mv = new ModelAndView("aluno/AlunoExibirPerfil");
+        mv.addObject("aluno", alunoBuscado);
+
+        //Busca todas profissões para montar o select
+        List<HistoricoProfissional> retornoProfissoes = profissaoService.buscarProfissoesPorAluno(alunoBuscado);
+        mv.addObject("profissoes", retornoProfissoes);
+
+        HistoricoProfissional profissaoSelecionada = null;
+        if (idProfissao != null) {
+            profissaoSelecionada = retornoProfissoes.stream()
+                    .filter(prof -> prof.getPk_historico().equals(idProfissao))
+                    .findFirst()
+                    .orElse(null);
+
+            if (profissaoSelecionada == null) {
+                mv.addObject("mensagemErro",
+                        "A profissão selecionada não é válida ou não pertence a este aluno.");
+            }
+        }
+
+        //Seleciona a primeira profissão se nenhuma for selecionada
+        if (profissaoSelecionada == null && !retornoProfissoes.isEmpty()) {
+            profissaoSelecionada = retornoProfissoes.get(0);
+        }
+        mv.addObject("profissaoSelecionada", profissaoSelecionada);
+
+        return mv;
     }
 
 

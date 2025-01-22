@@ -124,32 +124,107 @@
         </div>
 
 
+        <!-- Profissões do aluno -->
+        <div class="card-body" th:if="${profissoes != null && !profissoes.isEmpty()}">
+            <hr>
+            <h5 class="card-title text-center">Histórico Profissional</h5>
+
+            <!-- Mensagem de erro -->
+            <div class="alert alert-danger" role="alert" th:if="${mensagemErro != null}">
+                <span th:text="${mensagemErro}"></span>
+            </div>
+
+            <!-- Dropdown para seleção de profissões -->
+            <div class="mb-3">
+                <label for="profissoesSelect" class="form-label"><strong>Selecione uma profissão:</strong></label>
+                <select id="profissoesSelect" class="form-select" 
+                        onchange="window.location.href=this.value;">
+                    <option th:each="profissao : ${profissoes}" 
+                            th:value="@{'/alunos/perfil/' + ${aluno.ra} + '?idProfissao=' + ${profissao.pk_historico}}" 
+                            th:text="${profissao.onde + ' - ' + profissao.cargo}" 
+                            th:selected="${profissao.pk_historico == profissaoSelecionada?.pk_historico}">
+                        Empresa - Cargo
+                    </option>
+                </select>
+            </div>
+
+            <!-- Botões de ação -->
+            <div class="d-flex justify-content-center mb-3" th:if="${profissaoSelecionada != null}">
+                <a id="editarProfissaoBtn" class="btn btn-primary me-3" 
+                th:href="@{/profissoes/editar/{id}(id=${profissaoSelecionada.pk_historico})}">
+                    <i class="fa fa-pen"></i> Editar
+                </a>
+                <a id="excluirProfissaoBtn" class="btn btn-danger" 
+                th:href="@{/profissoes/excluir/{id}(id=${profissaoSelecionada.pk_historico})}"
+                onclick="return confirm('Tem certeza que deseja excluir esta profissão?');">
+                    <i class="fa fa-trash"></i> Excluir
+                </a>
+            </div>
+
+            <!-- Detalhes da profissão selecionada -->
+            <div id="profissaoDetalhes" class="border rounded p-3" th:if="${profissaoSelecionada != null}">
+                <div class="mb-2">
+                    <strong>Empresa/Local:</strong>
+                    <span th:text="${profissaoSelecionada.onde}">Nome da empresa/local</span>
+                </div>
+                <div class="mb-2">
+                    <strong>Cargo:</strong>
+                    <span th:text="${profissaoSelecionada.cargo}">Cargo ocupado</span>
+                </div>
+                <div class="mb-2">
+                    <strong>Início:</strong>
+                    <span th:text="${#temporals.format(profissaoSelecionada.inicio, 'MM/yyyy')}">MM/AAAA</span>
+                </div>
+                <div class="mb-2">
+                    <strong>Fim:</strong>
+                    <span th:text="${profissaoSelecionada.fim != null ? #temporals.format(profissaoSelecionada.fim, 'MM/yyyy') : 'Atual'}">
+                        MM/AAAA ou Atual
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mensagem caso o aluno não tenha profissões -->
+        <div class="card-body text-center text-muted" th:if="${profissoes == null || profissoes.isEmpty()}">
+            <p>Este aluno ainda não possui histórico profissional registrado.</p>
+        </div>
+
+
         <!-- Botões --> 
-        <div class="card-footer d-flex justify-content-around p-3">
-            <a class="btn btn-primary btn-lg px-5 fs-6"
-                    th:href="@{/alunos/editar/{id}(id=${aluno.ra})}">
-                Editar
-            </a>
+        <div class="card-footer p-3">
+            <div class="d-flex justify-content-around mb-3">
+                <!-- Botão "Criar Comentário" -->
+                <a class="btn btn-warning text-light btn-lg px-5 fs-6"
+                        th:href="@{/comentarios/criar/{id}(id=${aluno.ra})}"
+                        th:if="${aluno.comentario == null}">
+                    Criar Comentário
+                </a>
+                
+                <!-- Botão "Editar Comentário" -->
+                <a class="btn btn-warning text-light btn-lg px-5 fs-6"
+                        th:href="@{/comentarios/editar/{id}(id=${aluno.ra})}"
+                        th:if="${aluno.comentario != null}">
+                    Editar Comentário
+                </a>
 
-            <!-- Botão "Criar Comentário" -->
-            <a class="btn btn-warning text-light btn-lg px-5 fs-6"
-                    th:href="@{/comentarios/criar/{id}(id=${aluno.ra})}"
-                    th:if="${aluno.comentario == null}">
-                Criar Comentário
-            </a>
-            
-            <!-- Botão "Editar Comentário" -->
-            <a class="btn btn-warning text-light btn-lg px-5 fs-6"
-                    th:href="@{/comentarios/editar/{id}(id=${aluno.ra})}"
-                    th:if="${aluno.comentario != null}">
-                Editar Comentário
-            </a>
+                <a class="btn btn-success btn-lg px-5 fs-6"
+                        th:href="@{/profissoes/cadastrar/{id}(id=${aluno.ra})}">
+                    Adicionar profissão
+                </a>
+            </div>
 
-            <a class="btn btn-danger btn-lg px-5 fs-6"
-                    type="button" data-bs-toggle="modal" data-bs-target="#modalId"
-                    th:attr="onclick=|excluirRegistro('${aluno.nome}', '/alunos/excluir/${aluno.ra}')|">
-                Excluir
-            </a>
+            <div class="d-flex justify-content-around">
+                <a class="btn btn-primary btn-lg px-5 fs-6"
+                        th:href="@{/alunos/editar/{id}(id=${aluno.ra})}">
+                    Editar
+                </a>
+
+                <a class="btn btn-danger btn-lg px-5 fs-6"
+                        type="button" data-bs-toggle="modal" data-bs-target="#modalId"
+                        th:attr="onclick=|excluirRegistro('${aluno.nome}', '/alunos/excluir/${aluno.ra}')|">
+                    Excluir
+                </a>
+            </div>
         </div>
     </div>
 </main>
