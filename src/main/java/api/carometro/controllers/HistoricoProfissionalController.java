@@ -52,7 +52,7 @@ public class HistoricoProfissionalController {
         }
 
         profissaoService.salvarProfissao(requisicao.dtoParaHistoricoProfissional(), alunoBuscado);
-        return new ModelAndView("redirect:/profissoes");
+        return new ModelAndView("redirect:/alunos/perfil/" + ra);
     }
 
     @GetMapping("/editar/{id}")
@@ -71,14 +71,15 @@ public class HistoricoProfissionalController {
 
         HistoricoProfissional profissaoAntiga = profissaoService.buscarProfissaoId(id);
         profissaoService.atualizarProfissao(profissaoAntiga, requisicao.dtoParaHistoricoProfissional());
-        return new ModelAndView("redirect:/profissoes");
+        return new ModelAndView("redirect:/alunos/perfil/" + profissaoAntiga.getAluno().getRa());
     }
 
     @DeleteMapping("/excluir/{id}")
     @Transactional
     public String excluirProfissao(@PathVariable Long id) {
+        String raAluno = profissaoService.buscarProfissaoId(id).getAluno().getRa();
         profissaoService.deletarProfissaoId(id);
-        return "redirect:/profissoes";
+        return "redirect:/alunos/perfil/" + raAluno;
     }
 
 
