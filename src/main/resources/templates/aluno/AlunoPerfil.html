@@ -150,14 +150,14 @@
 
             <!-- Botões de ação -->
             <div class="d-flex justify-content-center mb-3" th:if="${profissaoSelecionada != null}">
-                <a id="editarProfissaoBtn" class="btn btn-primary me-3" 
-                th:href="@{/profissoes/editar/{id}(id=${profissaoSelecionada.pk_historico})}">
-                    <i class="fa fa-pen"></i> Editar
+                <a class="btn btn-primary me-3 px-5 fs-6" 
+                        th:href="@{/profissoes/editar/{id}(id=${profissaoSelecionada.pk_historico})}">
+                    Editar
                 </a>
-                <a id="excluirProfissaoBtn" class="btn btn-danger" 
-                th:href="@{/profissoes/excluir/{id}(id=${profissaoSelecionada.pk_historico})}"
-                onclick="return confirm('Tem certeza que deseja excluir esta profissão?');">
-                    <i class="fa fa-trash"></i> Excluir
+                <a class="btn btn-danger px-5 fs-6"
+                        type="button" data-bs-toggle="modal" data-bs-target="#modalId"
+                        th:attr="onclick=|excluirRegistro('${profissaoSelecionada.cargo}', '/profissoes/excluir/${profissaoSelecionada.pk_historico}')|">
+                    Excluir
                 </a>
             </div>
 
