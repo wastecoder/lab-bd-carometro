@@ -138,4 +138,15 @@ class HistoricoProfissionalRepositoryTest {
         assertEquals("2 mes(es)", historicosAsc.get(1).calcularPeriodoEmpregado());
         assertEquals("2 ano(s)", historicosAsc.get(2).calcularPeriodoEmpregado());
     }
+
+    @Test
+    @DisplayName("calcularPeriodoEmpregado: calcula o tempo quando ainda empregado (fim nulo)")
+    void calcularPeriodoEmpregadoComFimNulo() {
+        HistoricoProfissional aindaEmpregado = new HistoricoProfissional("Empresa 6", "Cargo 6",
+                LocalDate.of(2024, 8, 1), null, alunoTurmaAds);
+
+        String periodoEsperado = aindaEmpregado.calcularPeriodoEmpregado();
+
+        assertEquals(periodoEsperado, aindaEmpregado.calcularPeriodoEmpregado());
+    }
 }
