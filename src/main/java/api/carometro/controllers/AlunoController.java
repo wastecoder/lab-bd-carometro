@@ -138,7 +138,9 @@ public class AlunoController {
             profissaoSelecionada = retornoProfissoes.get(0);
         }
         mv.addObject("profissaoSelecionada", profissaoSelecionada);
-        mv.addObject("periodoEmpregado", profissaoSelecionada.calcularPeriodoEmpregado());
+
+        if (profissaoSelecionada != null)
+            mv.addObject("periodoEmpregado", profissaoSelecionada.calcularPeriodoEmpregado());
 
         return mv;
     }
