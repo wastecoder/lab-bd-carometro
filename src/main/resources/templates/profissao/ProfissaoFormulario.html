@@ -37,9 +37,17 @@
                 <!-- Input date para Data de FIM -->
                 <div class="form-floating col-md-12">
                     <input type="date" class="form-control" placeholder th:field="*{fim}" 
-                        th:errorclass="is-invalid" required>
+                        th:errorclass="is-invalid">
                     <label>Data de Término</label>
                     <div class="invalid-feedback" th:errors="*{fim}"></div>
+                </div>
+
+                <!-- Checkbox para indicar que continua empregado -->
+                <div class="form-check col-md-12 mx-3 my-2">
+                    <input class="form-check-input" type="checkbox" id="aindaEmpregadoCheckbox">
+                    <label class="form-check-label" for="aindaEmpregadoCheckbox">
+                        Ainda estou empregado nesta empresa
+                    </label>
                 </div>
 
                 <button class="btn btn-primary btn-form" type="submit">

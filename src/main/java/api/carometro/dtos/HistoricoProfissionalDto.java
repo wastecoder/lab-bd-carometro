@@ -24,7 +24,6 @@ public class HistoricoProfissionalDto {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate inicio;
 
-    @NotNull(message = "Data do fim não pode ser nula")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate fim;
 

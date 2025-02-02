@@ -102,8 +102,10 @@ textarea.form-control {
     color-scheme: dark;
 }
 
-select.form-select:disabled {
+select.form-select:disabled,
+input[type="date"]:disabled {
     background-color: #161616;
+    cursor: not-allowed;
 }
 
 .form-floating input:focus,

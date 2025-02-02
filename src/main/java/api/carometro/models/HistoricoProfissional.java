@@ -30,8 +30,7 @@ public class HistoricoProfissional {
     @DateTimeFormat(pattern = "yyyy-MM-dd") //TODO: aparentemente isso é opcional para converter para o padrão brasileiro, remover depois se for desnecessário
     private LocalDate inicio;
 
-    //TODO: como saber quando ainda está empregado? Talvez deixar nulo, o que precisaria ser tratado no HTML
-    @Column(name = "fim", length = 10, nullable = false)
+    @Column(name = "fim", length = 10, nullable = true)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate fim;
 
@@ -44,6 +43,7 @@ public class HistoricoProfissional {
     @PrePersist
     @PreUpdate
     private void validarData() {
+        if (fim == null) return;
         if (fim.isBefore(inicio)) {
             throw new IllegalArgumentException("A data de FIM deve ser MAIOR do que a data de INÍCIO.");
         } else if (inicio.equals(fim)) {
@@ -52,11 +52,10 @@ public class HistoricoProfissional {
     }
 
     public String calcularPeriodoEmpregado() {
-        if (inicio == null || fim == null) {
-            return "Período indefinido";
-        }
+        if (inicio == null) return "Período indefinido";
 
-        Period periodo = Period.between(inicio, fim);
+        LocalDate dataFim = (fim == null) ? LocalDate.now() : fim;
+        Period periodo = Period.between(inicio, dataFim);
 
         if (periodo.getYears() > 0) {
             return periodo.getYears() + " ano(s)";
