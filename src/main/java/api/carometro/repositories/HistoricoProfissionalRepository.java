@@ -12,4 +12,6 @@ public interface HistoricoProfissionalRepository extends JpaRepository<Historico
 
     //Para mostrar os empregos mais recentes do aluno - fim >>> inicio
     List<HistoricoProfissional> findAllByAlunoOrderByFimDesc(Aluno aluno);
+
+    void deleteByAluno(Aluno aluno);
 }

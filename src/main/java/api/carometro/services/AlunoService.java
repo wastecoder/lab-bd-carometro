@@ -26,9 +26,11 @@ public class AlunoService {
 
     @Autowired
     private final AlunoRepository repository;
+    private final HistoricoProfissionalService profissaoService;
 
-    public AlunoService(AlunoRepository repository) {
+    public AlunoService(AlunoRepository repository, HistoricoProfissionalService profissaoService) {
         this.repository = repository;
+        this.profissaoService = profissaoService;
     }
 
 
@@ -47,13 +49,12 @@ public class AlunoService {
 
     public boolean deletarAlunoRa(String ra) {
         Aluno retorno = this.buscarAlunoRa(ra);
+        if (retorno == null) return false;
 
-        if (retorno != null) {
-            this.removerFotoAoRemoverAluno(retorno);
-            repository.deleteById(ra);
-            return true;
-        }
-        return false;
+        this.removerFotoAoRemoverAluno(retorno);
+        profissaoService.deletarProfissoesPorAluno(retorno);
+        repository.deleteById(ra);
+        return true;
     }
 
     public void atualizarAluno(Aluno antigo, Aluno novo) {
