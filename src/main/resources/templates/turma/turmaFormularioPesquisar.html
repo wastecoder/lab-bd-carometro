@@ -21,6 +21,7 @@
               <label for="anoSelect" class="visually-hidden">Ano</label>
               <select id="anoSelect" class="form-select" th:field="*{ano}" th:errorclass="is-invalid" required style="height: 50px;">
                   <option value="" disabled>Selecione um Ano</option>
+                  <option value="0">Todos anos</option>
                   <option th:each="ano : ${anos}" th:value="${ano}" th:text="${ano}"
                           th:selected="${ano == turmaDto.ano}">
                   </option>

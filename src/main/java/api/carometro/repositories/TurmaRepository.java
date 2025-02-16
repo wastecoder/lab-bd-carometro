@@ -13,4 +13,6 @@ public interface TurmaRepository extends JpaRepository<Turma, Long> {
     Page<Turma> findAllByCurso(Curso Curso, Pageable pageable);
 
     List<Turma> findAllByCursoAndAno(Curso curso, Integer ano);
+
+    List<Turma> findAllByCurso(Curso curso);
 }

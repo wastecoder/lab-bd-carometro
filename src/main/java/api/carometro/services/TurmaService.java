@@ -64,6 +64,13 @@ public class TurmaService {
         return repository.findAllByCursoAndAno(cursoBuscado, anoTurma);
     }
 
+    public List<Turma> buscarTurmasPorIdCurso(Long idCurso) {
+        Curso cursoBuscado = cursoService.cursoId(idCurso);
+        if (cursoBuscado == null) return null;
+
+        return repository.findAllByCurso(cursoBuscado);
+    }
+
 
     public List<Integer> anosPossiveis() {
         final int MINIMO = 2015;

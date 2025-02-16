@@ -101,7 +101,12 @@ public class TurmaController {
             @RequestParam(required = false, defaultValue = "2024") Integer ano) {
         ModelAndView mv = new ModelAndView("/turma/TurmaPesquisar");
 
-        List<Turma> turmasRetornadas = turmaService.buscarTurmasPorIdCursoAndAnoTurma(curso, ano);
+        List<Turma> turmasRetornadas;
+        if (ano != 0) {
+            turmasRetornadas = turmaService.buscarTurmasPorIdCursoAndAnoTurma(curso, ano);
+        } else {
+            turmasRetornadas = turmaService.buscarTurmasPorIdCurso(curso);
+        }
 
         mv.addObject("turmas", turmasRetornadas);
         mv.addObject("cursos", cursoService.todosCursos());
