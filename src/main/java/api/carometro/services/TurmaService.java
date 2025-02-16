@@ -1,5 +1,6 @@
 package api.carometro.services;
 
+import api.carometro.models.Curso;
 import api.carometro.models.Turma;
 import api.carometro.repositories.TurmaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +16,11 @@ import java.util.stream.IntStream;
 public class TurmaService {
     @Autowired
     private final TurmaRepository repository;
+    private final CursoService cursoService;
 
-    public TurmaService(TurmaRepository repository) {
+    public TurmaService(TurmaRepository repository, CursoService cursoService) {
         this.repository = repository;
+        this.cursoService = cursoService;
     }
 
 
@@ -51,6 +54,14 @@ public class TurmaService {
         antiga.setCurso(nova.getCurso());
 
         repository.save(antiga);
+    }
+
+    public List<Turma> buscarTurmasPorIdCursoAndAnoTurma(Long idCurso, Integer anoTurma) {
+        Curso cursoBuscado = cursoService.cursoId(idCurso);
+        if (cursoBuscado == null) return null;
+        //Talvez validar o ano da turma com os mesmos valores do método anosPossiveis
+
+        return repository.findAllByCursoAndAno(cursoBuscado, anoTurma);
     }
 
 

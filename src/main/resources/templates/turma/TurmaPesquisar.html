@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="PT-BR" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: geral('Pesquisar Turmas')}"></head>
+
+<body>
+    <header th:replace="~{fragments/AdmNavbar}"></header>
+
+    <main th:replace="~{turma/turmaFormularioPesquisar}"></main>
+
+    <!-- Resultado da pesquisa quando não está vazia -->
+    <th:box th:if="${turmas != null && !turmas.isEmpty()}">
+        <main th:replace="~{turma/TurmaTabela}"></main>
+    </th:box>
+
+    <!-- Resultado da pesquisa quando está vazia -->
+    <div class="card-body text-center text-muted" th:if="${turmas == null || turmas.isEmpty()}">
+        <p>Nenhuma turma neste curso e ano foi encontrada.</p>
+    </div>
+
+    <footer th:replace="~{fragments/footer}"></footer>
+</body>
+</html>

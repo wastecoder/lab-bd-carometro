@@ -15,6 +15,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/turmas")
 public class TurmaController {
@@ -90,6 +92,22 @@ public class TurmaController {
     public String excluirTurma(@PathVariable Long id) {
         turmaService.deletarTurmaId(id);
         return "redirect:/turmas";
+    }
+
+    @GetMapping("/pesquisar")
+    public ModelAndView pesquisarTurma(
+            TurmaDto requisicao,
+            @RequestParam(required = false, defaultValue = "1") Long curso,
+            @RequestParam(required = false, defaultValue = "2024") Integer ano) {
+        ModelAndView mv = new ModelAndView("/turma/TurmaPesquisar");
+
+        List<Turma> turmasRetornadas = turmaService.buscarTurmasPorIdCursoAndAnoTurma(curso, ano);
+
+        mv.addObject("turmas", turmasRetornadas);
+        mv.addObject("cursos", cursoService.todosCursos());
+        mv.addObject("anos", turmaService.anosPossiveis());
+
+        return mv;
     }
 
 

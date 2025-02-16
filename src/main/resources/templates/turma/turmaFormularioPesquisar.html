@@ -1,0 +1,40 @@
+<main th:fragment="turmaFormPesquisar">
+  <div class="container d-flex justify-content-center mt-4 mb-4">
+      <form method="GET" class="row gx-2 align-items-center" th:object="${turmaDto}" th:action="${action}">
+
+          <!-- Dropdown para Curso -->
+          <div class="col">
+              <label for="cursoSelect" class="visually-hidden">Curso</label>
+              <select id="cursoSelect" class="form-select" th:field="*{curso}" th:errorclass="is-invalid" required style="height: 50px;">
+                  <option value="" disabled>Selecione um Curso</option>
+                  <option th:each="curso : ${cursos}"
+                          th:value="${curso.pk_curso}"
+                          th:text="${curso.nome}"
+                          th:selected="${curso.pk_curso} == ${turmaDto.curso?.pk_curso}">
+                  </option>
+              </select>
+              <div class="invalid-feedback" th:errors="*{curso}"></div>
+          </div>
+
+          <!-- Dropdown para Ano -->
+          <div class="col-2">
+              <label for="anoSelect" class="visually-hidden">Ano</label>
+              <select id="anoSelect" class="form-select" th:field="*{ano}" th:errorclass="is-invalid" required style="height: 50px;">
+                  <option value="" disabled>Selecione um Ano</option>
+                  <option th:each="ano : ${anos}" th:value="${ano}" th:text="${ano}"
+                          th:selected="${ano == turmaDto.ano}">
+                  </option>
+              </select>
+              <div class="invalid-feedback" th:errors="*{ano}"></div>
+          </div>
+
+          <!-- Botão de pesquisa -->
+          <div class="col-auto">
+              <button class="btn btn-primary" type="submit">
+                  Pesquisar
+              </button>
+          </div>
+
+      </form>
+  </div>
+</main>
