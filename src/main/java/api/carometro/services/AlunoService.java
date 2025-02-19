@@ -8,8 +8,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -40,8 +41,8 @@ public class AlunoService {
         repository.save(alunoNovo);
     }
 
-    public List<Aluno> todosAlunos() {
-        return repository.findAll();
+    public Page<Aluno> todosAlunos(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
     public Aluno buscarAlunoRa(String ra) {
@@ -131,7 +132,11 @@ public class AlunoService {
         return repository.findByComentarioStatus(StatusComentario.PENDENTE);
     }
 
-    public List<Aluno> buscarAlunoPorParteNome(String parteNome) {
-        return repository.findByNomeContainingOrderByNomeAsc(parteNome);
+    public Page<Aluno> buscarAlunoPorParteNome(String parteNome, PageRequest pageRequest) {
+        return repository.findByNomeContainingOrderByNomeAsc(parteNome, pageRequest);
+    }
+
+    public PageRequest definirPageRequest(int paginaAtual, int itemsPorPagina) {
+        return PageRequest.of(paginaAtual, itemsPorPagina);
     }
 }

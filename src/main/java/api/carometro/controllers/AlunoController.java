@@ -11,6 +11,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -37,9 +39,13 @@ public class AlunoController {
 
 
     @GetMapping
-    public ModelAndView exibirPaginaInicial() {
+    public ModelAndView exibirPaginaInicial(
+            @RequestParam(defaultValue = "0") int pagina,
+            @RequestParam(defaultValue = "10") int tamanho
+    ) {
         ModelAndView mv = new ModelAndView("/aluno/AlunoHome");
-        mv.addObject("alunos", alunoService.todosAlunos());
+        PageRequest pageRequest = alunoService.definirPageRequest(pagina, tamanho);
+        mv.addObject("alunos", alunoService.todosAlunos(pageRequest));
         return mv;
     }
 
@@ -150,17 +156,27 @@ public class AlunoController {
     @GetMapping("/pesquisar")
     public ModelAndView pesquisarAluno(
             @RequestParam(required = false) Long ra,
-            @RequestParam(required = false) String nome
+            @RequestParam(required = false, defaultValue = "") String nome,
+            @RequestParam(defaultValue = "0") int pagina,
+            @RequestParam(defaultValue = "10") int tamanho
     ) {
         ModelAndView mv = new ModelAndView("/aluno/AlunoPesquisar");
 
-        if (nome != null) { //Se enviar os dois, o nome tem prioridade
-            mv.addObject("alunos", alunoService.buscarAlunoPorParteNome(nome));
+        PageRequest pageRequest = alunoService.definirPageRequest(pagina, tamanho);
+        Page<Aluno> alunos;
+
+        if (!nome.trim().isEmpty()) {
+            alunos = alunoService.buscarAlunoPorParteNome(nome, pageRequest);
         } else if (ra != null) {
-            mv.addObject("alunos", alunoService.buscarAlunoRa(String.valueOf(ra)));
+            Aluno aluno = alunoService.buscarAlunoRa(String.valueOf(ra));
+
+            // Se aluno for encontrado, cria uma Page com ele; senão, retorna Page vazia
+            alunos = (aluno != null) ? new PageImpl<>(List.of(aluno)) : Page.empty();
         } else {
-            mv.addObject("alunos", alunoService.todosAlunos());
+            alunos = alunoService.todosAlunos(pageRequest);
         }
+
+        mv.addObject("alunos", alunos);
         mv.addObject("alunoDto", new AlunoCadastroDto());
 
         return mv;
