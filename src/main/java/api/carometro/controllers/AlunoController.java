@@ -11,6 +11,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -145,6 +147,25 @@ public class AlunoController {
         return mv;
     }
 
+    @GetMapping("/pesquisar")
+    public ModelAndView pesquisarAluno(
+            @RequestParam(required = false) Long ra,
+            @RequestParam(required = false) String nome
+    ) {
+        ModelAndView mv = new ModelAndView("/aluno/AlunoPesquisar");
+
+        if (nome != null) { //Se enviar os dois, o nome tem prioridade
+            mv.addObject("alunos", alunoService.buscarAlunoPorParteNome(nome));
+        } else if (ra != null) {
+            mv.addObject("alunos", alunoService.buscarAlunoRa(String.valueOf(ra)));
+        } else {
+            mv.addObject("alunos", alunoService.todosAlunos());
+        }
+        mv.addObject("alunoDto", new AlunoCadastroDto());
+
+        return mv;
+    }
+
 
     private ModelAndView criarViewParaFormulario(String view, Object requisicao) {
         ModelAndView mv = new ModelAndView(view);
@@ -160,5 +181,11 @@ public class AlunoController {
         mv.addObject("turmasJson", turmasCadastradasComoJson);
 
         return mv;
+    }
+
+    private PageRequest definirPageRequest() {
+        final int PAGINA_ATUAL = 0;
+        final int ITEMS_POR_PAGINA = 10;
+        return PageRequest.of(PAGINA_ATUAL, ITEMS_POR_PAGINA, Sort.by("nome").ascending());
     }
 }

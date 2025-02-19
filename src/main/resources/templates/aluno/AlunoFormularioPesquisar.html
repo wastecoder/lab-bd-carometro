@@ -1,0 +1,30 @@
+<main th:fragment="alunoFormPesquisar">
+    <div class="container d-flex justify-content-center mt-4 mb-4">
+        <form method="GET" class="row gx-2 align-items-center" th:object="${alunoDto}" th:action="${action}">
+
+            <!-- Input number para RA -->
+            <div class="col-4">
+                <input type="number" id="raInput" class="form-control bg-dark text-white" placeholder="RA" style="height: 50px;"
+                       th:field="*{ra}" min="0">
+            </div>
+
+            <div class="col-1 d-flex align-items-center justify-content-center text-white">
+                <p class="m-0">ou</p>
+            </div>
+
+            <!-- Input text para Nome -->
+            <div class="col-6">
+                <input type="text" id="nomeInput" class="form-control bg-dark text-white" placeholder="Nome" style="height: 50px;"
+                       th:field="*{nome}" minlength="3" maxlength="100">
+            </div>
+
+            <!-- Botão de pesquisa -->
+            <div class="col-1">
+                <button class="btn btn-primary" type="submit">
+                    Pesquisar
+                </button>
+            </div>
+
+        </form>
+    </div>
+</main>

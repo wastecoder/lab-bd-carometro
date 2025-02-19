@@ -17,4 +17,6 @@ public interface AlunoRepository extends JpaRepository<Aluno, String> {
 
     List<Aluno> findByComentarioIsNotNull();
     List<Aluno> findByComentarioStatus(StatusComentario status);
+
+    List<Aluno> findByNomeContainingOrderByNomeAsc(String nome);
 }

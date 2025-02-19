@@ -8,6 +8,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -127,5 +129,9 @@ public class AlunoService {
 
     public List<Aluno> alunosComComentariosPendentes() {
         return repository.findByComentarioStatus(StatusComentario.PENDENTE);
+    }
+
+    public List<Aluno> buscarAlunoPorParteNome(String parteNome) {
+        return repository.findByNomeContainingOrderByNomeAsc(parteNome);
     }
 }
