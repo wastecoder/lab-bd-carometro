@@ -155,7 +155,7 @@ public class AlunoController {
 
     @GetMapping("/pesquisar")
     public ModelAndView pesquisarAluno(
-            @RequestParam(required = false) Long ra,
+            @RequestParam(required = false, defaultValue = "") String ra,
             @RequestParam(required = false, defaultValue = "") String nome,
             @RequestParam(defaultValue = "0") int pagina,
             @RequestParam(defaultValue = "10") int tamanho
@@ -167,8 +167,8 @@ public class AlunoController {
 
         if (!nome.trim().isEmpty()) {
             alunos = alunoService.buscarAlunoPorParteNome(nome, pageRequest);
-        } else if (ra != null) {
-            Aluno aluno = alunoService.buscarAlunoRa(String.valueOf(ra));
+        } else if (!ra.trim().isEmpty()) {
+            Aluno aluno = alunoService.buscarAlunoRa(ra);
 
             // Se aluno for encontrado, cria uma Page com ele; senão, retorna Page vazia
             alunos = (aluno != null) ? new PageImpl<>(List.of(aluno)) : Page.empty();
