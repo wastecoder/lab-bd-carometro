@@ -8,7 +8,15 @@
 
     <main th:replace="~{aluno/AlunoFormularioPesquisar}"></main>
 
-    <main th:replace="~{aluno/AlunoTabela}"></main>
+    <!-- Resultado da pesquisa quando não está vazia -->
+    <th:box th:if="${alunos != null && !alunos.isEmpty()}">
+        <main th:replace="~{aluno/AlunoTabela}"></main>
+    </th:box>
+
+    <!-- Resultado da pesquisa quando está vazia -->
+    <div th:if="${alunos == null || alunos.isEmpty()}" class="card-body text-center text-muted" >
+        <p>Nenhum aluno foi encontrado nesta pesquisa.</p>
+    </div>
 
     <footer th:replace="~{fragments/footer}"></footer>
 
