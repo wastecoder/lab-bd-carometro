@@ -1,0 +1,45 @@
+<header th:fragment="deslogado">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <!-- Brand -->
+        <a class="navbar-brand fs-4 mx-2" href="/alunos">Aluno</a>
+    
+        <!-- Toggler/collapse button -->
+        <button class="navbar-toggler mx-2" type="button" data-toggle="collapse" data-target="#navbarContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <!-- Navbar content -->
+        <div class="collapse navbar-collapse" id="navbarContent">
+    
+            <!-- Centered Links -->
+            <ul class="navbar-nav mx-auto"></ul>
+    
+            <!-- Right aligned links -->
+            <ul class="navbar-nav">
+                <!-- Botão de PESQUISAR -->
+                <li class="nav-item active">
+                    <a class="nav-link" href="/alunos/pesquisar">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        Pesquisar
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/alunos/cadastrar" class="nav-link" data-toggle="modal" data-target="#signupModal">
+                        <span class="fa fa-user"></span>
+                        Cadastrar
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/alunos/login" class="nav-link" data-toggle="modal" data-target="#loginModal">
+                        <span class="fa fa-sign-in"></span>
+                        Entrar
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>    
+</header>
+
+<!-- JS necessários para os dropdowns funcionarem -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
