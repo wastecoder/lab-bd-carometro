@@ -59,4 +59,12 @@ public class HistoricoProfissionalService {
     public void deletarProfissoesPorAluno(Aluno aluno) {
         repository.deleteByAluno(aluno);
     }
+
+    public List<HistoricoProfissional> pesquisarProfissoesPorRaAluno(String ra) {
+        return repository.findByAluno_RaOrderByInicioAsc(ra);
+    }
+
+    public List<HistoricoProfissional> pesquisarProfissoesPorNomeAluno(String nome) {
+        return repository.findByAluno_NomeContainingIgnoreCaseOrderByInicioAsc(nome);
+    }
 }

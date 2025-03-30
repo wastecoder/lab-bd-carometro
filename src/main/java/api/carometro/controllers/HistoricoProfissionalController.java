@@ -1,5 +1,6 @@
 package api.carometro.controllers;
 
+import api.carometro.dtos.AlunoCadastroDto;
 import api.carometro.dtos.HistoricoProfissionalDto;
 import api.carometro.models.Aluno;
 import api.carometro.models.HistoricoProfissional;
@@ -8,9 +9,12 @@ import api.carometro.services.HistoricoProfissionalService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/profissoes")
@@ -80,6 +84,28 @@ public class HistoricoProfissionalController {
         String raAluno = profissaoService.buscarProfissaoId(id).getAluno().getRa();
         profissaoService.deletarProfissaoId(id);
         return "redirect:/alunos/perfil/" + raAluno;
+    }
+
+    @GetMapping("/pesquisar")
+    public ModelAndView pesquisarProfissao(
+            @RequestParam(required = false) String ra,
+            @RequestParam(required = false) String nome
+    ) {
+        ModelAndView mv = new ModelAndView("/profissao/ProfissaoPesquisar");
+
+        List<HistoricoProfissional> profissoes;
+        if (StringUtils.hasText(nome)) { //Nome com prioridade
+            profissoes = profissaoService.pesquisarProfissoesPorNomeAluno(nome);
+        } else if (StringUtils.hasText(ra)) {
+            profissoes = profissaoService.pesquisarProfissoesPorRaAluno(ra);
+        } else {
+            profissoes = profissaoService.todasProfissoes();
+        }
+
+        mv.addObject("profissoes", profissoes);
+        mv.addObject("alunoDto", new AlunoCadastroDto());
+
+        return mv;
     }
 
 
