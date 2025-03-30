@@ -14,4 +14,7 @@ public interface HistoricoProfissionalRepository extends JpaRepository<Historico
     List<HistoricoProfissional> findAllByAlunoOrderByFimDesc(Aluno aluno);
 
     void deleteByAluno(Aluno aluno);
+
+    List<HistoricoProfissional> findByAluno_NomeContainingIgnoreCaseOrderByInicioAsc(String nome);
+    List<HistoricoProfissional> findByAluno_RaOrderByInicioAsc(String ra);
 }

@@ -42,14 +42,20 @@ class HistoricoProfissionalRepositoryTest {
     private Curso cursoAds;
     private Turma turmaNoturnaAds;
     private Aluno alunoTurmaAds;
+    private Aluno alunaTurmaAds2;
 
     @BeforeEach
     void setUp() {
         cursoAds = cursoRepository.save(new Curso("Análise e Desenvolvimento de Sistemas",
                 TipoCurso.TECNOLOGO, ModalidadeCurso.PRESENCIAL));
         turmaNoturnaAds = turmaRepository.save(new Turma(2024, SemestreTurma.PRIMEIRO, TurnoTurma.NOTURNO, cursoAds));
-        alunoTurmaAds = alunoRepository.save(new Aluno("1110482222022", "senha", "nome",
+
+        alunoTurmaAds = alunoRepository.save(new Aluno("1110482222022", "senha", "Pedro Mendes",
                 LocalDate.of(2003, 11, 10), "foto", "linkedin",
+                "github", "lattes", null, turmaNoturnaAds));
+
+        alunaTurmaAds2 = alunoRepository.save(new Aluno("2220994444011", "senha", "Maria Clara",
+                LocalDate.of(2004, 10, 25), "foto", "linkedin",
                 "github", "lattes", null, turmaNoturnaAds));
 
         inicializarHistoricosProfissionais();
@@ -62,7 +68,11 @@ class HistoricoProfissionalRepositoryTest {
                 new HistoricoProfissional("Empresa 2", "Cargo 2", LocalDate.of(2022, 2, 20),
                         LocalDate.of(2022, 4, 20), alunoTurmaAds),
                 new HistoricoProfissional("Empresa 3", "Cargo 3", LocalDate.of(2022, 5, 1),
-                        LocalDate.of(2024, 5, 1), alunoTurmaAds)
+                        LocalDate.of(2024, 5, 1), alunoTurmaAds),
+                new HistoricoProfissional("Empresa 4", "Cargo 4", LocalDate.of(2022, 5, 1),
+                        LocalDate.of(2024, 5, 1), alunaTurmaAds2),
+                new HistoricoProfissional("Empresa 5", "Cargo 5", LocalDate.of(2022, 5, 1),
+                        LocalDate.of(2024, 5, 1), alunaTurmaAds2)
         ));
     }
 
@@ -148,5 +158,27 @@ class HistoricoProfissionalRepositoryTest {
         String periodoEsperado = aindaEmpregado.calcularPeriodoEmpregado();
 
         assertEquals(periodoEsperado, aindaEmpregado.calcularPeriodoEmpregado());
+    }
+
+    @Test
+    @DisplayName("findByAluno_RaOrderByInicioAsc: busca por RA do aluno e ordena pela data de início")
+    void findByAluno_RaOrderByInicioAsc() {
+        List<HistoricoProfissional> resultados = historicoRepository.findByAluno_RaOrderByInicioAsc("1110482222022");
+
+        assertEquals(3, resultados.size());
+        assertEquals(LocalDate.of(2022, 1, 1), resultados.get(0).getInicio());
+        assertEquals(LocalDate.of(2022, 2, 20), resultados.get(1).getInicio());
+        assertEquals(LocalDate.of(2022, 5, 1), resultados.get(2).getInicio());
+    }
+
+    @Test
+    @DisplayName("findByAluno_NomeContainingIgnoreCaseOrderByInicioAsc: busca por parte do nome do aluno ignorando maiúsculas/minúsculas e ordena pela data de início")
+    void findByAluno_NomeContainingIgnoreCaseOrderByInicioAsc() {
+        List<HistoricoProfissional> resultados = historicoRepository.findByAluno_NomeContainingIgnoreCaseOrderByInicioAsc("Mendes");
+
+        assertEquals(3, resultados.size());
+        assertEquals("Empresa 1", resultados.get(0).getOnde());
+        assertEquals("Empresa 2", resultados.get(1).getOnde());
+        assertEquals("Empresa 3", resultados.get(2).getOnde());
     }
 }
