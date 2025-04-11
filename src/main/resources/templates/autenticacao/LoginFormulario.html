@@ -1,0 +1,32 @@
+<main th:fragment="login">
+    <div class="central-form">
+        <h2 class="form-title">Iniciar Sessão</h2>
+
+        <form method="POST" class="form-body" th:action="@{/login}">
+            <div class="row">
+                <!-- Campo de e-mail -->
+                <div class="form-floating col-md-12">
+                    <input type="email" class="form-control" placeholder=" " name="username" required>
+                    <label>Email</label>
+                </div>
+
+                <!-- Campo de senha -->
+                <div class="form-floating col-md-12">
+                    <input type="password" class="form-control" placeholder=" " name="password" required>
+                    <label>Senha</label>
+                </div>
+
+                <!-- Link "Esqueceu a senha?" -->
+                <div class="col-md-12 mb-2">
+                    <a href="#" class="text-decoration-none">Esqueceu a senha?</a>
+                </div>
+
+                <!-- Botão de login -->
+                <button class="btn btn-primary btn-form" type="submit">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Entrar
+                </button>
+            </div>
+        </form>
+    </div>
+</main>
