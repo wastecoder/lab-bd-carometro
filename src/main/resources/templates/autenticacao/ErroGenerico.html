@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="PT-BR" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: geral('Página de Erro')}"></head>
+
+<body>
+    <div class="text-white">
+        <div class="d-flex align-items-center justify-content-center min-vh-100 px-2">
+            <div class="text-center">
+                <h1 class="display-1 fw-bold" th:text="${titulo}">
+                    Número do erro
+                </h1>
+
+                <p class="fs-2 fw-medium mt-4" th:text="${descricao}">
+                    Descrição
+                </p>
+
+                <p class="mt-4 mb-5" th:text="${mensagem}">
+                    Mensagem explicativa do erro
+                </p>
+
+                <a th:href="@{/}" class="btn btn-light fw-semibold rounded-pill px-4 py-2 custom-btn">
+                    Voltar para o início
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
