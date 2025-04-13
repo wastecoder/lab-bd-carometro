@@ -3,6 +3,11 @@
         <h2 class="form-title">Iniciar Sessão</h2>
 
         <form method="POST" class="form-body" th:action="@{/login}">
+
+            <div class="alert alert-danger" th:if="${loginErrado}">
+                O e-mail e a senha não correspondem.
+            </div>
+
             <div class="row">
                 <!-- Campo de e-mail -->
                 <div class="form-floating col-md-12">
