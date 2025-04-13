@@ -232,3 +232,29 @@ a.disabled {
     color: #888;
     text-decoration: none;
 }
+
+
+    /* Questionário de logout/sair */
+.logout-container {
+    width: 280px;
+    height: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #1A1A1A;
+    border-radius: 24px;
+}
+
+.logout-text {
+    font-size: 0.9rem;
+}
+
+.custom-cancel {
+    background-color: transparent;
+}
+
+.custom-cancel:hover {
+    color: white !important;
+    background-color: #333 !important;
+}

@@ -41,7 +41,7 @@ public class SecurityConfig {
                         .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
 
                         // TODOS: home e perfis
-                        .requestMatchers("/", "/alunos", "/alunos/perfil/**").permitAll()
+                        .requestMatchers("/", "/alunos", "/alunos/perfil/**", "/sair").permitAll()
 
                         // ADM: todas URLs
                         .anyRequest().hasRole("ADMIN")

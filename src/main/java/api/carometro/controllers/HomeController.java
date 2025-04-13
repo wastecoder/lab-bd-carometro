@@ -15,6 +15,6 @@ public class HomeController {
      */
     @GetMapping
     public String exibirPaginaInicial() {
-        return "redirect:/cursos";
+        return "redirect:/alunos";
     }
 }
