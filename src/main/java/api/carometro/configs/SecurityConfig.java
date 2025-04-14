@@ -1,5 +1,6 @@
 package api.carometro.configs;
 
+import jakarta.servlet.RequestDispatcher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -12,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 
 @Configuration
 @EnableMethodSecurity
@@ -47,7 +49,7 @@ public class SecurityConfig {
                         .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
 
                         // TODOS: home, perfis e pesquisar alunos
-                        .requestMatchers("/", "/alunos", "/alunos/perfil/**", "/alunos/pesquisar").permitAll()
+                        .requestMatchers("/", "/alunos", "/alunos/perfil/**", "/alunos/pesquisar", "/error").permitAll()
 
                         // ALUNO: logout e o próprio perfil
                         .requestMatchers("/sair").hasAnyRole("ALUNO", "ADMIN")
@@ -67,8 +69,19 @@ public class SecurityConfig {
                         .logoutSuccessUrl("/")
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID")
+                )
+                .exceptionHandling(exception -> exception
+                        .accessDeniedHandler(accessDeniedHandler())
                 );
 
         return http.build();
+    }
+
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler() {
+        return (request, response, accessDeniedException) -> {
+            request.setAttribute(RequestDispatcher.ERROR_STATUS_CODE, 403);
+            request.getRequestDispatcher("/error").forward(request, response);
+        };
     }
 }
