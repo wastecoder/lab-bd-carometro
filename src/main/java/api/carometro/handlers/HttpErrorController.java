@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.Map;
 
 @Controller
-public class ErrorController implements org.springframework.boot.web.servlet.error.ErrorController {
+public class HttpErrorController implements org.springframework.boot.web.servlet.error.ErrorController {
 
     private static final Map<HttpStatus, String[]> ERROR_MESSAGES = Map.of(
             HttpStatus.NOT_FOUND, new String[]{"Página não encontrada", "A página que você está procurando não existe ou foi movida."},

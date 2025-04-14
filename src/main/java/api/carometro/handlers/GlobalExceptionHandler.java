@@ -1,11 +1,14 @@
 package api.carometro.handlers;
 
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.UnexpectedRollbackException;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -23,6 +26,20 @@ public class GlobalExceptionHandler {
         model.addAttribute("descricao", "Violação de integridade de dados");
         model.addAttribute("mensagem", "Não foi possível salvar. Verifique se há duplicatas ou se preencheu todos os campos obrigatórios.");
         return "autenticacao/ErroGenerico";
+    }
+
+    /**
+     * Ocorre quando o usuário acessa uma página que não existe.
+     * OBS: daria para deixar igual o handleGenericError() abaixo, mas eu mandei
+     * para o HttpErrorController para evitar código repetido e centralizar erros 403, 404 e 500.
+     * <p>
+     * Exemplo:
+     * - Acessar uma URL inválida (ex: /pagina-inexistente).
+     */
+    @ExceptionHandler(NoResourceFoundException.class)
+    public String handleNotFound(HttpServletRequest request) {
+        request.setAttribute(RequestDispatcher.ERROR_STATUS_CODE, 404);
+        return "forward:/error";
     }
 
     /**
