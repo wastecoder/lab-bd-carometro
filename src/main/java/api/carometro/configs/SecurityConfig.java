@@ -25,7 +25,13 @@ public class SecurityConfig {
                 .roles("ADMIN")
                 .build();
 
-        return new InMemoryUserDetailsManager(admin);
+        UserDetails aluno = User
+                .withUsername("aluno@teste.com")
+                .password(passwordEncoder.encode("123456"))
+                .roles("ALUNO")
+                .build();
+
+        return new InMemoryUserDetailsManager(admin, aluno);
     }
 
     @Bean
@@ -40,8 +46,11 @@ public class SecurityConfig {
                         // TODOS: arquivos estáticos
                         .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
 
-                        // TODOS: home e perfis
-                        .requestMatchers("/", "/alunos", "/alunos/perfil/**").permitAll()
+                        // TODOS: home, perfis e pesquisar alunos
+                        .requestMatchers("/", "/alunos", "/alunos/perfil/**", "/alunos/pesquisar").permitAll()
+
+                        // ALUNO: logout e o próprio perfil
+                        .requestMatchers("/sair").hasAnyRole("ALUNO", "ADMIN")
 
                         // ADM: todas URLs
                         .anyRequest().hasRole("ADMIN")
