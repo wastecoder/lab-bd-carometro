@@ -27,4 +27,11 @@ public class Administrador {
     @Column(name = "cargo", length = 11, nullable = false)
     @Enumerated(EnumType.STRING)
     private CargoAdm cargo;
+
+    public Administrador(String email, String senha, String nome, CargoAdm cargo) {
+        this.email = email;
+        this.senha = senha;
+        this.nome = nome;
+        this.cargo = cargo;
+    }
 }

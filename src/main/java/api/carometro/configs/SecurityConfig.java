@@ -1,40 +1,24 @@
 package api.carometro.configs;
 
+import api.carometro.enums.CargoAdm;
+import api.carometro.models.Administrador;
+import api.carometro.repositories.AdministradorRepository;
+import api.carometro.services.AdminUserDetailsService;
 import jakarta.servlet.RequestDispatcher;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
 @Configuration
 @EnableMethodSecurity
 public class SecurityConfig {
-
-    @Bean
-    public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
-        UserDetails admin = User
-                .withUsername("admin@fatec.sp.gov.br")
-                .password(passwordEncoder.encode("123456"))
-                .roles("ADMIN")
-                .build();
-
-        UserDetails aluno = User
-                .withUsername("aluno@teste.com")
-                .password(passwordEncoder.encode("123456"))
-                .roles("ALUNO")
-                .build();
-
-        return new InMemoryUserDetailsManager(admin, aluno);
-    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -83,5 +67,22 @@ public class SecurityConfig {
             request.setAttribute(RequestDispatcher.ERROR_STATUS_CODE, 403);
             request.getRequestDispatcher("/error").forward(request, response);
         };
+    }
+
+    @Bean
+    public CommandLineRunner criarAdminInicial(AdministradorRepository repo, PasswordEncoder encoder) {
+        return args -> repo
+                .findByEmail("admin@fatec.sp.gov.br")
+                .orElseGet(() -> repo.save(new Administrador(
+                        "admin@fatec.sp.gov.br",
+                        encoder.encode("123456"),
+                        "Administrador Inicial",
+                        CargoAdm.COORDENADOR
+                )));
+    }
+
+    @Bean
+    public UserDetailsService userDetailsService(AdministradorRepository repo) {
+        return new AdminUserDetailsService(repo);
     }
 }
