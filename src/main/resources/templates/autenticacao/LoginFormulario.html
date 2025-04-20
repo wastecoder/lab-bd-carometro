@@ -5,14 +5,14 @@
         <form method="POST" class="form-body" th:action="@{/login}">
 
             <div class="alert alert-danger" th:if="${loginErrado}">
-                O e-mail e a senha não correspondem.
+                O e-mail/RA e a senha não correspondem.
             </div>
 
             <div class="row">
-                <!-- Campo de e-mail -->
+                <!-- Campo de e-mail ou RA -->
                 <div class="form-floating col-md-12">
-                    <input type="email" class="form-control" placeholder=" " name="username" required>
-                    <label>Email</label>
+                    <input type="text" class="form-control" placeholder=" " name="username" required>
+                    <label>Email ou RA</label>
                 </div>
 
                 <!-- Campo de senha -->

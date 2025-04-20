@@ -3,7 +3,8 @@ package api.carometro.configs;
 import api.carometro.enums.CargoAdm;
 import api.carometro.models.Administrador;
 import api.carometro.repositories.AdministradorRepository;
-import api.carometro.services.AdminUserDetailsService;
+import api.carometro.repositories.AlunoRepository;
+import api.carometro.services.CustomUserDetailsService;
 import jakarta.servlet.RequestDispatcher;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -82,7 +83,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public UserDetailsService userDetailsService(AdministradorRepository repo) {
-        return new AdminUserDetailsService(repo);
+    public UserDetailsService userDetailsService(AdministradorRepository adminRepo, AlunoRepository alunoRepo) {
+        return new CustomUserDetailsService(adminRepo, alunoRepo);
     }
 }
