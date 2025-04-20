@@ -18,7 +18,7 @@ public class Aluno {
     private String ra;
 
     @Column(name = "senha", length = 100, nullable = false)
-    private String senha; //TODO: armazenar criptografada
+    private String senha;
 
 
     @Column(name = "nome", length = 100, nullable = false)

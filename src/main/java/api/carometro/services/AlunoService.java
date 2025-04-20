@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,14 +31,17 @@ public class AlunoService {
     @Autowired
     private final AlunoRepository repository;
     private final HistoricoProfissionalService profissaoService;
+    private final PasswordEncoder passwordEncoder;
 
-    public AlunoService(AlunoRepository repository, HistoricoProfissionalService profissaoService) {
+    public AlunoService(AlunoRepository repository, HistoricoProfissionalService profissaoService, PasswordEncoder passwordEncoder) {
         this.repository = repository;
         this.profissaoService = profissaoService;
+        this.passwordEncoder = passwordEncoder;
     }
 
 
     public void salvarAluno(Aluno alunoNovo) {
+        alunoNovo.setSenha(passwordEncoder.encode(alunoNovo.getSenha()));
         repository.save(alunoNovo);
     }
 
@@ -61,7 +65,6 @@ public class AlunoService {
     }
 
     public void atualizarAluno(Aluno antigo, Aluno novo) {
-        antigo.setSenha(novo.getSenha());
         antigo.setNome(novo.getNome());
         antigo.setDataNascimento(novo.getDataNascimento());
         antigo.setTurma(novo.getTurma());
@@ -70,6 +73,12 @@ public class AlunoService {
         antigo.setUrlGithub(novo.getUrlGithub());
         antigo.setUrlLattes(novo.getUrlLattes());
         antigo.setComentario(novo.getComentario());
+
+        String novaSenha = novo.getSenha();
+        if (novaSenha != null && !novaSenha.startsWith("$2")) { //Para evitar criptografar 2x se não alterar a senha
+            novaSenha = passwordEncoder.encode(novaSenha);
+        }
+        antigo.setSenha(novaSenha);
 
         repository.save(antigo);
     }
