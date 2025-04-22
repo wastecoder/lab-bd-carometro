@@ -4,6 +4,7 @@ import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.transaction.UnexpectedRollbackException;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -39,6 +40,23 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NoResourceFoundException.class)
     public String handleNotFound(HttpServletRequest request) {
         request.setAttribute(RequestDispatcher.ERROR_STATUS_CODE, 404);
+        return "forward:/error";
+    }
+
+    /**
+     * Ocorre quando o usuário tenta acessar algo que ele não tem permissão.
+     * O AccessDeniedHandler, tratado no SecurityConfig, é lançado em requisições
+     * bloqueadas pelo método securityFilterChain().
+     * A exceção AuthorizationDeniedException é lançada depois disso, pelo @PreAuthorize.
+     * <p>
+     * Exemplo:
+     * - Usuário logado como "111111" tenta excluir o aluno "222222".
+     *   A regra @PreAuthorize("#ra == authentication.name or hasRole('ADMIN')") impede isso,
+     *   e lança AuthorizationDeniedException.
+     */
+    @ExceptionHandler(AuthorizationDeniedException.class)
+    public String handleAccessDenied(HttpServletRequest request) {
+        request.setAttribute(RequestDispatcher.ERROR_STATUS_CODE, 403);
         return "forward:/error";
     }
 
