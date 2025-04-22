@@ -74,6 +74,18 @@ public class AdministradorController {
         return "redirect:/administradores";
     }
 
+    @GetMapping("/perfil/{id}")
+    public ModelAndView exibirPerfilAdministrador(@PathVariable Long id) {
+        Administrador administradorBuscado = admService.buscarAdministradorId(id);
+        if (administradorBuscado == null)
+            return new ModelAndView("redirect:/administradores");
+
+        ModelAndView mv = new ModelAndView("administrador/AdministradorExibirPerfil");
+        mv.addObject("administrador", administradorBuscado);
+
+        return mv;
+    }
+
 
     private ModelAndView criarViewParaFormulario(String view, Object requisicao) {
         ModelAndView mv = new ModelAndView(view);
