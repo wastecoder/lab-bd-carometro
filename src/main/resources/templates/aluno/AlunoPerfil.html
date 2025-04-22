@@ -149,7 +149,9 @@
             </div>
 
             <!-- Botões de ação -->
-            <div class="d-flex justify-content-center mb-3" th:if="${profissaoSelecionada != null}">
+            <div class="d-flex justify-content-center mb-3"
+            th:if="${profissaoSelecionada != null and
+            (#authentication.name == aluno.ra or #authorization.expression('hasRole(''ADMIN'')'))}">
                 <a class="btn btn-primary me-3 px-5 fs-6" 
                         th:href="@{/profissoes/editar/{id}(id=${profissaoSelecionada.pk_historico})}">
                     Editar
@@ -195,7 +197,8 @@
 
 
         <!-- Botões --> 
-        <div class="card-footer p-3">
+        <div class="card-footer p-3"
+        th:if="${#authentication.name == aluno.ra or #authorization.expression('hasRole(''ADMIN'')')}">
             <div class="d-flex justify-content-around mb-3">
                 <!-- Botão "Criar Comentário" -->
                 <a class="btn btn-warning text-light btn-lg px-5 fs-6"
