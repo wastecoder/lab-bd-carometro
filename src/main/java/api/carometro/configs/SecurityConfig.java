@@ -29,6 +29,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .csrf(csrf -> csrf.disable()) //Deixa vulnerável, em produção use token
                 .authorizeHttpRequests(auth -> auth
                         // TODOS: arquivos estáticos
                         .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
