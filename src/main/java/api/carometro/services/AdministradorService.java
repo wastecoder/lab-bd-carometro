@@ -35,6 +35,10 @@ public class AdministradorService {
         return optional.orElse(null);
     }
 
+    public Optional<Administrador> buscarAdministradorEmail(String email) {
+        return repository.findByEmail(email);
+    }
+
     public boolean deletarAdministradorId(Long id) {
         Administrador retorno = this.buscarAdministradorId(id);
 
