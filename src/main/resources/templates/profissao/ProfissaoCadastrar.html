@@ -4,7 +4,7 @@
 <head th:replace="~{fragments/head :: geral('Cadastrar Profissão')}"></head>
 
 <body>
-    <header th:replace="~{fragments/AdmNavbar}"></header>
+    <header th:replace="~{autenticacao/NavbarFragment}"></header>
 
     <main th:replace="~{profissao/ProfissaoFormulario('Cadastrar', '/profissoes/cadastrar/' + ${ra}, false)}"></main>
 
