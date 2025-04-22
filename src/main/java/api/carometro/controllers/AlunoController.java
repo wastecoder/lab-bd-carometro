@@ -8,6 +8,8 @@ import api.carometro.services.AlunoService;
 import api.carometro.services.HistoricoProfissionalService;
 import api.carometro.services.TurmaService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -108,11 +111,17 @@ public class AlunoController {
         return new ModelAndView("redirect:/alunos/perfil/" + ra);
     }
 
-//    @PreAuthorize("#ra == authentication.name or hasRole('ADMIN')") //TODO: por algum motivo não está funcionando
+    @PreAuthorize("#ra == authentication.name or hasRole('ADMIN')")
     @DeleteMapping("/excluir/{ra}")
     @Transactional
-    public String excluirAluno(@PathVariable String ra) {
+    public String excluirAluno(@PathVariable String ra, HttpServletRequest request, HttpServletResponse response) {
         alunoService.deletarAlunoRa(ra);
+
+        if (ra.equals(request.getUserPrincipal().getName())) {
+            new SecurityContextLogoutHandler().logout(request, response, null);
+            return "redirect:/login?logout";
+        }
+
         return "redirect:/alunos";
     }
 
