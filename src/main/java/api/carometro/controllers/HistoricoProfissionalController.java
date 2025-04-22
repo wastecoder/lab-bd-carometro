@@ -8,6 +8,7 @@ import api.carometro.services.AlunoService;
 import api.carometro.services.HistoricoProfissionalService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
@@ -35,6 +36,7 @@ public class HistoricoProfissionalController {
         return mv;
     }
 
+    @PreAuthorize("#ra == authentication.name or hasRole('ADMIN')")
     @GetMapping("/cadastrar/{ra}")
     public ModelAndView exibirFormularioCadastro(@PathVariable String ra) {
         Aluno alunoBuscado = alunoService.buscarAlunoRa(ra);
@@ -44,6 +46,7 @@ public class HistoricoProfissionalController {
         return criarViewParaFormulario("/profissao/ProfissaoCadastrar", new HistoricoProfissionalDto());
     }
 
+    @PreAuthorize("#ra == authentication.name or hasRole('ADMIN')")
     @PostMapping("/cadastrar/{ra}")
     @Transactional
     public ModelAndView salvarCadastroProfissao(@PathVariable String ra, @Valid HistoricoProfissionalDto requisicao, BindingResult resultadoValidacao) {
@@ -59,6 +62,7 @@ public class HistoricoProfissionalController {
         return new ModelAndView("redirect:/alunos/perfil/" + ra);
     }
 
+    //TODO: criar @PreAuthorize para permitir que o aluno logado edite e exclua sua própria profissão
     @GetMapping("/editar/{id}")
     public ModelAndView exibirFormularioEdicao(@PathVariable Long id) {
         HistoricoProfissional profissaoBuscada = profissaoService.buscarProfissaoId(id);

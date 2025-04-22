@@ -36,8 +36,8 @@ public class SecurityConfig {
                         // TODOS: home, perfis e pesquisar alunos
                         .requestMatchers("/", "/alunos", "/alunos/perfil/**", "/alunos/pesquisar", "/error").permitAll()
 
-                        // ALUNO: logout e o próprio perfil
-                        .requestMatchers("/sair").hasAnyRole("ALUNO", "ADMIN")
+                        // LOGADOS: logout e o próprio perfil - lógica no @PreAuthorize do Controller
+                        .requestMatchers("/sair", "/alunos/editar/**", "/alunos/excluir/**", "/comentarios/criar/**", "/profissoes/cadastrar/**").hasAnyRole("ALUNO", "ADMIN")
 
                         // ADM: todas URLs
                         .anyRequest().hasRole("ADMIN")

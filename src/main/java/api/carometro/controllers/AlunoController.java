@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -72,6 +73,7 @@ public class AlunoController {
         return new ModelAndView("redirect:/alunos");
     }
 
+    @PreAuthorize("#ra == authentication.name or hasRole('ADMIN')")
     @GetMapping("/editar/{ra}")
     public ModelAndView exibirFormularioEdicao(@PathVariable String ra) {
         Aluno alunoBuscado = alunoService.buscarAlunoRa(ra);
@@ -85,6 +87,7 @@ public class AlunoController {
         return new ModelAndView("redirect:/alunos");
     }
 
+    @PreAuthorize("#ra == authentication.name or hasRole('ADMIN')")
     @PutMapping("/editar/{ra}")
     @Transactional
     public ModelAndView salvarEdicaoAluno(
@@ -105,6 +108,7 @@ public class AlunoController {
         return new ModelAndView("redirect:/alunos/perfil/" + ra);
     }
 
+//    @PreAuthorize("#ra == authentication.name or hasRole('ADMIN')") //TODO: por algum motivo não está funcionando
     @DeleteMapping("/excluir/{ra}")
     @Transactional
     public String excluirAluno(@PathVariable String ra) {
