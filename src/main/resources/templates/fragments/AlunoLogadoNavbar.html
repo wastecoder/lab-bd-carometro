@@ -1,7 +1,9 @@
 <header th:fragment="logado">
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <!-- Brand -->
-        <a class="navbar-brand fs-4 mx-2" href="/alunos">Aluno</a>
+        <a class="navbar-brand fs-4 mx-2" th:href="@{/alunos}">
+            Aluno
+        </a>
 
         <!-- Toggler/collapse button -->
         <button class="navbar-toggler mx-2" type="button" data-toggle="collapse" data-target="#navbarContent">
@@ -12,61 +14,45 @@
         <div class="collapse navbar-collapse" id="navbarContent">
 
             <!-- Centered Links -->
-            <ul class="navbar-nav mx-auto">
+            <ul class="navbar-nav mx-auto"></ul>
+
+            <!-- Right aligned links -->
+            <ul class="navbar-nav">
+
+                <!-- Botão de INÍCIO -->
                 <li class="nav-item active">
-                    <a class="nav-link" href="/alunos">
+                    <a class="nav-link" th:href="@{/}">
                         <i class="fa-solid fa-house"></i>
-                        Página inicial
+                        Início
                     </a>
                 </li>
 
-                <!-- Botão de COMENTÁRIO -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="dropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="fa-solid fa-comments"></span>
-                        Comentário
-                    </a>
-                    <div class="dropdown-menu bg-dark" aria-labelledby="dropdown1">
-                        <a class="dropdown-item text-light" href="#">Início</a>
-                        <a class="dropdown-item text-light" href="#">Cadastrar</a>
-                    </div>
-                </li>
-
-                <!-- Botão de HISTÓRICO PROFISSIONAL -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="dropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="fa-solid fa-building-circle-check"></span>
-                        Trabalho
-                    </a>
-                    <div class="dropdown-menu bg-dark" aria-labelledby="dropdown2">
-                        <a class="dropdown-item text-light" href="#">Início</a>
-                        <a class="dropdown-item text-light" href="#">Cadastrar</a>
-                    </div>
-                </li>
-
+                <!-- Botão de PESQUISAR -->
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" th:href="@{/alunos/pesquisar}">
                         <i class="fa-solid fa-magnifying-glass"></i>
                         Pesquisar
                     </a>
                 </li>
-            </ul>
 
-            <!-- Right aligned links -->
-            <ul class="navbar-nav">
+                <!-- Botão de PERFIL -->
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a th:href="@{'/alunos/perfil/' + ${#authentication.name}}" class="nav-link">
                         <span class="fa fa-user"></span>
                         Perfil
                     </a>
                 </li>
+
+                <!-- Botão de SAIR -->
                 <li class="nav-item">
                     <a th:href="@{/sair}" class="nav-link">
                         <span class="fa-solid fa-right-from-bracket"></span>
                         Sair
                     </a>
                 </li>
+
             </ul>
+
         </div>
     </nav>
 </header>
