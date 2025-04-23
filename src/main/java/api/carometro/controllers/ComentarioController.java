@@ -59,7 +59,7 @@ public class ComentarioController {
         alunoBuscado.setComentario(requisicao.dtoParaComentario());
         alunoService.salvarAluno(alunoBuscado);
 
-        return new ModelAndView("redirect:/comentarios");
+        return new ModelAndView("redirect:/alunos/perfil/" + alunoBuscado.getRa());
     }
 
     @PreAuthorize("#ra == authentication.name or hasRole('ADMIN')")
@@ -88,7 +88,7 @@ public class ComentarioController {
         alunoBuscado.setComentario(requisicao.dtoParaComentario());
         alunoService.salvarAluno(alunoBuscado);
 
-        return new ModelAndView("redirect:/comentarios");
+        return new ModelAndView("redirect:/alunos/perfil/" + alunoBuscado.getRa());
     }
 
     @GetMapping("/pendentes")

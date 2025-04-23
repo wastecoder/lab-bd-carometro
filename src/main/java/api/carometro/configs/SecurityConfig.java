@@ -40,7 +40,7 @@ public class SecurityConfig {
                         // LOGADOS: logout e o próprio perfil - lógica no @PreAuthorize do Controller
                         .requestMatchers("/sair",
                                 "/alunos/editar/**", "/alunos/excluir/**",
-                                "/comentarios/criar/**",
+                                "/comentarios/criar/**", "/comentarios/editar/**",
                                 "/profissoes/cadastrar/**", "/profissoes/editar/**", "/profissoes/excluir/**")
                         .hasAnyRole("ALUNO", "ADMIN")
 
