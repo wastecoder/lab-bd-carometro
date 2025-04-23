@@ -83,6 +83,7 @@ public class HistoricoProfissionalController {
         return new ModelAndView("redirect:/alunos/perfil/" + profissaoAntiga.getAluno().getRa());
     }
 
+    @PreAuthorize("@historicoProfissionalService.ehDonoDoHistorico(#id) or hasRole('ADMIN')")
     @DeleteMapping("/excluir/{id}")
     @Transactional
     public String excluirProfissao(@PathVariable Long id) {
