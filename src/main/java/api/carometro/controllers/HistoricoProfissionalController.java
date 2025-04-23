@@ -62,7 +62,7 @@ public class HistoricoProfissionalController {
         return new ModelAndView("redirect:/alunos/perfil/" + ra);
     }
 
-    //TODO: criar @PreAuthorize para permitir que o aluno logado edite e exclua sua própria profissão
+    @PreAuthorize("@historicoProfissionalService.ehDonoDoHistorico(#id) or hasRole('ADMIN')")
     @GetMapping("/editar/{id}")
     public ModelAndView exibirFormularioEdicao(@PathVariable Long id) {
         HistoricoProfissional profissaoBuscada = profissaoService.buscarProfissaoId(id);
@@ -70,6 +70,7 @@ public class HistoricoProfissionalController {
         return criarViewParaFormulario("/profissao/ProfissaoEditar", profissaoBuscada);
     }
 
+    @PreAuthorize("@historicoProfissionalService.ehDonoDoHistorico(#id) or hasRole('ADMIN')")
     @PutMapping("/editar/{id}")
     @Transactional
     public ModelAndView salvarEdicaoProfissao(@PathVariable Long id, @Valid HistoricoProfissionalDto requisicao, BindingResult resultadoValidacao) {
