@@ -41,7 +41,13 @@ public class AlunoService {
 
 
     public void salvarAluno(Aluno alunoNovo) {
-        alunoNovo.setSenha(passwordEncoder.encode(alunoNovo.getSenha()));
+
+        String novaSenha = alunoNovo.getSenha();
+        if (novaSenha != null && !novaSenha.startsWith("$2")) { //Para evitar criptografar 2x ao criar/atualizar comentário
+            novaSenha = passwordEncoder.encode(novaSenha);
+            alunoNovo.setSenha(novaSenha);
+        }
+
         repository.save(alunoNovo);
     }
 
