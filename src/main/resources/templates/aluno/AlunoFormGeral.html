@@ -17,15 +17,6 @@
 
             <div class="row">
 
-                <!-- Input password para Senha -->
-                <!-- <div class="form-floating col-md-12">
-                    <input type="password" class="form-control" placeholder=" " th:field="*{senha}" 
-                        th:errorclass="is-invalid" required minlength="5" maxlength="100">
-                    <label>Senha</label>
-                    <div class="invalid-feedback" th:errors="*{senha}"></div>
-                </div> -->
-                <input type="hidden" th:field="*{senha}" th:value="${alunoDto.senha}" />
-
                 <!-- Input text para Nome -->
                 <div class="form-floating col-md-12">
                     <input type="text" class="form-control" placeholder=" " th:field="*{nome}" 

@@ -80,12 +80,6 @@ public class AlunoService {
         antigo.setUrlLattes(novo.getUrlLattes());
         antigo.setComentario(novo.getComentario());
 
-        String novaSenha = novo.getSenha();
-        if (novaSenha != null && !novaSenha.startsWith("$2")) { //Para evitar criptografar 2x se não alterar a senha
-            novaSenha = passwordEncoder.encode(novaSenha);
-        }
-        antigo.setSenha(novaSenha);
-
         repository.save(antigo);
     }
 
