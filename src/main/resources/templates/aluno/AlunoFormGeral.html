@@ -9,6 +9,10 @@
             <!-- Campo oculto para enviar pk_turma da Turma selecionada -->
             <input type="hidden" id="pk_turma" name="turma.pk_turma" />
 
+            <input type="hidden" id="turma_ano" name="turma.ano" th:value="${alunoDto?.turma?.ano}" />
+            <input type="hidden" id="turma_semestre" name="turma.semestre" th:value="${alunoDto?.turma?.semestre}" />
+            <input type="hidden" id="turma_turno" name="turma.turno" th:value="${alunoDto?.turma?.turno}" />
+
             <div class="alert alert-danger" th:if="${raExistente}" th:text="${raExistente}"></div>
 
             <div class="row">
