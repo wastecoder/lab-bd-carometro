@@ -18,6 +18,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -36,9 +37,13 @@ class AlunoRepositoryTest {
     private AlunoRepository alunoRepository;
 
     private Curso cursoAds;
+    private Turma turmaNoturnaAds;
+
+    private Curso cursoLgt;
     private Turma turmaMatutinaLgt;
 
     private Aluno pedroMendes;
+    private Aluno joaoSilva;
     private Aluno anaMaria;
     private Aluno mariaLuiza;
 
@@ -46,9 +51,9 @@ class AlunoRepositoryTest {
     void setUp() {
         cursoAds = cursoRepository.save(new Curso("Análise e Desenvolvimento de Sistemas",
                 TipoCurso.TECNOLOGO, ModalidadeCurso.PRESENCIAL));
-        Turma turmaNoturnaAds = turmaRepository.save(new Turma(2024, SemestreTurma.PRIMEIRO, TurnoTurma.NOTURNO, cursoAds));
+        turmaNoturnaAds = turmaRepository.save(new Turma(2024, SemestreTurma.PRIMEIRO, TurnoTurma.NOTURNO, cursoAds));
 
-        Curso cursoLgt = cursoRepository.save(new Curso("Logística", TipoCurso.POS_GRADUACAO, ModalidadeCurso.HIBRIDO));
+        cursoLgt = cursoRepository.save(new Curso("Logística", TipoCurso.POS_GRADUACAO, ModalidadeCurso.HIBRIDO));
         turmaMatutinaLgt = turmaRepository.save(new Turma(2024, SemestreTurma.PRIMEIRO, TurnoTurma.MATUTINO, cursoLgt));
 
         pedroMendes = alunoRepository.save(new Aluno("1110482222011", "senha1", "Pedro Mendes da Silva",
@@ -57,6 +62,8 @@ class AlunoRepositoryTest {
                 LocalDate.of(1949, 4, 1), "foto2", null,null, null, null, turmaNoturnaAds));
         mariaLuiza = alunoRepository.save(new Aluno("1110482222033", "senha3", "Maria Luiza Mendes",
                 LocalDate.of(2006, 6, 25), "foto3", null,null, null, null, turmaMatutinaLgt));
+        joaoSilva = alunoRepository.save(new Aluno("1110482222044", "senha4", "João Silva",
+                LocalDate.of(2000, 1, 15), "foto4", null, null, null, null, turmaNoturnaAds));
     }
 
     @Test
@@ -88,9 +95,9 @@ class AlunoRepositoryTest {
         Page<Aluno> pagina = alunoRepository
                 .findAllByTurmaCurso(cursoAds, definirPageRequest());
 
-        assertEquals(2, pagina.getTotalElements(), "A busca por cursoAds deve retornar 2 alunos");
+        assertEquals(3, pagina.getTotalElements(), "A busca por cursoAds deve retornar 3 alunos");
         assertEquals(anaMaria, pagina.getContent().get(0), "O primeiro aluno deve ser Ana Maria");
-        assertEquals(pedroMendes, pagina.getContent().get(1), "O segundo aluno deve ser Pedro Mendes");
+        assertEquals(joaoSilva, pagina.getContent().get(1), "O segundo aluno deve ser João Silva");
     }
 
     @Test
@@ -101,6 +108,23 @@ class AlunoRepositoryTest {
 
         assertEquals(1, pagina.getTotalElements(), "A busca pela turmaMatutinaLgt deve retornar 1 aluno");
         assertEquals(mariaLuiza, pagina.getContent().get(0), "O único aluno deve ser Maria Luiza");
+    }
+
+    @Test
+    @DisplayName("findAllByOrderByTurma_Curso_NomeAscNomeAsc: retorna alunos ordenados por curso e nome")
+    void findAllByOrderByTurma_Curso_NomeAscNomeAsc() {
+        List<Aluno> alunosOrdenados = alunoRepository.findAllByOrderByTurma_Curso_NomeAscNomeAsc();
+
+        assertEquals(4, alunosOrdenados.size(), "Deveria retornar 4 alunos.");
+        assertEquals(cursoAds.getNome(), alunosOrdenados.get(0).getTurma().getCurso().getNome(), "O primeiro aluno deveria ser de ADS.");
+        assertEquals(cursoAds.getNome(), alunosOrdenados.get(1).getTurma().getCurso().getNome(), "O segundo aluno deveria ser de ADS.");
+        assertEquals(cursoAds.getNome(), alunosOrdenados.get(2).getTurma().getCurso().getNome(), "O terceiro aluno deveria ser de ADS.");
+        assertEquals(cursoLgt.getNome(), alunosOrdenados.get(3).getTurma().getCurso().getNome(), "O quarto aluno deveria ser de Logística.");
+
+        assertEquals("Ana Maria Braga", alunosOrdenados.get(0).getNome(), "O primeiro aluno de ADS deveria ser Ana Maria.");
+        assertEquals("João Silva", alunosOrdenados.get(1).getNome(), "O segundo aluno de ADS deveria ser João Silva.");
+        assertEquals("Pedro Mendes da Silva", alunosOrdenados.get(2).getNome(), "O terceiro aluno de ADS deveria ser Pedro Mendes.");
+        assertEquals("Maria Luiza Mendes", alunosOrdenados.get(3).getNome(), "O primeiro aluno de Logística deveria ser Maria Luiza.");
     }
 
     private PageRequest definirPageRequest() {
