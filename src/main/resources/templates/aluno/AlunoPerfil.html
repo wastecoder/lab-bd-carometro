@@ -97,7 +97,11 @@
 
 
         <!-- Comentários do aluno -->
-        <div class="card-body" th:if="${aluno.comentario != null}">
+        <div class="card-body"
+            th:if="${aluno.comentario != null and 
+                (aluno.comentario.status.name() == 'APROVADO' 
+                or #authentication.name == aluno.ra 
+                or #authorization.expression('hasRole(''ADMIN'')'))}">
             <hr>
 
             <h5 class="card-title text-center">Comentários</h5>
