@@ -51,8 +51,16 @@ public class AlunoService {
         repository.save(alunoNovo);
     }
 
+    public List<Aluno> todosAlunos() {
+        return repository.findAll();
+    }
+
     public Page<Aluno> todosAlunos(Pageable pageable) {
         return repository.findAll(pageable);
+    }
+
+    public List<Aluno> todosAlunosOrdenadosPorCurso() {
+        return repository.findAllByOrderByTurma_Curso_NomeAscNomeAsc();
     }
 
     public Aluno buscarAlunoRa(String ra) {

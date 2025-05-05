@@ -8,13 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/")
 public class HomeController {
 
-    /*
-    TODO: diferenciar se é ADM ou aluno
-    ADM: redirecionar para /cursos
-    Alunos: exibir N alunos, com suas fotos e cursos
-     */
     @GetMapping
     public String exibirPaginaInicial() {
         return "redirect:/alunos";
     }
+
 }

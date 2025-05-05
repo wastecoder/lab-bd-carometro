@@ -43,13 +43,16 @@ public class AlunoController {
 
 
     @GetMapping
-    public ModelAndView exibirPaginaInicial(
-            @RequestParam(defaultValue = "0") int pagina,
-            @RequestParam(defaultValue = "10") int tamanho
-    ) {
-        ModelAndView mv = new ModelAndView("/aluno/AlunoHome");
-        PageRequest pageRequest = alunoService.definirPageRequest(pagina, tamanho);
-        mv.addObject("alunos", alunoService.todosAlunos(pageRequest));
+    public ModelAndView exibirPaginaInicial() {
+        ModelAndView mv = new ModelAndView("/aluno/AlunoExibirHome");
+        mv.addObject("alunos", alunoService.todosAlunosOrdenadosPorCurso());
+        return mv;
+    }
+
+    @GetMapping("/tabela")
+    public ModelAndView exibirTabelaAlunos() {
+        ModelAndView mv = new ModelAndView("/aluno/AlunoExibirTabela");
+        mv.addObject("alunos", alunoService.todosAlunos());
         return mv;
     }
 
