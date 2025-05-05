@@ -105,7 +105,9 @@
             <hr>
 
             <h5 class="card-title text-center">Comentários</h5>
-            <div class="mb-3">
+            <div class="mb-3"
+            th:if="${#authentication.name == aluno.ra or
+                #authorization.expression('hasRole(''ADMIN'')')}">
                 <strong>Comentário: Status</strong>
                 <p th:text="${aluno.comentario.status}">
                     Sem status do comentário.
