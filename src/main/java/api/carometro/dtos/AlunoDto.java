@@ -11,11 +11,6 @@ import java.time.LocalDate;
 
 @Data
 public class AlunoDto {
-    @NotEmpty(message = "Senha não pode ser vazia")
-    @NotBlank(message = "Senha não deve ter apenas espaço")
-    @Size(min = 5, max = 50, message = "Senha deve ter entre 5 e 100 caracteres")
-    private String senha;
-
     @NotEmpty(message = "Nome não pode ser vazio")
     @NotBlank(message = "Nome não pode conter apenas espaço")
     @Size(min = 3, max = 100, message = "Nome deve ter entre 3 a 100 caracteres")
@@ -56,7 +51,6 @@ public class AlunoDto {
     public Aluno dtoParaAluno() {
         Aluno aluno = new Aluno();
 
-        aluno.setSenha(this.getSenha());
         aluno.setNome(this.getNome());
         aluno.setDataNascimento(this.getDataNascimento());
         aluno.setTurma(this.getTurma());

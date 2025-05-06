@@ -7,6 +7,7 @@ import api.carometro.services.ComentarioService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +33,7 @@ public class ComentarioController {
         return mv;
     }
 
+    @PreAuthorize("#ra == authentication.name or hasRole('ADMIN')")
     @GetMapping("/criar/{ra}")
     public ModelAndView exibirFormularioCadastro(@PathVariable String ra) {
         Aluno alunoBuscado = alunoService.buscarAlunoRa(ra);
@@ -41,6 +43,7 @@ public class ComentarioController {
         return criarViewParaFormulario("/comentario/ComentarioCadastrar", new ComentarioDto());
     }
 
+    @PreAuthorize("#ra == authentication.name or hasRole('ADMIN')")
     @PostMapping("/criar/{ra}")
     @Transactional
     public ModelAndView salvarCadastroComentario(@Valid ComentarioDto requisicao, @PathVariable String ra, BindingResult resultadoValidacao) {
@@ -56,9 +59,10 @@ public class ComentarioController {
         alunoBuscado.setComentario(requisicao.dtoParaComentario());
         alunoService.salvarAluno(alunoBuscado);
 
-        return new ModelAndView("redirect:/comentarios");
+        return new ModelAndView("redirect:/alunos/perfil/" + alunoBuscado.getRa());
     }
 
+    @PreAuthorize("#ra == authentication.name or hasRole('ADMIN')")
     @GetMapping("/editar/{ra}")
     public ModelAndView exibirFormularioEdicao(@PathVariable String ra) {
         Aluno alunoBuscado = alunoService.buscarAlunoRa(ra);
@@ -68,6 +72,7 @@ public class ComentarioController {
         return criarViewParaFormulario("/comentario/ComentarioEditar", alunoBuscado.getComentario());
     }
 
+    @PreAuthorize("#ra == authentication.name or hasRole('ADMIN')")
     @PutMapping("/editar/{ra}")
     @Transactional
     public ModelAndView salvarEdicaoComentario(@PathVariable String ra, @Valid ComentarioDto requisicao, BindingResult resultadoValidacao) {
@@ -83,7 +88,7 @@ public class ComentarioController {
         alunoBuscado.setComentario(requisicao.dtoParaComentario());
         alunoService.salvarAluno(alunoBuscado);
 
-        return new ModelAndView("redirect:/comentarios");
+        return new ModelAndView("redirect:/alunos/perfil/" + alunoBuscado.getRa());
     }
 
     @GetMapping("/pendentes")

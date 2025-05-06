@@ -1,7 +1,9 @@
 <header th:fragment="deslogado">
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <!-- Brand -->
-        <a class="navbar-brand fs-4 mx-2" href="/alunos">Aluno</a>
+        <a class="navbar-brand fs-4 mx-2" th:href="@{/alunos}">
+            Aluno
+        </a>
     
         <!-- Toggler/collapse button -->
         <button class="navbar-toggler mx-2" type="button" data-toggle="collapse" data-target="#navbarContent">
@@ -16,26 +18,33 @@
     
             <!-- Right aligned links -->
             <ul class="navbar-nav">
+
+                <!-- Botão de INÍCIO -->
+                <li class="nav-item active">
+                    <a class="nav-link" th:href="@{/}">
+                        <i class="fa-solid fa-house"></i>
+                        Início
+                    </a>
+                </li>
+
                 <!-- Botão de PESQUISAR -->
                 <li class="nav-item active">
-                    <a class="nav-link" href="/alunos/pesquisar">
+                    <a class="nav-link" th:href="@{/alunos/pesquisar}">
                         <i class="fa-solid fa-magnifying-glass"></i>
                         Pesquisar
                     </a>
                 </li>
+
+                <!-- Botão de ENTRAR -->
                 <li class="nav-item">
-                    <a href="/alunos/cadastrar" class="nav-link" data-toggle="modal" data-target="#signupModal">
-                        <span class="fa fa-user"></span>
-                        Cadastrar
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/alunos/login" class="nav-link" data-toggle="modal" data-target="#loginModal">
+                    <a th:href="@{/login}" class="nav-link">
                         <span class="fa fa-sign-in"></span>
                         Entrar
                     </a>
                 </li>
+
             </ul>
+
         </div>
     </nav>    
 </header>

@@ -1,9 +1,11 @@
 const turmas = JSON.parse(turmasJsonGlobal); // Pega a variável global do HTML AlunoFormCadastrar
+const alunoAtual = JSON.parse(alunoJsonGlobal);
 
 const cursoSelect = document.getElementById("curso");
 const anoSelect = document.getElementById("ano");
 const semestreSelect = document.getElementById("semestre");
 const turnoSelect = document.getElementById("turno");
+const pkTurmaInput = document.getElementById("pk_turma");
 
 // Função para limpar o conteúdo de um dropdown
 function limparDropdown(selectElement, placeholder) {
@@ -55,6 +57,9 @@ cursoSelect.addEventListener("change", () => {
     );
     limparDropdown(semestreSelect, "Selecione o Semestre");
     limparDropdown(turnoSelect, "Selecione o Turno");
+
+    // Se o curso for alterado, limpa o pk_turma
+    pkTurmaInput.value = "";
 });
 
 // Atualiza o dropdown de semestres com base no ano selecionado
@@ -74,6 +79,9 @@ anoSelect.addEventListener("change", () => {
         "Selecione o Semestre"
     );
     limparDropdown(turnoSelect, "Selecione o Turno");
+
+    // Se o ano for alterado, limpa o pk_turma
+    pkTurmaInput.value = "";
 });
 
 // Atualiza o dropdown de turnos com base no semestre selecionado
@@ -95,15 +103,18 @@ semestreSelect.addEventListener("change", () => {
         turnos.map((turno) => ({ value: turno, text: turno })),
         "Selecione o Turno"
     );
+
+    // Se o semestre for alterado, limpa o pk_turma
+    pkTurmaInput.value = "";
 });
 
-// Função para atualizar o campo oculto 'pk_turma' com a chave da turma selecionada
-function atualizarPkTurma(
-    cursoSelecionadoPk,
-    anoSelecionado,
-    semestreSelecionado,
-    turnoSelecionado
-) {
+// Atualiza o campo oculto 'pk_turma' quando o turno é selecionado
+turnoSelect.addEventListener("change", () => {
+    const cursoSelecionadoPk = cursoSelect.value;
+    const anoSelecionado = anoSelect.value;
+    const semestreSelecionado = semestreSelect.value;
+    const turnoSelecionado = turnoSelect.value;
+
     const turmaSelecionada = turmas.find(
         (t) =>
             t.curso.pk_curso === parseInt(cursoSelecionadoPk) &&
@@ -114,51 +125,30 @@ function atualizarPkTurma(
 
     if (turmaSelecionada) {
         console.log("Turma selecionada:", turmaSelecionada);
-        document.getElementById("pk_turma").value = turmaSelecionada.pk_turma;
+        pkTurmaInput.value = turmaSelecionada.pk_turma;
+        document.getElementById("turma_ano").value = turmaSelecionada.ano;
+        document.getElementById("turma_semestre").value =
+            turmaSelecionada.semestre;
+        document.getElementById("turma_turno").value = turmaSelecionada.turno;
     } else {
         console.error(
             "Nenhuma turma encontrada para os critérios selecionados"
         );
-        document.getElementById("pk_turma").value = ""; // Limpa o campo se não encontrar
+        pkTurmaInput.value = "";
+        document.getElementById("turma_ano").value = "";
+        document.getElementById("turma_semestre").value = "";
+        document.getElementById("turma_turno").value = "";
         alert("Por favor, selecione uma turma válida.");
     }
-}
-
-// Atualiza o campo oculto 'pk_turma' quando o turno é selecionado
-turnoSelect.addEventListener("change", () => {
-    const cursoSelecionadoPk = cursoSelect.value;
-    const anoSelecionado = anoSelect.value;
-    const semestreSelecionado = semestreSelect.value;
-    const turnoSelecionado = turnoSelect.value;
-
-    atualizarPkTurma(
-        cursoSelecionadoPk,
-        anoSelecionado,
-        semestreSelecionado,
-        turnoSelecionado
-    );
 });
 
 // Simula a seleção dos dropdowns na edição
 document.addEventListener("DOMContentLoaded", () => {
-    const alunoAtual = JSON.parse(alunoJsonGlobal); // Aluno no modo edição
-
-    // Preencher cursos no dropdown
-    const cursosUnicos = [
-        ...new Map(turmas.map((t) => [t.curso.pk_curso, t.curso])).values(),
-    ];
-    preencherDropdown(
-        cursoSelect,
-        cursosUnicos.map((c) => ({ value: c.pk_curso, text: c.nome })),
-        "Selecione um Curso"
-    );
-
     if (alunoAtual && alunoAtual.turma) {
-        // Simular seleção com base no aluno atual
         cursoSelect.value = alunoAtual.turma.curso.pk_curso;
         cursoSelect.dispatchEvent(new Event("change")); // Atualiza o dropdown de anos
 
-        // Espera o preenchimento do dropdown de anos
+        // Espera um pouco para preencher, em ordem: ano, semestre, turno
         setTimeout(() => {
             anoSelect.value = alunoAtual.turma.ano;
             anoSelect.dispatchEvent(new Event("change")); // Atualiza o dropdown de semestres
@@ -170,8 +160,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 setTimeout(() => {
                     turnoSelect.value = alunoAtual.turma.turno;
                     turnoSelect.dispatchEvent(new Event("change")); // Garante que pk_turma seja atualizada
-                }, 200); // Espera o preenchimento dos turnos
-            }, 200); // Espera o preenchimento dos semestres
-        }, 200); // Espera o preenchimento dos anos
+                }, 100);
+            }, 100);
+        }, 100);
     }
 });

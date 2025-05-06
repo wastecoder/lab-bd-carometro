@@ -9,18 +9,13 @@
             <!-- Campo oculto para enviar pk_turma da Turma selecionada -->
             <input type="hidden" id="pk_turma" name="turma.pk_turma" />
 
+            <input type="hidden" id="turma_ano" name="turma.ano" th:value="${alunoDto?.turma?.ano}" />
+            <input type="hidden" id="turma_semestre" name="turma.semestre" th:value="${alunoDto?.turma?.semestre}" />
+            <input type="hidden" id="turma_turno" name="turma.turno" th:value="${alunoDto?.turma?.turno}" />
+
             <div class="alert alert-danger" th:if="${raExistente}" th:text="${raExistente}"></div>
 
             <div class="row">
-
-                <!-- Input password para Senha -->
-                <!-- <div class="form-floating col-md-12">
-                    <input type="password" class="form-control" placeholder=" " th:field="*{senha}" 
-                        th:errorclass="is-invalid" required minlength="5" maxlength="100">
-                    <label>Senha</label>
-                    <div class="invalid-feedback" th:errors="*{senha}"></div>
-                </div> -->
-                <input type="hidden" th:field="*{senha}" th:value="${alunoDto.senha}" />
 
                 <!-- Input text para Nome -->
                 <div class="form-floating col-md-12">

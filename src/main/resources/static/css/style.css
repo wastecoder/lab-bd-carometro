@@ -232,3 +232,82 @@ a.disabled {
     color: #888;
     text-decoration: none;
 }
+
+
+    /* Questionário de logout/sair */
+.logout-container {
+    width: 280px;
+    height: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #1A1A1A;
+    border-radius: 24px;
+}
+
+.logout-text {
+    font-size: 0.9rem;
+}
+
+.custom-cancel {
+    background-color: transparent;
+}
+
+.custom-cancel:hover {
+    color: white !important;
+    background-color: #333 !important;
+}
+
+
+    /* Página inicial */
+.home-container {
+    max-width: 80%;
+}
+
+.home-card-link {
+    text-decoration: none;
+    width: 300px;
+}
+
+.home-card {
+    width: 300px;
+    height: 300px;
+}
+
+.home-image-wrapper {
+    width: 300px;
+    height: 300px;
+    overflow: hidden;
+}
+
+.home-img-size {
+    width: 300px !important;
+    height: 300px !important;
+    object-fit: cover;
+    display: block;
+}
+
+.home-card-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.home-title,
+.home-course {
+    max-width: 100%;
+}
+
+.home-empty-alunos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 120px); /* 60px navbar + 40px footer + 20px p-2 */
+    color: white;
+    font-size: 2rem;
+    text-transform: uppercase;
+    text-align: center;
+}
