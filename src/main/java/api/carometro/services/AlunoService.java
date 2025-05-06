@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,19 +31,36 @@ public class AlunoService {
     @Autowired
     private final AlunoRepository repository;
     private final HistoricoProfissionalService profissaoService;
+    private final PasswordEncoder passwordEncoder;
 
-    public AlunoService(AlunoRepository repository, HistoricoProfissionalService profissaoService) {
+    public AlunoService(AlunoRepository repository, HistoricoProfissionalService profissaoService, PasswordEncoder passwordEncoder) {
         this.repository = repository;
         this.profissaoService = profissaoService;
+        this.passwordEncoder = passwordEncoder;
     }
 
 
     public void salvarAluno(Aluno alunoNovo) {
+
+        String novaSenha = alunoNovo.getSenha();
+        if (novaSenha != null && !novaSenha.startsWith("$2")) { //Para evitar criptografar 2x ao criar/atualizar comentário
+            novaSenha = passwordEncoder.encode(novaSenha);
+            alunoNovo.setSenha(novaSenha);
+        }
+
         repository.save(alunoNovo);
+    }
+
+    public List<Aluno> todosAlunos() {
+        return repository.findAll();
     }
 
     public Page<Aluno> todosAlunos(Pageable pageable) {
         return repository.findAll(pageable);
+    }
+
+    public List<Aluno> todosAlunosOrdenadosPorCurso() {
+        return repository.findAllByOrderByTurma_Curso_NomeAscNomeAsc();
     }
 
     public Aluno buscarAlunoRa(String ra) {
@@ -61,7 +79,6 @@ public class AlunoService {
     }
 
     public void atualizarAluno(Aluno antigo, Aluno novo) {
-        antigo.setSenha(novo.getSenha());
         antigo.setNome(novo.getNome());
         antigo.setDataNascimento(novo.getDataNascimento());
         antigo.setTurma(novo.getTurma());

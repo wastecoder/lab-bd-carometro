@@ -2,7 +2,9 @@
     <!-- Inspiração: https://www.codeply.com/go/kTGlK9Axdk -->
     <nav class="navbar navbar-expand-xl navbar-dark bg-primary">
         <!-- Brand -->
-        <a class="navbar-brand fs-4 mx-2" href="#">Administrador</a>
+        <a class="navbar-brand fs-4 mx-2" th:href="@{/administradores}">
+            Administrador
+        </a>
 
         <!-- Toggler/collapse button -->
         <button class="navbar-toggler mx-2" type="button" data-toggle="collapse" data-target="#navbarContent">
@@ -14,103 +16,109 @@
 
             <!-- Centered Links -->
             <ul class="navbar-nav mx-auto">
+
+                <!-- Botão de INÍCIO -->
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" th:href="@{/}">
                         <i class="fa-solid fa-house"></i>
-                        Página inicial
+                        Início
                     </a>
                 </li>
 
                 <!-- Dropdown de CURSO -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="dropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" id="dropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="fa-solid fa-book"></span>
                         Curso
                     </a>
                     <div class="dropdown-menu bg-dark" aria-labelledby="dropdown1">
-                        <a class="dropdown-item text-light" href="/cursos">Início</a>
-                        <a class="dropdown-item text-light" href="/cursos/cadastrar">Cadastrar</a>
+                        <a class="dropdown-item text-light" th:href="@{/cursos}">Listar todos</a>
+                        <a class="dropdown-item text-light" th:href="@{/cursos/cadastrar}">Cadastrar</a>
                     </div>
                 </li>
 
                 <!-- Dropdown de TURMA -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="dropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" id="dropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="fa-solid fa-users-between-lines"></span>
                         Turma
                     </a>
                     <div class="dropdown-menu bg-dark" aria-labelledby="dropdown2">
-                        <a class="dropdown-item text-light" href="/turmas">Início</a>
-                        <a class="dropdown-item text-light" href="/turmas/cadastrar">Cadastrar</a>
-                        <a class="dropdown-item text-light" href="/turmas/pesquisar">Pesquisar</a>
+                        <a class="dropdown-item text-light" th:href="@{/turmas}">Listar todos</a>
+                        <a class="dropdown-item text-light" th:href="@{/turmas/cadastrar}">Cadastrar</a>
+                        <a class="dropdown-item text-light" th:href="@{/turmas/pesquisar}">Pesquisar</a>
                     </div>
                 </li>
 
                 <!-- Dropdown de ALUNO -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="dropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" id="dropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="fa-solid fa-graduation-cap"></span>
                         Aluno
                     </a>
                     <div class="dropdown-menu bg-dark" aria-labelledby="dropdown3">
-                        <a class="dropdown-item text-light" href="/alunos">Início</a>
-                        <a class="dropdown-item text-light" href="/alunos/cadastrar">Cadastrar</a>
-                        <a class="dropdown-item text-light" href="/alunos/pesquisar">Pesquisar</a>
+                        <a class="dropdown-item text-light" th:href="@{/alunos/tabela}">Listar todos</a>
+                        <a class="dropdown-item text-light" th:href="@{/alunos/cadastrar}">Cadastrar</a>
+                        <a class="dropdown-item text-light" th:href="@{/alunos/pesquisar}">Pesquisar</a>
                     </div>
                 </li>
 
                 <!-- Dropdown de COMENTÁRIO -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="dropdown4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" id="dropdown4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="fa-solid fa-comments"></span>
                         Comentário
                     </a>
                     <div class="dropdown-menu bg-dark" aria-labelledby="dropdown4">
-                        <a class="dropdown-item text-light" href="/comentarios">Listar todos</a>
-                        <a class="dropdown-item text-light" href="/comentarios/pendentes">Listar pendentes</a>
+                        <a class="dropdown-item text-light" th:href="@{/comentarios}">Listar todos</a>
+                        <a class="dropdown-item text-light" th:href="@{/comentarios/pendentes}">Listar pendentes</a>
                     </div>
                 </li>
 
                 <!-- Dropdown de HISTÓRICO PROFISSIONAL -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="dropdown5" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" id="dropdown5" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="fa-solid fa-building-circle-check"></span>
                         Trabalho
                     </a>
                     <div class="dropdown-menu bg-dark" aria-labelledby="dropdown5">
-                        <a class="dropdown-item text-light" href="/profissoes">Listar todos</a>
-                        <a class="dropdown-item text-light" href="/profissoes/pesquisar">Pesquisar</a>
+                        <a class="dropdown-item text-light" th:href="@{/profissoes}">Listar todos</a>
+                        <a class="dropdown-item text-light" th:href="@{/profissoes/pesquisar}">Pesquisar</a>
                     </div>
                 </li>
 
                 <!-- Dropdown de ADMINISTRADOR -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="dropdown6" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" id="dropdown6" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="fa-solid fa-user-gear"></span>
                         ADM
                     </a>
                     <div class="dropdown-menu bg-dark" aria-labelledby="dropdown6">
-                        <a class="dropdown-item text-light" href="/administradores">Início</a>
-                        <a class="dropdown-item text-light" href="/administradores/cadastrar">Cadastrar</a>
+                        <a class="dropdown-item text-light" th:href="@{/administradores}">Listar todos</a>
+                        <a class="dropdown-item text-light" th:href="@{/administradores/cadastrar}">Cadastrar</a>
                     </div>
                 </li>
+
             </ul>
 
             <!-- Right aligned links -->
             <ul class="navbar-nav">
+
                 <li class="nav-item">
-                    <a href="#" class="nav-link" data-toggle="modal" data-target="#signupModal">
+                    <a th:href="@{/administradores/perfil}" class="nav-link">
                         <span class="fa fa-user"></span>
                         Perfil
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link" data-toggle="modal" data-target="#loginModal">
+                    <a th:href="@{/sair}" class="nav-link">
                         <span class="fa-solid fa-right-from-bracket"></span>
                         Sair
                     </a>
                 </li>
+
             </ul>
+
         </div>
     </nav>
 </header>

@@ -3,7 +3,7 @@
         <div class="text-center bg-dark">
             <!-- Imagem padrão quando não há foto -->
             <img th:unless="${aluno.foto != null && !aluno.foto.isEmpty()}" 
-                 src="https://via.placeholder.com/150" 
+                 src="https://dummyimage.com/150x150/cccccc/999999&text=Sem+Foto" 
                  alt="Imagem padrão do Aluno" 
                  class="img-fluid rounded my-2" 
                  style="max-width: 150px;">
@@ -97,11 +97,17 @@
 
 
         <!-- Comentários do aluno -->
-        <div class="card-body" th:if="${aluno.comentario != null}">
+        <div class="card-body"
+            th:if="${aluno.comentario != null and 
+                (aluno.comentario.status.name() == 'APROVADO' 
+                or #authentication.name == aluno.ra 
+                or #authorization.expression('hasRole(''ADMIN'')'))}">
             <hr>
 
             <h5 class="card-title text-center">Comentários</h5>
-            <div class="mb-3">
+            <div class="mb-3"
+            th:if="${#authentication.name == aluno.ra or
+                #authorization.expression('hasRole(''ADMIN'')')}">
                 <strong>Comentário: Status</strong>
                 <p th:text="${aluno.comentario.status}">
                     Sem status do comentário.
@@ -149,7 +155,9 @@
             </div>
 
             <!-- Botões de ação -->
-            <div class="d-flex justify-content-center mb-3" th:if="${profissaoSelecionada != null}">
+            <div class="d-flex justify-content-center mb-3"
+            th:if="${profissaoSelecionada != null and
+            (#authentication.name == aluno.ra or #authorization.expression('hasRole(''ADMIN'')'))}">
                 <a class="btn btn-primary me-3 px-5 fs-6" 
                         th:href="@{/profissoes/editar/{id}(id=${profissaoSelecionada.pk_historico})}">
                     Editar
@@ -195,7 +203,8 @@
 
 
         <!-- Botões --> 
-        <div class="card-footer p-3">
+        <div class="card-footer p-3"
+        th:if="${#authentication.name == aluno.ra or #authorization.expression('hasRole(''ADMIN'')')}">
             <div class="d-flex justify-content-around mb-3">
                 <!-- Botão "Criar Comentário" -->
                 <a class="btn btn-warning text-light btn-lg px-5 fs-6"

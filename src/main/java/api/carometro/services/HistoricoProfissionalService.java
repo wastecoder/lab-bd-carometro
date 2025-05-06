@@ -5,6 +5,7 @@ import api.carometro.models.HistoricoProfissional;
 import api.carometro.repositories.HistoricoProfissionalRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -66,5 +67,13 @@ public class HistoricoProfissionalService {
 
     public List<HistoricoProfissional> pesquisarProfissoesPorNomeAluno(String nome) {
         return repository.findByAluno_NomeContainingIgnoreCaseOrderByInicioAsc(nome);
+    }
+
+    public boolean ehDonoDoHistorico(Long idHistorico) {
+        HistoricoProfissional historico = this.buscarProfissaoId(idHistorico);
+        Aluno alunoDono = historico.getAluno();
+
+        String raLogado = SecurityContextHolder.getContext().getAuthentication().getName();
+        return alunoDono.getRa().equals(raLogado);
     }
 }

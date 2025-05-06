@@ -1,0 +1,13 @@
+<div th:fragment="navbar">
+    <div sec:authorize="isAnonymous()">
+        <header th:replace="~{fragments/AlunoDeslogadoNavbar}"></header>
+    </div>
+
+    <div sec:authorize="hasRole('ALUNO')">
+        <header th:replace="~{fragments/AlunoLogadoNavbar}"></header>
+    </div>
+
+    <div sec:authorize="hasRole('ADMIN')">
+        <header th:replace="~{fragments/AdmNavbar}"></header>
+    </div>
+</div>

@@ -7,6 +7,8 @@ import api.carometro.services.AdministradorService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -72,6 +74,27 @@ public class AdministradorController {
     public String excluirAdministrador(@PathVariable Long id) {
         admService.deletarAdministradorId(id);
         return "redirect:/administradores";
+    }
+
+    @GetMapping("/perfil/{id}")
+    public ModelAndView exibirPerfilAdministrador(@PathVariable Long id) {
+        Administrador administradorBuscado = admService.buscarAdministradorId(id);
+        if (administradorBuscado == null)
+            return new ModelAndView("redirect:/administradores");
+
+        ModelAndView mv = new ModelAndView("administrador/AdministradorExibirPerfil");
+        mv.addObject("administrador", administradorBuscado);
+
+        return mv;
+    }
+
+    @GetMapping("/perfil")
+    public String redirecionarParaPerfil(Authentication auth) {
+        String email = auth.getName();
+        Administrador adm = admService
+                .buscarAdministradorEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Administrador não encontrado"));
+        return "redirect:/administradores/perfil/" + adm.getId();
     }
 
 

@@ -8,6 +8,8 @@ import api.carometro.services.AlunoService;
 import api.carometro.services.HistoricoProfissionalService;
 import api.carometro.services.TurmaService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -39,13 +43,16 @@ public class AlunoController {
 
 
     @GetMapping
-    public ModelAndView exibirPaginaInicial(
-            @RequestParam(defaultValue = "0") int pagina,
-            @RequestParam(defaultValue = "10") int tamanho
-    ) {
-        ModelAndView mv = new ModelAndView("/aluno/AlunoHome");
-        PageRequest pageRequest = alunoService.definirPageRequest(pagina, tamanho);
-        mv.addObject("alunos", alunoService.todosAlunos(pageRequest));
+    public ModelAndView exibirPaginaInicial() {
+        ModelAndView mv = new ModelAndView("/aluno/AlunoExibirHome");
+        mv.addObject("alunos", alunoService.todosAlunosOrdenadosPorCurso());
+        return mv;
+    }
+
+    @GetMapping("/tabela")
+    public ModelAndView exibirTabelaAlunos() {
+        ModelAndView mv = new ModelAndView("/aluno/AlunoExibirTabela");
+        mv.addObject("alunos", alunoService.todosAlunos());
         return mv;
     }
 
@@ -72,6 +79,7 @@ public class AlunoController {
         return new ModelAndView("redirect:/alunos");
     }
 
+    @PreAuthorize("#ra == authentication.name or hasRole('ADMIN')")
     @GetMapping("/editar/{ra}")
     public ModelAndView exibirFormularioEdicao(@PathVariable String ra) {
         Aluno alunoBuscado = alunoService.buscarAlunoRa(ra);
@@ -85,6 +93,7 @@ public class AlunoController {
         return new ModelAndView("redirect:/alunos");
     }
 
+    @PreAuthorize("#ra == authentication.name or hasRole('ADMIN')")
     @PutMapping("/editar/{ra}")
     @Transactional
     public ModelAndView salvarEdicaoAluno(
@@ -105,10 +114,17 @@ public class AlunoController {
         return new ModelAndView("redirect:/alunos/perfil/" + ra);
     }
 
+    @PreAuthorize("#ra == authentication.name or hasRole('ADMIN')")
     @DeleteMapping("/excluir/{ra}")
     @Transactional
-    public String excluirAluno(@PathVariable String ra) {
+    public String excluirAluno(@PathVariable String ra, HttpServletRequest request, HttpServletResponse response) {
         alunoService.deletarAlunoRa(ra);
+
+        if (ra.equals(request.getUserPrincipal().getName())) {
+            new SecurityContextLogoutHandler().logout(request, response, null);
+            return "redirect:/login?logout";
+        }
+
         return "redirect:/alunos";
     }
 
