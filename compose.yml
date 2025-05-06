@@ -2,40 +2,50 @@ version: "3.8"
 
 services:
   app:
-    build: . # Constrói a imagem da aplicação usando o Dockerfile no diretório atual
+    build: .  # Constrói a imagem da aplicação usando o Dockerfile no diretório atual
     depends_on:
-      - sqlserver # Garante que o SQL Server esteja ativo antes de iniciar a aplicação
-    container_name: Carometro # Nome do container da aplicação
-    image: carometro # Nome da imagem da aplicação
+      - sqlserver
+    container_name: Carometro
+    image: carometro
     env_file:
-      - .env # Carrega variáveis de ambiente do arquivo .env
+      - .env  # Carrega variáveis de ambiente do arquivo .env
     restart: always
     ports:
-      - "8080:8080" # Expõe a porta 8080 da aplicação para acesso externo
+      - "8080:8080"  # Expõe a porta 8080 da aplicação para acesso externo
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:sqlserver://sqlserver:1433;databaseName=${DB_NAME} # URL do banco de dados
-      - SPRING_DATASOURCE_USERNAME=${DB_USER} # Usuário do banco
-      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD} # Senha do banco
-    volumes:
-      - .:/app # Compartilha o código local com o container para facilitar o hot reload
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}  # URL do banco de dados
+      - SPRING_DATASOURCE_USERNAME=${DB_USER}  # Usuário do banco
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}  # Senha do banco
+    user: root  # Executa o container como root para evitar problemas de permissão
+    networks:
+      - carometro-network  # Usa a rede carometro-network
+    entrypoint: ["/bin/sh", "-c", "timeout 30s sh -c 'until nc -z sqlserver 1433; do sleep 1; done'; exec java -jar /app/app.jar"]
 
   sqlserver:
-    image: mcr.microsoft.com/mssql/server:2022-latest # Imagem do SQL Server
+    build:
+      context: . 
+      dockerfile: Dockerfile.sqlserver
     container_name: BD-Carometro
     environment:
-      - ACCEPT_EULA="Y" # Aceita os termos de uso do SQL Server (Obrigatório)
-      - SA_PASSWORD=${DB_PASSWORD} # Senha do usuário "sa"
+      - ACCEPT_EULA=Y  # Aceita os termos de uso do SQL Server (Obrigatório)
+      - SA_PASSWORD=${DB_PASSWORD}  # Senha do usuário "sa"
+      - MSSQL_PID=Express  # Definir o tipo de edição do SQL Server (opcional)
     ports:
-      - "1433:1433" # Expõe a porta padrão do SQL Server
+      - "1433:1433"  # Expõe a porta padrão do SQL Server
     volumes:
-      - dados-sql:/var/opt/mssql # Volume persistente para o banco de dados
+      - dados-sql:/var/opt/mssql  # Volume persistente para o banco de dados
     healthcheck:
-      # Verifica se o banco está saudável
-      test: [ "CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P ${DB_PASSWORD} -Q 'SELECT 1' -b" ]
+      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "${DB_PASSWORD}", "-Q", "SELECT 1"]
       interval: 10s
       timeout: 5s
       retries: 5
-      start_period: 30s
+      start_period: 60s
+    user: root  # Executa o container como root para evitar problemas de permissão
+    networks:
+      - carometro-network  # Garante que o container do SQL Server e da aplicação estão na mesma rede
 
 volumes:
-  dados-sql:
+  dados-sql: {}
+
+networks:
+  carometro-network:
