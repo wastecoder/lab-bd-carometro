@@ -1,0 +1,28 @@
+# Usa a imagem oficial do SQL Server 2019
+FROM mcr.microsoft.com/mssql/server:2019-latest
+
+# Usa o usuário root para instalação
+USER root
+
+# Limpar diretórios de cache e listas antigas de pacotes
+RUN rm -rf /var/lib/apt/lists/*
+
+# Atualiza o repositório e instala as dependências
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        curl \
+        gnupg \
+        apt-transport-https \
+        software-properties-common \
+        unixodbc-dev && \
+    curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
+    curl https://packages.microsoft.com/config/debian/10/prod.list -o /etc/apt/sources.list.d/mssql-release.list && \
+    apt-get update && \
+    ACCEPT_EULA=Y apt-get install -y --no-install-recommends \
+        msodbcsql17 \
+        mssql-tools && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Expõe a porta padrão do SQL Server
+EXPOSE 1433

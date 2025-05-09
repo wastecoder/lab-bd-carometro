@@ -1,0 +1,54 @@
+services:
+  app:
+    build: .
+    depends_on:
+      - sqlserver
+    container_name: Carometro
+    image: carometro
+    env_file:
+      - .env  # Carrega variáveis de ambiente do arquivo .env
+    restart: always
+    ports:
+      - "8080:8080"  # Expõe a porta 8080 da aplicação para acesso externo
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    user: root  # Executa o container como root para evitar problemas de permissão
+    networks:
+      - carometro-network
+    entrypoint: ["/bin/sh", "-c", "timeout 30s sh -c 'until nc -z sqlserver 1433; do sleep 1; done'; exec java -jar /app/app.jar"]
+    volumes:
+      - ./uploads:/uploads
+
+  sqlserver:
+    build:
+      context: .
+      dockerfile: Dockerfile.sqlserver
+    container_name: BD-Carometro
+#    environment:    # As configurações abaixo são opcionais por estar usando o .env
+#      - ACCEPT_EULA=Y  # Aceita os termos de uso do SQL Server (Obrigatório)
+#      - SA_PASSWORD=${DB_PASSWORD}  # Senha do usuário "sa"
+    ports:
+      - "1433:1433"  # Expõe a porta padrão do SQL Server
+    volumes:
+      - dados-sql:/var/opt/mssql  # Volume persistente para o banco de dados
+      - ./init-db-docker.sql:/init.sql  # Junto com o command abaixo, cria o banco de dados se ele não existir ainda
+    command: /bin/bash -c "
+      /opt/mssql/bin/sqlservr &
+      sleep 30 &&
+      /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P ${DB_PASSWORD} -i /init.sql &&
+      wait"
+    healthcheck:
+      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "${DB_PASSWORD}", "-Q", "SELECT 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+    user: root  # Executa o container como root para evitar problemas de permissão
+    networks:
+      - carometro-network  # Garante que o container do SQL Server e da aplicação estão na mesma rede
+
+volumes:
+  dados-sql: {}
+
+networks:
+  carometro-network:
