@@ -32,28 +32,28 @@ public class TurmaController {
 
     @GetMapping
     public ModelAndView exibirPaginaInicial() {
-        ModelAndView mv = new ModelAndView("/turma/TurmaHome");
+        ModelAndView mv = new ModelAndView("turma/TurmaHome");
         mv.addObject("turmas", turmaService.todasTurmas());
         return mv;
     }
 
     @GetMapping("/cadastrar")
     public ModelAndView exibirFormularioCadastro(TurmaDto requisicao) {
-        return criarViewParaFormulario("/turma/TurmaCadastrar");
+        return criarViewParaFormulario("turma/TurmaCadastrar");
     }
 
     @PostMapping("/cadastrar")
     //Se colocar @Transaction vai dar "AssertionFailure: null id" no Try Catch
     public ModelAndView salvarCadastroTurma(@Valid TurmaDto requisicao, BindingResult resultadoValidacao) {
         if (resultadoValidacao.hasErrors()) {
-            return criarViewParaFormulario("/turma/TurmaCadastrar");
+            return criarViewParaFormulario("turma/TurmaCadastrar");
         }
 
         try {
             turmaService.salvarTurma(requisicao.dtoParaTurma());
             return new ModelAndView("redirect:/turmas");
         } catch (DataIntegrityViolationException exception) {
-            return lidarComDataIntegrityViolation("/turma/TurmaCadastrar");
+            return lidarComDataIntegrityViolation("turma/TurmaCadastrar");
         }
     }
 
@@ -62,7 +62,7 @@ public class TurmaController {
         Turma turmaBuscada = turmaService.buscarTurmaId(id);
 
         if (turmaBuscada != null) {
-            ModelAndView mv = criarViewParaFormulario("/turma/TurmaEditar");
+            ModelAndView mv = criarViewParaFormulario("turma/TurmaEditar");
             mv.addObject("turmaDto", turmaBuscada);
             return mv;
         }
@@ -73,7 +73,7 @@ public class TurmaController {
     //@Transactional ignora a exceção DataIntegrity por ela ser checked
     public ModelAndView salvarEdicaoTurma(@PathVariable Long id, @Valid TurmaDto requisicao, BindingResult result) {
         if (result.hasErrors()) {
-            ModelAndView mv = criarViewParaFormulario("/turma/TurmaEditar");
+            ModelAndView mv = criarViewParaFormulario("turma/TurmaEditar");
             mv.addObject("turmaDto", requisicao);
             return mv;
         }
@@ -83,7 +83,7 @@ public class TurmaController {
             turmaService.atualizarTurma(turmaAntiga, requisicao.dtoParaTurma());
             return new ModelAndView("redirect:/turmas");
         } catch (DataIntegrityViolationException exception) {
-            return lidarComDataIntegrityViolation("/turma/TurmaEditar");
+            return lidarComDataIntegrityViolation("turma/TurmaEditar");
         }
     }
 
@@ -99,7 +99,7 @@ public class TurmaController {
             TurmaDto requisicao,
             @RequestParam(required = false, defaultValue = "1") Long curso,
             @RequestParam(required = false, defaultValue = "2024") Integer ano) {
-        ModelAndView mv = new ModelAndView("/turma/TurmaPesquisar");
+        ModelAndView mv = new ModelAndView("turma/TurmaPesquisar");
 
         List<Turma> turmasRetornadas;
         if (ano != 0) {

@@ -28,7 +28,7 @@ public class ComentarioController {
 
     @GetMapping
     public ModelAndView exibirPaginaInicial() {
-        ModelAndView mv = new ModelAndView("/comentario/ComentarioHome");
+        ModelAndView mv = new ModelAndView("comentario/ComentarioHome");
         mv.addObject("alunos", alunoService.alunosSemComentario());
         return mv;
     }
@@ -40,7 +40,7 @@ public class ComentarioController {
         if (alunoBuscado == null || alunoBuscado.getComentario() != null)
             return new ModelAndView("redirect:/comentarios");
 
-        return criarViewParaFormulario("/comentario/ComentarioCadastrar", new ComentarioDto());
+        return criarViewParaFormulario("comentario/ComentarioCadastrar", new ComentarioDto());
     }
 
     @PreAuthorize("#ra == authentication.name or hasRole('ADMIN')")
@@ -52,7 +52,7 @@ public class ComentarioController {
             return new ModelAndView("redirect:/comentarios");
 
         if (resultadoValidacao.hasErrors()) {
-            return criarViewParaFormulario("/comentario/ComentarioCadastrar", requisicao);
+            return criarViewParaFormulario("comentario/ComentarioCadastrar", requisicao);
         }
 
         //TODO: tratar DataIntegrityViolationException (UniqueConstraint) e IllegalArgumentException
@@ -69,7 +69,7 @@ public class ComentarioController {
         if (alunoBuscado == null || alunoBuscado.getComentario() == null)
             return new ModelAndView("redirect:/comentarios");
 
-        return criarViewParaFormulario("/comentario/ComentarioEditar", alunoBuscado.getComentario());
+        return criarViewParaFormulario("comentario/ComentarioEditar", alunoBuscado.getComentario());
     }
 
     @PreAuthorize("#ra == authentication.name or hasRole('ADMIN')")
@@ -81,7 +81,7 @@ public class ComentarioController {
             return new ModelAndView("redirect:/comentarios");
 
         if (resultadoValidacao.hasErrors()) {
-            return criarViewParaFormulario("/comentario/ComentarioEditar", requisicao);
+            return criarViewParaFormulario("comentario/ComentarioEditar", requisicao);
         }
 
         //TODO: tratar DataIntegrityViolationException (UniqueConstraint) e IllegalArgumentException
@@ -93,7 +93,7 @@ public class ComentarioController {
 
     @GetMapping("/pendentes")
     public ModelAndView exibirComentariosPendentes() {
-        ModelAndView mv = new ModelAndView("/comentario/ComentariosPendentes");
+        ModelAndView mv = new ModelAndView("comentario/ComentariosPendentes");
         mv.addObject("alunos", alunoService.alunosComComentariosPendentes());
         return mv;
     }

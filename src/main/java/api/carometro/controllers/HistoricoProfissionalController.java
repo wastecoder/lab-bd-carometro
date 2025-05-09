@@ -31,7 +31,7 @@ public class HistoricoProfissionalController {
 
     @GetMapping
     public ModelAndView exibirPaginaInicial() {
-        ModelAndView mv = new ModelAndView("/profissao/ProfissaoHome");
+        ModelAndView mv = new ModelAndView("profissao/ProfissaoHome");
         mv.addObject("profissoes", profissaoService.todasProfissoes());
         return mv;
     }
@@ -43,7 +43,7 @@ public class HistoricoProfissionalController {
         if (alunoBuscado == null)
             return new ModelAndView("redirect:/profissoes");
 
-        return criarViewParaFormulario("/profissao/ProfissaoCadastrar", new HistoricoProfissionalDto());
+        return criarViewParaFormulario("profissao/ProfissaoCadastrar", new HistoricoProfissionalDto());
     }
 
     @PreAuthorize("#ra == authentication.name or hasRole('ADMIN')")
@@ -55,7 +55,7 @@ public class HistoricoProfissionalController {
             return new ModelAndView("redirect:/profissoes");
 
         if (resultadoValidacao.hasErrors()) {
-            return criarViewParaFormulario("/profissao/ProfissaoCadastrar", requisicao);
+            return criarViewParaFormulario("profissao/ProfissaoCadastrar", requisicao);
         }
 
         profissaoService.salvarProfissao(requisicao.dtoParaHistoricoProfissional(), alunoBuscado);
@@ -67,7 +67,7 @@ public class HistoricoProfissionalController {
     public ModelAndView exibirFormularioEdicao(@PathVariable Long id) {
         HistoricoProfissional profissaoBuscada = profissaoService.buscarProfissaoId(id);
 
-        return criarViewParaFormulario("/profissao/ProfissaoEditar", profissaoBuscada);
+        return criarViewParaFormulario("profissao/ProfissaoEditar", profissaoBuscada);
     }
 
     @PreAuthorize("@historicoProfissionalService.ehDonoDoHistorico(#id) or hasRole('ADMIN')")
@@ -75,7 +75,7 @@ public class HistoricoProfissionalController {
     @Transactional
     public ModelAndView salvarEdicaoProfissao(@PathVariable Long id, @Valid HistoricoProfissionalDto requisicao, BindingResult resultadoValidacao) {
         if (resultadoValidacao.hasErrors()) {
-            return criarViewParaFormulario("/profissao/ProfissaoEditar", requisicao);
+            return criarViewParaFormulario("profissao/ProfissaoEditar", requisicao);
         }
 
         HistoricoProfissional profissaoAntiga = profissaoService.buscarProfissaoId(id);
@@ -97,7 +97,7 @@ public class HistoricoProfissionalController {
             @RequestParam(required = false) String ra,
             @RequestParam(required = false) String nome
     ) {
-        ModelAndView mv = new ModelAndView("/profissao/ProfissaoPesquisar");
+        ModelAndView mv = new ModelAndView("profissao/ProfissaoPesquisar");
 
         List<HistoricoProfissional> profissoes;
         if (StringUtils.hasText(nome)) { //Nome com prioridade
