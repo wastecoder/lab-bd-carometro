@@ -98,9 +98,9 @@ classDiagram
 - [x] Implementação de validação para evitar dados duplicados na criação ou atualização de entidades.
 - [x] Funcionalidade de pesquisa para turmas, alunos e profissões.
 - [x] Gerenciamento de imagem de perfil do aluno:
-    - [ ] Permite o upload de uma imagem de perfil, armazenada localmente na aplicação.
-    - [ ] Exibe a imagem de perfil do aluno, caso uma tenha sido cadastrada.
-    - [ ] Apresenta um placeholder visual ("Sem Foto") quando o aluno não possui imagem de perfil.
+    - [x] Permite o upload de uma imagem de perfil, armazenada localmente na aplicação.
+    - [x] Exibe a imagem de perfil do aluno, caso uma tenha sido cadastrada.
+    - [x] Apresenta um placeholder visual ("Sem Foto") quando o aluno não possui imagem de perfil.
 - [x] Elaboração de testes unitários com JUnit:
     - [x] Ativa o perfil de teste com `@ActiveProfiles("test")` a cada teste.
     - [x] Da camada Repository para todas as entidades.
