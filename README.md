@@ -118,7 +118,7 @@ classDiagram
 - [ ] Implementação de paginação e ordenação em todas páginas.
 
 
-## Instalação e Execução
+## Instalação e execução
 Para executar esse projeto e testar todas suas funcionalidades:
 
 
@@ -159,3 +159,27 @@ Para executar esse projeto e testar todas suas funcionalidades:
 3. **Execute e entre na aplicação**
     * Execute a classe **CarometroApplication**.
     * Acesse a aplicação na porta [8080](http://localhost:8080/).
+
+
+## Imagens do sistema
+
+### Página inicial
+![Página inicial](screenshots/1.%20Página%20inicial.png)
+
+### Pesquisa de aluno
+![Pesquisa de aluno](screenshots/2.%20Pesquisa%20de%20alunos.png)
+
+### Perfil do aluno (sem informações)
+![Perfil do aluno com nada](screenshots/3.%20Perfil%20do%20aluno%20-%20nada.png)
+
+### Perfil do aluno (com comentário e profissão)
+![Perfil do aluno com comentário e profissão](screenshots/4.%20Perfil%20do%20aluno%20-%20comentário%20e%20profissão.png)
+
+### Visualizando o próprio perfil
+![Visualizando o próprio perfil](screenshots/5.%20Perfil%20do%20aluno%20-%20próprio%20perfil.png)
+
+### Formulário de login
+![Formulário de login](screenshots/6.%20Formulário%20de%20login.png)
+
+### Aprovação de comentário
+![Aprovando um comentáriol](screenshots/7.%20Aprovação%20de%20comentário.png)
